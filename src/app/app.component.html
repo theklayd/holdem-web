@@ -28,7 +28,7 @@
         <fa *ngIf="!dwDropdown" name="caret-left" class="w3-right"></fa>
         <fa *ngIf="dwDropdown" name="caret-down" class="w3-right"></fa>
       </button>
-        <div *ngIf="dwDropdown">
+        <div *ngIf="dwDropdown" class="w3-animate-left">
           <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Deposit manage</button>
           <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Withdraw manage</button>
         </div>
@@ -43,7 +43,7 @@
           <fa *ngIf="!logDropdown" name="caret-left" class="w3-right"></fa>
           <fa *ngIf="logDropdown" name="caret-down" class="w3-right"></fa>
         </button>
-          <div *ngIf="logDropdown">
+          <div *ngIf="logDropdown" class="w3-animate-left">
             <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Game log</button>
             <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Transfer log</button>
           </div>
@@ -58,7 +58,7 @@
           <fa *ngIf="!noticeDropdown" name="caret-left" class="w3-right"></fa>
           <fa *ngIf="noticeDropdown" name="caret-down" class="w3-right"></fa>
         </button>
-          <div *ngIf="noticeDropdown">
+          <div *ngIf="noticeDropdown" class="w3-animate-left">
             <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;1on1 support</button>
             <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;In gaming table</button>
             <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Notice-lobby notice</button>
@@ -75,7 +75,7 @@
           <fa *ngIf="!salesDropdown" name="caret-left" class="w3-right"></fa>
           <fa *ngIf="salesDropdown" name="caret-down" class="w3-right"></fa>
         </button>
-          <div *ngIf="salesDropdown">
+          <div *ngIf="salesDropdown" class="w3-animate-left">
             <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Sales head office</button>
             <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Sales member list</button>
           </div>
@@ -90,7 +90,7 @@
           <fa *ngIf="!userDropdown" name="caret-left" class="w3-right"></fa>
           <fa *ngIf="userDropdown" name="caret-down" class="w3-right"></fa>
         </button>
-          <div *ngIf="userDropdown">
+          <div *ngIf="userDropdown" class="w3-animate-left">
             <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;User black list</button>
             <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;User connecting user</button>
             <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;User ip search</button>
