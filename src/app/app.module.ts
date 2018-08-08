@@ -52,7 +52,7 @@ import {RouterModule, Routes, Router} from '@angular/router'
       {path: 'jackpotLog', component: JackpotLogComponent},
       {path: 'transferLog', component: TransferLogComponent},
       {path: 'potLog', component: PotLogComponent},
-      {path:'', redirectTo: '/potlog',  pathMatch: 'full'}
+      {path:'', redirectTo: 'potlog',  pathMatch: 'full'}
   ]
 
 enableProdMode();  
