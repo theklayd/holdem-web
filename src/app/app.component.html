@@ -1,102 +1,193 @@
 <!-- sidepanel for medium and large screen -->
-<div class="w3-sidebar w3-bar-block w3-card w3-hide-small " style=" background-color: #2a3f54; width: 15%" id="mySidebar">
-  <a class="w3-bar-item w3-xlarge w3-text-white">Menu</a>
-  <button routerLink="" class="w3-bar-item w3-button w3-text-white">
-    <fa name="home"></fa>&nbsp;Home
-  </button>
-
-  <!-- calculate dropdown -->
+<div class="w3-sidebar w3-bar-block w3-card-4 w3-hide-small " style=" background-color: #2a3f54; width: 15%" id="mySidebar">
+  <a class="w3-bar-item w3-xlarge w3-text-white">
+    Menu
+  </a>
+  <!-- menu dropdowns -->
+  <div>
+    <!-- sales dropdown -->
     <div>
-      <button class="w3-bar-item w3-button w3-text-white" (click)="(this.calculateDropdown) ? this.calculateDropdown = false : this.calculateDropdown = true">
-        <fa name="calculator"></fa>
-        Calculate &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!calculateDropdown" name="caret-left" class="w3-right"></fa>
-        <fa *ngIf="calculateDropdown" name="caret-down" class="w3-right"></fa>
+      <button [ngClass]="{'w3-bar-item w3-button w3-text-white w3-hover-shadow' : true, 'w3-cyan' : salesDropdown}" (click)="(this.salesDropdown) ? this.salesDropdown = false : this.salesDropdown = true">
+        <fa name="home"></fa>
+        Sales &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="!salesDropdown" name="caret-left" class="w3-right w3-animate-bottom"></fa>
+        <fa *ngIf="salesDropdown" name="caret-down" class="w3-right w3-animate-bottom"></fa>
       </button>
-        <div *ngIf="calculateDropdown" class="w3-animate-left">
-          <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Calculate manage</button>
-          <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;User profit</button>
+      <div *ngIf="salesDropdown" class="w3-animate-left w3-card-4">
+        
+        <button routerLink="/headOfficeList"  class="w3-bar-item w3-button w3-small w3-text-white">
+          &nbsp;&nbsp;
+          <fa name="circle-o" style="color: gray"></fa> 
+          <strong style="font-size:16px"> head office list</strong>
+        </button>
+        
+        <button routerLink="/memberList"  class="w3-bar-item w3-button w3-small w3-text-white">
+          &nbsp;&nbsp;
+          <fa name="circle-o" style="color: gray"></fa> 
+          <strong style="font-size:16px"> member list</strong>
+        </button>
+        
+      </div>
+    </div>
+    <!-- sales dropdown end -->
+  
+    <!-- calculate dropdown -->
+    <div>
+      <button [ngClass]="{'w3-bar-item w3-button w3-text-white w3-hover-shadow' : true, 'w3-cyan' : calculateDropdown}" (click)="(this.calculateDropdown) ? this.calculateDropdown = false : this.calculateDropdown = true">
+        <fa name="cc-visa"></fa>
+        Calculate &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="!calculateDropdown" name="caret-left" class="w3-right w3-animate-bottom"></fa>
+        <fa *ngIf="calculateDropdown" name="caret-down" class="w3-right w3-animate-bottom"></fa>
+      </button>
+        <div *ngIf="calculateDropdown" class="w3-animate-left w3-card-4">
+  
+          <button routerLink="/calculateManage"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> calculate manage</strong>
+          </button>
+  
+          <button routerLink="/userProfit"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> user profit</strong>
+            </button>
+  
         </div>
     </div>
-  <!-- calculate dropdown end -->
-
-  <!-- deposit and withdraw dropdown -->
+    <!-- calculate dropdown end -->
+    
+    <!-- user dropdown -->
     <div>
-      <button class="w3-bar-item w3-button w3-text-white" (click)="(this.dwDropdown) ? this.dwDropdown = false : this.dwDropdown = true">
-        <fa name="university"></fa>
-        Deposit &amp; Withdraw &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!dwDropdown" name="caret-left" class="w3-right"></fa>
-        <fa *ngIf="dwDropdown" name="caret-down" class="w3-right"></fa>
+      <button [ngClass]="{'w3-bar-item w3-button w3-text-white w3-hover-shadow' : true, 'w3-cyan' : userDropdown}" (click)="(this.userDropdown) ? this.userDropdown = false : this.userDropdown = true">
+        <fa name="android"></fa>
+        User &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="!userDropdown" name="caret-left" class="w3-right w3-animate-bottom"></fa>
+        <fa *ngIf="userDropdown" name="caret-down" class="w3-right w3-animate-bottom"></fa>
       </button>
-        <div *ngIf="dwDropdown" class="w3-animate-left">
-          <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Deposit manage</button>
-          <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Withdraw manage</button>
+      <div *ngIf="userDropdown" class="w3-animate-left w3-card-4">
+        
+            <button routerLink="/connectingUser"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> connecting user</strong>
+            </button>
+
+            <button routerLink="/blackList"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> black list</strong>
+            </button>
+    
+            
+            <button routerLink="/IPinquire"  class="w3-bar-item w3-button w3-small w3-text-white">
+                &nbsp;&nbsp;
+                <fa name="circle-o" style="color: gray"></fa> 
+                <strong style="font-size:16px"> IP inquire</strong>
+              </button>
+          </div>
+    </div>
+    <!-- user dropdown end -->
+  
+    <!-- deposit and withdraw dropdown -->
+    <div>
+      <button [ngClass]="{'w3-bar-item w3-button w3-text-white w3-hover-shadow' : true, 'w3-cyan' : dwDropdown}" (click)="(this.dwDropdown) ? this.dwDropdown = false : this.dwDropdown = true">
+        <fa name="table"></fa>
+        Deposit &amp; Withdraw &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="!dwDropdown" name="caret-left" class="w3-right w3-animate-bottom"></fa>
+        <fa *ngIf="dwDropdown" name="caret-down" class="w3-right w3-animate-bottom"></fa>
+      </button>
+        <div *ngIf="dwDropdown" class="w3-animate-left w3-card-4">
+          <button routerLink="/depositManagement"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> deposit management</strong>
+          </button>
+  
+          <button routerLink="/withdrawManagement"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> withdraw management</strong>
+            </button>
+          
         </div>
     </div>
     <!-- deposit and withdraw end -->
-
-    <!-- log dropdown -->
-      <div>
-        <button class="w3-bar-item w3-button w3-text-white" (click)="(this.logDropdown) ? this.logDropdown = false : this.logDropdown = true">
-          <fa name="history"></fa>
-          Log &nbsp;&nbsp;&nbsp;
-          <fa *ngIf="!logDropdown" name="caret-left" class="w3-right"></fa>
-          <fa *ngIf="logDropdown" name="caret-down" class="w3-right"></fa>
-        </button>
-          <div *ngIf="logDropdown" class="w3-animate-left">
-            <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Game log</button>
-            <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Transfer log</button>
-          </div>
-      </div>
-    <!-- log dropdown end -->
-
+  
     <!-- notice dropdown -->
-      <div>
-        <button class="w3-bar-item w3-button w3-text-white" (click)="(this.noticeDropdown) ? this.noticeDropdown = false : this.noticeDropdown = true">
-          <fa name="bell"></fa>
+    <div>
+        <button [ngClass]="{'w3-bar-item w3-button w3-text-white w3-hover-shadow' : true, 'w3-cyan' : noticeDropdown}" (click)="(this.noticeDropdown) ? this.noticeDropdown = false : this.noticeDropdown = true">
+          <fa name="bell-o"></fa>
           Notice &nbsp;&nbsp;&nbsp;
-          <fa *ngIf="!noticeDropdown" name="caret-left" class="w3-right"></fa>
-          <fa *ngIf="noticeDropdown" name="caret-down" class="w3-right"></fa>
+          <fa *ngIf="!noticeDropdown" name="caret-left" class="w3-right w3-animate-bottom"></fa>
+          <fa *ngIf="noticeDropdown" name="caret-down" class="w3-right w3-animate-bottom"></fa>
         </button>
-          <div *ngIf="noticeDropdown" class="w3-animate-left">
-            <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;1on1 support</button>
-            <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;In gaming table</button>
-            <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Notice-lobby notice</button>
+          <div *ngIf="noticeDropdown" class="w3-animate-left w3-card-4">
+            
+            <button routerLink="/lobbyNotice"  class="w3-bar-item w3-button w3-small w3-text-white">
+                &nbsp;&nbsp;
+                <fa name="circle-o" style="color: gray"></fa> 
+                <strong style="font-size:16px"> lobby notice</strong>
+            </button>
+            
+            <button routerLink="/inGamingTable"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o" style="color: gray"></fa> 
+              <strong style="font-size:16px"> in gaming table</strong>
+            </button>
+
+            <button routerLink="/1on1support"  class="w3-bar-item w3-button w3-small w3-text-white">
+                &nbsp;&nbsp;
+                <fa name="circle-o"  style="color: gray"></fa> 
+                <strong style="font-size:16px;"> 1:1 support</strong>
+            </button>
+  
+  
+  
           </div>
-        </div>
+    </div>
     <!-- notice dropdown end -->
+  
+    <!-- log dropdown -->
+    <div>
+      <button [ngClass]="{'w3-bar-item w3-button w3-text-white w3-hover-shadow' : true, 'w3-cyan' : logDropdown}" (click)="(this.logDropdown) ? this.logDropdown = false : this.logDropdown = true">
+        <fa name="clone"></fa>
+        Log &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="!logDropdown" name="caret-left" class="w3-right w3-animate-bottom"></fa>
+        <fa *ngIf="logDropdown" name="caret-down" class="w3-right w3-animate-bottom"></fa>
+      </button>
+        <div *ngIf="logDropdown" class="w3-animate-left w3-card-4">
+  
+          <button routerLink="/gameLog"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o"  style="color: gray"></fa> 
+              <strong style="font-size:16px;"> game log</strong>
+          </button>
+          
+          <button routerLink="/jackpotLog"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o"  style="color: gray"></fa> 
+              <strong style="font-size:16px;"> jackpot log</strong>
+          </button>
 
+          <button routerLink="/transferLog"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o"  style="color: gray"></fa> 
+              <strong style="font-size:16px;"> transfer log</strong>
+          </button>
 
-    <!-- sales dropdown -->
-      <div>
-        <button class="w3-bar-item w3-button w3-text-white" (click)="(this.salesDropdown) ? this.salesDropdown = false : this.salesDropdown = true">
-          <fa name="shopping-cart"></fa>
-          Sales &nbsp;&nbsp;&nbsp;
-          <fa *ngIf="!salesDropdown" name="caret-left" class="w3-right"></fa>
-          <fa *ngIf="salesDropdown" name="caret-down" class="w3-right"></fa>
-        </button>
-          <div *ngIf="salesDropdown" class="w3-animate-left">
-            <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Sales head office</button>
-            <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;&nbsp;Sales member list</button>
-          </div>
+          <button routerLink="/potLog"  class="w3-bar-item w3-button w3-small w3-text-white">
+              &nbsp;&nbsp;
+              <fa name="circle-o"  style="color: gray"></fa> 
+              <strong style="font-size:16px;"> pot log</strong>
+          </button>
+  
         </div>
-    <!-- sales dropdown end -->
-
-    <!-- user dropdown -->
-      <div>
-        <button class="w3-bar-item w3-button w3-text-white" (click)="(this.userDropdown) ? this.userDropdown = false : this.userDropdown = true">
-          <fa name="user"></fa>
-          User &nbsp;&nbsp;&nbsp;
-          <fa *ngIf="!userDropdown" name="caret-left" class="w3-right"></fa>
-          <fa *ngIf="userDropdown" name="caret-down" class="w3-right"></fa>
-        </button>
-          <div *ngIf="userDropdown" class="w3-animate-left">
-            <button routerLink="/UserAccount"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;User black list</button>
-            <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;User connecting user</button>
-            <button routerLink="/UserInfo"  class="w3-bar-item w3-button w3-small w3-text-white">&nbsp;&nbsp;&nbsp;User ip search</button>
-          </div>
-        </div>
-    <!-- user dropdown end -->
+    </div>
+    <!-- log dropdown end -->
+  </div>
+  <!-- menu dropdowns end -->
+  
 
 </div>
 <!-- sidepanel for medium and large screen end -->
@@ -110,10 +201,10 @@
 
     <!-- sidepanel toggle -->
     <div class="w3-hide-medium w3-hide-large">
-      <button *ngIf="mobileAccordion" class="w3-button w3-bar-item w3-left" (click)="mobileAccordionToggle()" style="color: #2a3f54">
+      <button *ngIf="!mobileAccordion" class="w3-button w3-bar-item w3-left" (click)="mobileAccordionToggle()" style="color: #2a3f54">
         <fa name="bars"></fa>
       </button>
-      <button *ngIf="!mobileAccordion" class="w3-button w3-bar-item w3-left" (click)="mobileAccordionToggle()" style="color: #2a3f54">
+      <button *ngIf="mobileAccordion" class="w3-button w3-bar-item w3-left" (click)="mobileAccordionToggle()" style="color: #2a3f54">
         <fa name="times"></fa>  
       </button>
     </div>
@@ -123,6 +214,7 @@
     <button class="w3-button w3-bar-item w3-right">
       <fa name="sign-out"></fa>
     </button>
+
     <a class=" w3-bar-item w3-right">Clyde A. Santos</a>
 
   </div>
@@ -132,61 +224,60 @@
   <div *ngIf="mobileAccordion" class="w3-animate-left w3-hide-large w3-hide-medium " style="background-color: #2a3f54;" id="sidepanelSmall">
 
     <!-- calculate -->
-    <button class="w3-button w3-block w3-text-white" style="text-align: left" (click)="(this.calculateDropdown) ? this.calculateDropdown = false : this.calculateDropdown = true"> <fa name="calculator"></fa> Calculate </button>
+    <button class="w3-button w3-block w3-text-white" style="text-align: left" (click)="(this.calculateDropdown) ? this.calculateDropdown = false : this.calculateDropdown = true"> <fa name="cc-visa"></fa> Calculate </button>
       <div *ngIf="calculateDropdown" class="w3-animate-left">
-        <button routerLink="/UserAccount"  class="w3-button w3-block w3-small w3-white" style="text-align: left">&nbsp;&nbsp;Calculate manage</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left">&nbsp;&nbsp;User profit</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left">&nbsp;&nbsp;Calculate manage</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left">&nbsp;&nbsp;User profit</button>
       </div>
     <!-- calculate end -->
 
     <!-- Deposit and withdraw -->
-    <button class="w3-button w3-block w3-text-white" (click)="(this.dwDropdown) ? this.dwDropdown = false : this.dwDropdown = true" style="text-align: left"> <fa name="university"></fa>Deposit &amp; Withdraw</button>
+    <button class="w3-button w3-block w3-text-white" (click)="(this.dwDropdown) ? this.dwDropdown = false : this.dwDropdown = true" style="text-align: left"> <fa name="table"></fa>&nbsp;Deposit &amp; Withdraw</button>
       <div *ngIf="dwDropdown" class="w3-animate-left">
-        <button routerLink="/UserAccount"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Deposit manage</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Withdraw manage</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Deposit manage</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Withdraw manage</button>
       </div>
     <!-- Deposit and withdraw end-->
 
     <!-- log -->
-    <button class="w3-button w3-block w3-text-white" (click)="(this.logDropdown) ? this.logDropdown = false : this.logDropdown = true" style="text-align: left"> <fa name="history"></fa> Log</button>
+    <button class="w3-button w3-block w3-text-white" (click)="(this.logDropdown) ? this.logDropdown = false : this.logDropdown = true" style="text-align: left"> <fa name="clone"></fa> Log</button>
       <div *ngIf="logDropdown" class="w3-animate-left">
-        <button routerLink="/UserAccount"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Game log</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Transfer log</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Game log</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Transfer log</button>
       </div>
     <!-- log end -->
 
     <!-- Notice -->
-    <button class="w3-button w3-block w3-text-white" (click)="(this.noticeDropdown) ? this.noticeDropdown = false : this.noticeDropdown = true" style="text-align: left"> <fa name="bell"></fa> Notice</button>
+    <button class="w3-button w3-block w3-text-white" (click)="(this.noticeDropdown) ? this.noticeDropdown = false : this.noticeDropdown = true" style="text-align: left"> <fa name="bell-o"></fa> Notice</button>
       <div *ngIf="noticeDropdown" class="w3-animate-left">
-        <button routerLink="/UserAccount"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;1on1 support</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;In gaming table</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Notice-lobby notice</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;1on1 support</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;In gaming table</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Notice-lobby notice</button>
       </div>
     <!-- notice end -->
 
     <!-- sales -->
-    <button class="w3-button w3-block w3-text-white" (click)="(this.salesDropdown) ? this.salesDropdown = false : this.salesDropdown = true" style="text-align: left"> <fa name="shopping-cart"></fa> Sales</button>
+    <button class="w3-button w3-block w3-text-white" (click)="(this.salesDropdown) ? this.salesDropdown = false : this.salesDropdown = true" style="text-align: left"> <fa name="home"></fa> Sales</button>
       <div *ngIf="salesDropdown" class="w3-animate-left">
-        <button routerLink="/UserAccount"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Sales head office</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Sales member list</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Sales head office</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;&nbsp;Sales member list</button>
       </div>
     <!-- sales end -->
 
     <!-- user -->
-    <button class="w3-button w3-block w3-text-white" (click)="(this.userDropdown) ? this.userDropdown = false : this.userDropdown = true" style="text-align: left"> <fa name="user"></fa> User</button>
+    <button class="w3-button w3-block w3-text-white" (click)="(this.userDropdown) ? this.userDropdown = false : this.userDropdown = true" style="text-align: left"> <fa name="android"></fa> User</button>
       <div *ngIf="userDropdown" class="w3-animate-left">
-        <button routerLink="/UserAccount"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;User black list</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;User connecting user</button>
-        <button routerLink="/UserInfo"  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;User ip search</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;User black list</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;User connecting user</button>
+        <button routerLink=""  class="w3-button w3-block w3-small w3-white" style="text-align: left" >&nbsp;&nbsp;&nbsp;User ip search</button>
       </div>
     <!-- user end -->
 
   </div>
   <!-- sidepanel for small screens end-->
 
-  <div class="w3-container" >
-    <p>potsssssssssssssssssssssssssssssssssssssssssssa</p>
-    <!-- <router-outlet></router-outlet> -->
+  <div class="w3-container" style="margin-left: 15%">
+    <router-outlet></router-outlet>
   </div>
 
 </div>

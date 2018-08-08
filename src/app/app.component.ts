@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,9 +16,15 @@ export class AppComponent {
   salesDropdown:boolean = false
   userDropdown:boolean = false
 
+  sidepanelButtonActive = 'w3-cyan'
+
   mobileAccordion:boolean = true
 
   mobileAccordionToggle(){
     (this.mobileAccordion) ? this.mobileAccordion = false : this.mobileAccordion = true
   }
+
+  select
+
+
 }
