@@ -1,3 +1,345 @@
-<p>
-  head-office-list works!
-</p>
+<br>
+<div class="w3-container w3-border w3-card w3-white">
+
+  <!-- table title -->
+    <p class="tableTitle">head office list</p>
+    <hr class="tableTitleHr">
+
+    <br>
+  <!-- table title end -->
+
+  <!-- date and time filter -->
+
+    <!-- screen name, radio btn, and search -->
+    <div class="w3-row">
+      
+      <div class="w3-right w3-mobile" style="margin: 5px" style="margin: 5px">
+        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;  margin-right: 11px">search</button>
+      </div>
+
+
+      <div class="w3-right w3-mobile" style="margin: 5px">
+        <input class="w3-input w3-border" style="height: 35px;">
+      </div>
+
+      <div class="w3-right w3-mobile" style="margin: 5px">
+        <select class="w3-select" name="option" style="height: 37px;">
+          <option value="2" selected>HO ID</option>
+          <option value="2">title</option>
+          <option value="2">contents</option>
+        </select>
+      </div>
+    </div>
+  <!-- date and time filter -->
+    
+  <!-- table -->
+    <div class="w3-responsive w3-container">
+        <table class="w3-table w3-striped w3-centered w3-border">
+            <thead>
+              <tr class="w3-text-white" style="background-color: #4ca5df;">
+                <th>No.</th>
+                <th>HO ID</th>
+                <th>HO PW</th>
+                <th>name of HO</th>
+                <th>registration date</th>
+                <th>contact no.</th>
+                <th>Commission</th>
+                <th>holding money</th>
+                <th>total holding money</th>
+                <th>members money</th>
+                <th>total money</th>
+                <th>distributor</th>
+                <th>store</th>
+                <th>members</th>
+                <th>distributor list</th>
+                <th>status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <div *ngFor="let dh of deposit.DepositHistory">
+                <div>
+                  {{dh.UserAccountID}}
+                </div>
+              </div> -->
+              <tr>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+
+                <td>
+                  <div style="margin: 3px">
+                    <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #d9544f;">details</button>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="w3-row">
+                    <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">hold</button>
+                    <button class="w3-btn w3-round w3-text-white" style="background-color: #d9544f; margin: 4px;">accept</button>
+                    <button class="w3-btn w3-round w3-text-white" style="background-color: #25b999; margin: 4px;">delete</button>
+                  </div>
+                </td>
+
+              </tr>
+              
+            </tbody>
+            
+          </table>
+          <br>
+
+    </div>
+  <!-- table end -->
+    <!--pagination and number of entries -->
+    <div class="w3-row-padding">
+      <!-- number of entries -->
+      <div class="w3-third">
+          <i>Showing 1 to 20 of 20 entries</i>
+      </div>
+      <!-- pagination -->
+      <div class="w3-third">
+          <div class="w3-row w3-center">
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+          </div>
+      </div>
+      <!-- intended to leave it empty for spacing -->
+      <div class="w3-third">
+        <p></p>
+      </div>
+    </div>
+    <!--pagination and number of entries end -->
+
+    <br>
+    <!-- add head office button -->
+    <button class="w3-button w3-round w3-block w3-text-white" style="background-color: #4ca5df">add head office</button>
+    <br>
+
+
+</div>
+
+<br>
+
+<!-- edit head office -->
+<div class="w3-container w3-border w3-card w3-white">
+
+  <!-- table title -->
+    <p class="tableTitle">edit head office</p>
+    <hr class="tableTitleHr">
+
+    <!-- name of HO -->
+      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-col" style="width: 10%">
+          <p class="w3-right">name of HO</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <p class="w3-center">sample name</p>
+        </div>
+      </div>
+    <!-- name of HO end -->
+      <hr style="margin: 0">
+
+    <!-- ID -->
+      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-col" style="width: 10%">
+          <p class="w3-right">ID</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <p class="w3-center">sample ID</p>
+        </div>
+      </div>
+    <!-- ID end -->
+      <hr style="margin: 0">
+    
+    <!-- password -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">password&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input type="password" class="w3-input w3-border" style="height: 35px; ">
+        </div>
+    </div>
+    <!-- password end -->
+      <hr style="margin: 0">
+
+    <!-- confirm password -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">confirm password&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input type="password" class="w3-input w3-border" style="height: 35px; ">
+        </div>
+    </div>
+    <!-- confirm password end -->
+      <hr style="margin: 0">
+
+    <!-- commission -->
+    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-col" style="width: 10%">
+          <p class="w3-right">commission</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <p class="w3-center">3%</p>
+        </div>
+      </div>
+    <!-- commission end -->
+      <hr style="margin: 0">
+
+    <!-- money -->
+    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-col" style="width: 10%">
+          <p class="w3-right">money</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <p class="w3-center">0</p>
+        </div>
+      </div>
+    <!-- money end -->
+      <hr style="margin: 0">
+      
+    <!-- registration date -->
+    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-col" style="width: 10%">
+          <p class="w3-right">registration date</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <p class="w3-center">2018-06-06 3:26:00</p>
+        </div>
+      </div>
+    <!-- registration date end -->
+      <hr style="margin: 0">
+
+    <!-- buttons -->
+    <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
+        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">confirm</button>
+        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+      </div>
+    </div>
+    <!-- buttons end -->
+ 
+    <br>
+
+</div>
+<!-- edit head office end-->
+<br>
+<!-- edit head office -->
+<div class="w3-container w3-border w3-card">
+
+    <!-- table title -->
+      <p class="tableTitle">edit head office</p>
+      <hr class="tableTitleHr">
+  
+      <!-- name of HO -->
+        <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+          <div class="w3-col" style="width: 10%">
+            <p class="w3-right">name of HO</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <p class="w3-center">sample name</p>
+          </div>
+        </div>
+      <!-- name of HO end -->
+        <hr style="margin: 0">
+  
+      <!-- ID -->
+        <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+          <div class="w3-col" style="width: 10%">
+            <p class="w3-right">ID</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <p class="w3-center">sample ID</p>
+          </div>
+        </div>
+      <!-- ID end -->
+        <hr style="margin: 0">
+      
+      <!-- password -->
+      <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+          <div class="w3-col" style="width: 60px">
+            <p class="w3-right">password&nbsp;</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <input type="password" class="w3-input w3-border" style="height: 35px; ">
+          </div>
+      </div>
+      <!-- password end -->
+        <hr style="margin: 0">
+  
+      <!-- confirm password -->
+      <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+          <div class="w3-col" style="width: 60px">
+            <p class="w3-right">confirm password&nbsp;</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <input type="password" class="w3-input w3-border" style="height: 35px; ">
+          </div>
+      </div>
+      <!-- confirm password end -->
+        <hr style="margin: 0">
+  
+      <!-- commission -->
+      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+          <div class="w3-col" style="width: 10%">
+            <p class="w3-right">commission</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <p class="w3-center">3%</p>
+          </div>
+        </div>
+      <!-- commission end -->
+        <hr style="margin: 0">
+  
+      <!-- money -->
+      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+          <div class="w3-col" style="width: 10%">
+            <p class="w3-right">money</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <p class="w3-center">0</p>
+          </div>
+        </div>
+      <!-- money end -->
+        <hr style="margin: 0">
+        
+      <!-- registration date -->
+      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+          <div class="w3-col" style="width: 10%">
+            <p class="w3-right">registration date</p>
+          </div>
+          <div class="w3-rest" style="margin-top: 10px">
+            <p class="w3-center">2018-06-06 3:26:00</p>
+          </div>
+        </div>
+      <!-- registration date end -->
+        <hr style="margin: 0">
+  
+      <!-- buttons -->
+      <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
+          <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">confirm</button>
+          <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+        </div>
+      </div>
+      <!-- buttons end -->
+   
+      <br>
+  
+  </div>
+  <!-- edit head office end-->
+<br>

@@ -1,3 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../src/assets/w3.css";
-@import "../node_modules/font-awesome/css/font-awesome.css";
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
+.tableTitle {
+    font-weight: bold; 
+    font-size: 20px; 
+    margin-bottom: 5px;
+    margin-top: 2px;
+}
+
+.tableTitleHr {
+    border-width: 3px; 
+    margin: 0;
+}
+
+.holdemBlue {
+    background-color: #4ca5df; 
+    color: white;
+}
+
+.holdemGreen{
+    background-color:#1ecead
+}
+
+.searchText{
+    font-size: 22px; 
+    color: #4ca5df
+}
+
+.warningBtn{
+    color: white;
+    background-color: #efad4d; 
+    margin: 4px;
+}
+
+.successBtn{
+    color: white;
+    background-color: #25b999; 
+    margin: 4px;
+}
+
+.dangerBtn{
+    color: white;
+    background-color: #d9544f;
+    margin: 4px;
+}

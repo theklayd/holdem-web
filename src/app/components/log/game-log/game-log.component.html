@@ -1,3 +1,162 @@
-<p>
-  game-log works!
-</p>
+<br>
+<div class="w3-container w3-border w3-card w3-white w3-animate-right" [hidden]="handHistoryToggle">
+
+  <!-- table title -->
+    <p class="tableTitle">game log</p>
+    <hr class="tableTitleHr">
+
+    <br>
+  <!-- table title end -->
+
+  <!-- date and time filter -->
+
+    <!-- screen name, radio btn, and search -->
+    <div class="w3-row">
+      
+      <div class="w3-right w3-mobile" style="margin: 5px" style="margin: 5px">
+        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;  margin-right: 11px">search</button>
+      </div>
+
+
+      <div class="w3-right w3-mobile" style="margin: 5px">
+        <input class="w3-input w3-border" style="height: 35px;">
+      </div>
+
+      <div class="w3-right w3-mobile" style="margin: 5px">
+        <select class="w3-select" name="option" style="height: 37px;">
+          <option value="2" selected>screen name</option>
+          <option value="2">title</option>
+          <option value="2">contents</option>
+        </select>
+      </div>
+    </div>
+  <!-- date and time filter -->
+    
+  <!-- table -->
+    <div class="w3-responsive w3-container">
+        <table class="w3-table w3-striped w3-centered w3-border">
+            <thead>
+              <tr class="w3-text-white" style="background-color: #4ca5df;">
+                <th>No.</th>
+                <th>screen name</th>
+                <th>date and time</th>
+                <th>game</th>
+                <th>strength(rank)</th>
+                <th>before amount</th>
+                <th>won amount</th>
+                <th>after amount</th>
+                <th class="w3-center">hand history</th>
+                <th>status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <div *ngFor="let dh of deposit.DepositHistory">
+                <div>
+                  {{dh.UserAccountID}}
+                </div>
+              </div> -->
+              <tr *ngFor="let gl of gameLogList">
+                <td>{{gl.HandHistoryID}}</td>
+                <td>{{gl.UserAccountID}}</td>
+                <td>{{gl.GameStartedDateTime}}</td>
+                <td>{{gl.GameType}}</td>
+                <td>{{gl.Rank}}</td>
+                <td>{{gl.BeforePoints}}</td>
+                <td>{{gl.WinPoints}}</td>
+
+                <td>{{gl.AfterPoints}}</td>
+                <td>
+                  <div style="margin: 3px">
+                    <button class="w3-block w3-btn w3-round w3-text-white" (click)="handHistoryToggle = true; getHandHistory(gl.SeasonID)" style="background-color: #d9544f;">details</button>
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+              
+            </tbody>
+            
+          </table>
+          <br>
+
+    </div>
+  <!-- table end -->
+    <!-- bottom of table pagination and number of entries -->
+    <div class="w3-row-padding">
+      <!-- number of entries -->
+      <div class="w3-third">
+          <i>Showing 1 to 20 of 20 entries</i>
+      </div>
+      <!-- pagination -->
+      <div class="w3-third">
+          <div class="w3-row w3-center">
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
+              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+          </div>
+      </div>
+      <!-- intended to leave it empty -->
+      <div class="w3-third">
+        <p></p>
+      </div>
+    </div>
+    <!-- bottom of table pagination and number of entries end -->
+    <br>
+
+
+</div>
+
+<br>
+
+<!-- write notice -->
+<div class="w3-container w3-border w3-card w3-white w3-animate-right" [hidden]="!handHistoryToggle">
+
+  <!-- table title -->
+    <p class="tableTitle searchText">hand history</p>
+    <hr class="tableTitleHr">
+
+
+    <!-- game no -->
+    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-col" style="width: 10%">
+          <p class="w3-right">game no.</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <p class="w3-center">{{currentGameNo}}</p>
+        </div>
+      </div>
+    <!-- game no end -->
+      <hr style="margin: 0">
+
+    <!-- game no -->
+    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+        <div class="w3-center">
+          <strong>Hand history</strong>  
+        </div>
+        <div class="w3-right">
+          <div *ngFor="let hand of currenHandHistory">
+            <div>
+              {{hand.HandHistoryID}}&nbsp;{{hand.MoveHand}}&nbsp;{{hand.SeasonID}}&nbsp;{{hand.UserAccountID}}
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- game no end -->
+      <hr style="margin: 0">
+
+    <!-- buttons -->
+    <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
+        <button class=" w3-btn w3-round w3-text-white" (click)="handHistoryToggle = false"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+      </div>
+    </div>
+    <!-- buttons end -->
+ 
+    <br>
+
+</div>
+<!-- write notice end-->
+
+
+<br>

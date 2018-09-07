@@ -1,0 +1,148 @@
+<br>
+<!-- edit member -->
+<div class="w3-container w3-border w3-card">
+  <!-- table title -->
+    <p class="tableTitle">edit member</p>
+    <hr class="tableTitleHr">
+  <form (submit)="addUser($event)">  
+    <!-- username -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">username&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input type="text" class="w3-input w3-border" style="height: 35px;" id="username">
+        </div>
+    </div>
+    <!-- username end -->
+  
+    <!-- password -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">password&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input type="password" class="w3-input w3-border" style="height: 35px;" id="password">
+        </div>
+    </div>
+    <!-- password end -->
+    
+
+    <!-- confirm password -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">confirm password&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input type="password" class="w3-input w3-border" style="height: 35px; ">
+        </div>
+    </div>
+    <!-- confirm password end -->
+      
+
+    <!--contact no.-->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">contact no.&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input class="w3-input w3-border" style="height: 35px;" id="contactno" appNumberOnly>
+        </div>
+    </div>
+    <!--contact no. end -->
+     
+    <!--email-->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-col" style="width: 60px">
+        <p class="w3-right">email&nbsp;</p>
+      </div>
+      <div class="w3-rest" style="margin-top: 10px">
+        <input class="w3-input w3-border" style="height: 35px;" id="email">
+      </div>
+    </div>
+    <!--email end -->
+    <hr style="margin: 0">
+
+    <!--bank-->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">bank&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input class="w3-input w3-border" style="height: 35px; " id="bankName">
+        </div>
+    </div>
+    <!--bank end -->
+
+    <!--bank account no. -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">bank account no. &nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input class="w3-input w3-border" style="height: 35px;" id="accountno">
+        </div>
+    </div>
+    <!--bank account no. end -->
+
+
+    <!--security code -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+        <div class="w3-col" style="width: 60px">
+          <p class="w3-right">security code&nbsp;</p>
+        </div>
+        <div class="w3-rest" style="margin-top: 10px">
+          <input class="w3-input w3-border" style="height: 35px;" id="securitycode">
+        </div>
+    </div>
+    <!--security code end -->
+
+    <!--Expiration -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-col" style="width: 60px">
+        <p class="w3-right">Expiration&nbsp;</p>
+      </div>
+      <div class="w3-rest" style="margin-top: 10px">
+        <input class="w3-input w3-border" style="height: 35px;" id="expiration">
+      </div>
+    </div>
+    <!--Expiration end -->
+
+    <!--Time -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-col" style="width: 60px">
+        <p class="w3-right">Name&nbsp;</p>
+      </div>
+      <div class="w3-rest" style="margin-top: 10px">
+        <input class="w3-input w3-border" style="height: 35px;" id="name">
+      </div>
+    </div>
+    <!--Time end -->
+
+    <!--Date -->
+    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-col" style="width: 60px">
+        <p class="w3-right">Surname&nbsp;</p>
+      </div>
+      <div class="w3-rest" style="margin-top: 10px">
+        <input class="w3-input w3-border" style="height: 35px; " id="surname">
+      </div>
+    </div>
+    <!--Date end -->
+    
+    <!-- buttons -->
+    <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
+      <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
+        <input type="submit" class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">
+        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+      </div>
+    </div>
+    <!-- buttons end -->
+  </form>
+
+ 
+    <br>
+
+</div>
+<!-- edit member end-->
+<br>

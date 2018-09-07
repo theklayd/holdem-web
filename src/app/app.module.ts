@@ -1,10 +1,17 @@
 //defaults
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, enableProdMode } from '@angular/core';
-import { AppComponent } from './app.component';
+  import { BrowserModule } from '@angular/platform-browser';
+  import { NgModule, enableProdMode } from '@angular/core';
+  import { AppComponent } from './app.component';
+
+//services
+  import { DepositService } from './services/deposit_withdraw/deposit.service'
+
 //modules
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import {RouterModule, Routes, Router} from '@angular/router'
+  import { AngularFontAwesomeModule } from 'angular-font-awesome';
+  import {RouterModule, Routes, Router} from '@angular/router'
+  import { HttpModule } from '@angular/http';
+  import {NgxPaginationModule} from 'ngx-pagination';
+
 //components
   //sales
   import { HeadOfficeListComponent } from './components/sales/head-office-list/head-office-list.component';
@@ -28,6 +35,12 @@ import {RouterModule, Routes, Router} from '@angular/router'
   import { JackpotLogComponent } from './components/log/jackpot-log/jackpot-log.component';
   import { TransferLogComponent } from './components/log/transfer-log/transfer-log.component';
   import { PotLogComponent } from './components/log/pot-log/pot-log.component';
+  //dashboard
+  import { DashboardComponent } from './components/dashboard/dashboard.component';
+  //pending
+  import { AddUserComponent } from './components/pending/add-user/add-user.component';
+//custom directives  
+  import { NumberOnlyDirective } from './directives/number-only.directive';
 
   const routes: Routes = [
     //sales
@@ -52,7 +65,10 @@ import {RouterModule, Routes, Router} from '@angular/router'
       {path: 'jackpotLog', component: JackpotLogComponent},
       {path: 'transferLog', component: TransferLogComponent},
       {path: 'potLog', component: PotLogComponent},
-      {path:'', redirectTo: 'potlog',  pathMatch: 'full'}
+    //pending
+      {path: 'addUser', component: AddUserComponent},
+
+      {path: '', component: DashboardComponent},
   ]
 
 enableProdMode();  
@@ -74,14 +90,19 @@ enableProdMode();
     GameLogComponent,
     JackpotLogComponent,
     TransferLogComponent,
-    PotLogComponent
+    PotLogComponent,
+    AddUserComponent,
+    NumberOnlyDirective,
+    DashboardComponent
   ],
   imports: [
+    NgxPaginationModule,
     BrowserModule,
     AngularFontAwesomeModule,
+    HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [DepositService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
