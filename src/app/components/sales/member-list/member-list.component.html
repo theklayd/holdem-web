@@ -1,5 +1,5 @@
 <br>
-<div class="w3-container w3-border w3-card">
+<div class="w3-container w3-border w3-card w3-white">
 
   <!-- table title -->
     <p class="tableTitle">member list</p>
@@ -80,19 +80,19 @@
                   {{dh.UserAccountID}}
                 </div>
               </div> -->
-              <tr>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
+              <tr *ngFor="let m of memberList">
+                <td>{{m.row_number}}</td>
+                <td>{{m.HeadOfficeID}}</td>
+                <td>{{m.DistributorID}}</td>
+                <td>{{m.ShopID}}</td>
+                <td>{{m.PlayerUserAccountID}}</td>
+                <td>{{m.ScreenName}}</td>
+                <td>unavailable</td>
+                <td>{{m.PlayerCurrentPoints}}</td>
+                <td>{{m.OnlineStatus}}</td>
+                <td>{{m.RegisteredDateTime}}</td>
+                <td>{{m.LoginDateTime}}</td>
+                <td>{{m.row_number}}</td>
                 <td>
                   <div class="w3-row">
                     <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">승인</button>
@@ -126,11 +126,7 @@
       <!-- pagination -->
       <div class="w3-third">
           <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">{{n}}</button>
           </div>
       </div>
       <!-- intended to leave it empty -->
@@ -147,7 +143,7 @@
 
 <br>
 <!-- edit member -->
-<div class="w3-container w3-border w3-card">
+<div class="w3-container w3-border w3-card w3-white">
 
     <!-- table title -->
       <p class="tableTitle">edit member</p>

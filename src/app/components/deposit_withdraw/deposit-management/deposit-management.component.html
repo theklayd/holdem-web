@@ -1,5 +1,5 @@
   <br>
-  <div class="w3-container w3-border w3-card">
+  <div class="w3-container w3-border w3-card w3-white">
 
     <!-- table title -->
       <p class="tableTitle">deposit list</p>
@@ -238,32 +238,34 @@
                     {{dh.UserAccountID}}
                   </div>
                 </div> -->
-                <tr>
-                  <!-- <td>{{i + 1}}</td> -->
-                  <!-- <td>{{deposit.HeadOfficeUserAccountID}}</td> -->
-                  <td></td>
-                  <td></td>
-                  <td>Jill</td>
-                  <td>Jill</td>
-                  <td>Smith</td>
-                  <td>50</td>
-                  <td>Jill</td>
-                  <td>Smith</td>
-                  <td>50</td>
-                  <td>Jill</td>
+                <tr *ngFor="let d of depositList">
+                  
+                  <td>{{d.ID}}</td>
+                  <td>{{d.HeadOfficeID}}</td>
+                  <td>{{d.DistributorID}}</td>
+                  <td>{{d.ShopID}}</td>
+                  <td>{{d.UserAccountID}}</td>
+                  <td>{{d.ScreenName}}</td>
+                  <td>{{d.Name}}</td>
+                  <td>?</td>
+                  <td>{{d.Amount}}</td>
+                  <td>{{d.TransactionStatus}}</td>
+                  
                   <td>
                     <div style="margin: 3px">
                       <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">approval</button>
                     </div>
                     <div style="margin: 3px">
-                        <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">cancel</button>
+                      <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">cancel</button>
                     </div>
                     <div style="margin: 3px">
-                        <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #d9544f;">delete</button>
-                      </div>
+                      <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #d9544f;">delete</button>
+                    </div>
                   </td>
-                  <td>50</td>
-                  <td>Jill</td>
+
+                  <td>{{d.RequestedDateTime}}</td>
+                  <td>{{d.ApprovedDateTime}}</td>
+
                 </tr>
                 
               </tbody>
@@ -282,12 +284,10 @@
         <!-- pagination -->
         <div class="w3-third">
             <div class="w3-row w3-center">
-                <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-                <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-                <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-                <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-                <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+              <!-- {{paginationValues[i]}} -->
+                <button *ngFor="let n of pages; let i = index" class="w3-btn w3-round w3-text-white" style="background-color: #4ca5df; margin: 4px" (click)="paginate(i)">{{n}} </button>
             </div>
+            
         </div>
         <!-- intended to leave it empty -->
         <div class="w3-third">

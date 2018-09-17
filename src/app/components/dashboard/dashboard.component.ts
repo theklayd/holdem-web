@@ -7,20 +7,34 @@ import { DashboardService } from '../../services/dashboard/dashboard.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  totalMembers:string
+  totalRegisteredUser: string
+  totalRegisteredUserToday: string
   totalDepositToday:string
   totalWithdrawToday:string
   constructor(private dashboardSrvc:DashboardService) { }
 
   ngOnInit() {
     this.getTotalRegisteredUser()
+    this.getTotalRegisteredUserToday()
     this.getWithdrawDepositToday()
   }
 
   getTotalRegisteredUser(){
     this.dashboardSrvc.getTotalRegisteredUser()
       .subscribe( 
-        res => {this.totalMembers = res['TotalRegistered'];},
+        res => {
+          this.totalRegisteredUser = res['TotalRegistered'];
+      },
+        error => {console.log('error' + error)}
+      )
+  }
+
+  getTotalRegisteredUserToday(){
+    this.dashboardSrvc.getTotalRegisteredUserToday()
+      .subscribe( 
+        res => {
+          this.totalRegisteredUserToday = res['TotalRecentRegistered'];
+      },
         error => {console.log('error' + error)}
       )
   }

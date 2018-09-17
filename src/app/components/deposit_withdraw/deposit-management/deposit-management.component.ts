@@ -1,52 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { DepositService } from '../../../services/deposit_withdraw/deposit.service'
-
-interface depositListModel{
-  PlayerUserAccountID: string,
-  ShopUserAccountID: string,
-  DistributorUserAccountID: string,
-  HeadOfficeUserAccountID: string,
-  PhoneNumber: string,
-  TelephoneNumber: string,
-  Name: string,
-  ScreenName: string
-  DepositHistory : [{
-    DepositHistoryID: number,
-    UserAccountID: string,
-    Amount: number,
-    BankNameUsed: string,
-    SecurityCodeUsed: string,
-    Status: string,
-    RequestedDATE: string,
-    ApprovedDATE: string,
-    ProcessingDATE: string,
-    RequestedTIME: string,
-    ApprovedTIME: string,
-    RejectedTIME: string,
-    ProcessingTIME: string,
-    createdAt: string,
-    updatedAt: string
-  }]
+import {CommonService} from '../../../services/common/common.service'
+import { Observable, interval } from 'rxjs';
+interface depositModel{
+  ID:number,
+  HeadOfficeID:string,
+  DistributorID:string,
+  ShopID:string,
+  UserAccountID:string,
+  ScreenName:string,
+  Name:string,
+  Amount:number,
+  TransactionStatus:string,
+  RequestedDateTime:string,
+  ApprovedDateTime:string
 }
-//depositModel end
-interface depositHistoryModel  {
-  DepositHistoryID: number,
-  UserAccountID: string,
-  Amount: number,
-  BankNameUsed: string,
-  SecurityCodeUsed: string,
-  Status: string,
-  RequestedDATE: string,
-  ApprovedDATE: string,
-  ProcessingDATE: string,
-  RequestedTIME: string,
-  ApprovedTIME: string,
-  RejectedTIME: string,
-  ProcessingTIME: string,
-  createdAt: string,
-  updatedAt: string
-}
-
 
 @Component({
   selector: 'app-deposit-management',
@@ -54,33 +21,74 @@ interface depositHistoryModel  {
   styleUrls: ['./deposit-management.component.css']
 })
 export class DepositManagementComponent implements OnInit {
+  depositList:depositModel[] = []
 
-depositList : depositListModel[]
-depositHistory : depositHistoryModel[]
-depositKeys : string[]
+ //pagination variables
 
-p: number = 1;
+  pages:number[] = []
+  paginationValues:number[] = []
 
-  constructor(private depositService:DepositService) { }
+  end:number = 20
+  offset:number = 0
+  
+
+  constructor(private commonSrvc:CommonService) { }
 
   ngOnInit() {
-    // this.getDepositService()
+    this.getDepositList()
+    this.getPageCount()
+
+    // this.clydeInterval()
   }
 
-  getDepositService(){
-    //run deposit service function 'getDepositList' then assign the return array to depositList 
-    this.depositService.getDepositList()
+  clydeInterval(){
+    var sub = interval(1000).subscribe(
+      x => this.getPageCount()
+    )
+  }
+  async getListAndPageCount(){
+
+  }
+  
+
+  getDepositList(){
+    this.commonSrvc.getList(0,this.offset)
     .subscribe(
-      (result) => {
-        this.depositList = result;
-        this.depositKeys = Object.keys(this.depositList[0]) 
-        // console.log(this.depositList[2].DepositHistory)
-        console.log(result)
+      (result:depositModel[]) => {
+        this.depositList = result
       },
-      
         error => {console.log(error)}
     )
-    
+  }
+
+  getPageCount(){
+    this.commonSrvc.getPageCount()
+    .subscribe(
+      (result) => {
+        var pages = 0
+        var pages = Math.ceil(result[0]['WithdrawCount'] / 20)
+        console.log('success')
+        //set number and value of pages
+        var i:number
+        var x:number = 0
+        for(i = 1; i <= pages ; i++){
+          x += 20
+          this.pages.push(i)
+          this.paginationValues.push(x)
+        }
+
+      },
+        error => {console.log(error)}
+    )
+  }
+
+  paginate(i:number){
+    this.offset = this.paginationValues[i] - 20
+    // console.log(20 + ',' + (this.offset))
+
+    this.getDepositList()
+
+    console.log('offset' + this.offset)
   }
   
 

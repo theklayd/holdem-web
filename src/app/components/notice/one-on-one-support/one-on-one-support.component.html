@@ -1,44 +1,44 @@
 <br>
-<div class="w3-container w3-border w3-card">
+<div class="w3-container w3-border w3-card w3-white w3-animate-right" [hidden]="answer">
 
   <!-- table title -->
-    <p class="tableTitle">1:1 support</p>
+    <p class="tableTitle">1:1 support {{handle | async}}</p>
     <hr class="tableTitleHr">
-
     <br>
   <!-- table title end -->
 
   <!-- date and time filter -->
 
     <!-- screen name, radio btn, and search -->
-    <div class="w3-row">
+    <form (submit)="searchList($event)" class="w3-row">
 
       <div class="w3-right w3-mobile" style="margin: 5px" style="margin: 5px">
         <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">delete in burk</button>
       </div>
 
       <div class="w3-right w3-mobile" style="margin: 5px" style="margin: 5px">
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;">search</button>
+        <button type="submit" class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;" >search</button>
       </div>
 
 
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <input class="w3-input w3-border" style="height: 35px;">
+        <input class="w3-input w3-border" style="height: 35px;" id="value">
       </div>
 
-      <div class="w3-right w3-mobile" style="margin: 5px">
-        <select class="w3-select" name="option" style="height: 37px;">
-          <option value="1" selected>user id</option>
-          <option value="2">screen name</option>
-          <option value="2">title</option>
-          <option value="2">contents</option>
+      <div class="w3-right w3-mobile" style="margin: 5px" >
+        <select class="w3-select" name="option" style="height: 37px;" id="column">
+          <option value="PlayerUserAccountID" selected>user id</option>
+          <option value="ScreenName">screen name</option>
+          <option value="Title">title</option>
+          <option value="Description">contents</option>
         </select>
       </div>
-    </div>
+    </form>
   <!-- date and time filter -->
     
   <!-- table -->
     <div class="w3-responsive w3-container">
+      <form (submit)="getWriteNotice($event)">
         <table class="w3-table w3-striped w3-centered w3-border">
             <thead>
               <tr class="w3-text-white" style="background-color: #4ca5df;">
@@ -56,36 +56,44 @@
               </tr>
             </thead>
             <tbody>
-              <!-- <div *ngFor="let dh of deposit.DepositHistory">
-                <div>
-                  {{dh.UserAccountID}}
-                </div>
-              </div> -->
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Jill</td>
+              
+              <tr *ngFor="let s of supportList">
+                <td>{{s.row_number}}</td>
+                <td>{{s.HeadOfficeID}}</td>
+                <td>{{s.DistributorID}}</td>
+                <td>{{s.ShopID}}</td>
+                <td>{{s.PlayerUserAccountID}}</td>
+                <td>{{s.ScreenName}}</td>
+                <td>{{s.Title}}</td>
+                <td>{{s.Status}}</td>
+
+                <input type="hidden"  value="{{s.PlayerUserAccountID}}" id="userID">
+                <input type="hidden"  value="{{s.SupportTicketID}}" id="supportID">
 
                 <td>
                   <div style="margin: 3px">
-                      <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #4ca5df;">answer</button>
+                      <input type="submit" class="w3-block w3-btn w3-round w3-text-white" (click)="answer = true; " value="answer" style="background-color: #4ca5df;">
                   </div>
                   <div style="margin: 3px">
                     <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #d9544f;">delete</button>
                   </div>
                 </td>
-                <td>50</td>
-                <td>50</td>
+
+                <td>{{s.RegisteredDateTime}}</td>
+                <td>{{s.DateTime}}</td>
               </tr>
               
+              <tr [hidden]="searchResult">
+                <td colspan="11">NO RESULTS FOUND
+                  <br>
+                  <button (click)="getListAndPageCount()">back</button>
+                  <!-- <button (click)="getSupportList()">back</button> -->
+                </td>
+              </tr>
             </tbody>
             
           </table>
+        </form>
           <br>
 
     </div>
@@ -99,11 +107,7 @@
       <!-- pagination -->
       <div class="w3-third">
           <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">{{n}}</button>
           </div>
       </div>
       <!-- intended to leave it empty -->
@@ -120,7 +124,7 @@
 <br>
 
 <!-- write notice -->
-<div class="w3-container w3-border w3-card">
+<div class="w3-container w3-border w3-card w3-white w3-animate-right" [hidden]="!answer">
 
   <!-- table title -->
     <p class="tableTitle">write notice</p>
@@ -132,7 +136,7 @@
           <p class="w3-right">user screen name</p>
         </div>
         <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
+          <p class="w3-center">{{writeNotice.ScreenName}}</p>
         </div>
       </div>
     <!-- user screen name end -->
@@ -144,7 +148,7 @@
           <p class="w3-right">title</p>
         </div>
         <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
+          <p class="w3-center">{{writeNotice.Title}}</p>
         </div>
       </div>
     <!-- title end -->
@@ -156,7 +160,7 @@
           <p class="w3-right">contents&nbsp;</p>
         </div>
         <div class="w3-rest" style="margin-top: 10px">
-          <input class="w3-input w3-border" style="height: 35px; " disabled>
+          <input class="w3-input w3-border" style="height: 35px;" value="{{writeNotice.Description}}" disabled>
         </div>
       </div>
     <!-- contents end -->
@@ -168,7 +172,7 @@
           <p class="w3-right">date</p>
         </div>
         <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
+          <p class="w3-center">{{writeNotice.DateTime}}</p>
         </div>
       </div>
     <!-- date end -->
@@ -180,7 +184,7 @@
           <p>answer</p>
         </div>
         <div class="w3-rest" style="margin-top: 10px">
-            <textarea rows="4" cols="145" style="resize: vertical">answer text</textarea>
+            <textarea rows="4" cols="145" style="resize: vertical">{{writeNotice.Answer}}</textarea>
         </div>
       </div>
       <!-- answer end -->
@@ -192,7 +196,7 @@
           <p class="w3-right">answer date</p>
         </div>
         <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
+          <p class="w3-center">{{writeNotice.AnswerDateTime}}</p>
         </div>
       </div>
     <!-- answer date end -->
@@ -202,7 +206,7 @@
     <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
       <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
         <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register</button>
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+        <button class=" w3-btn w3-round w3-text-white" (click)="answer = false" style="background-color: #7dd2ec; margin-right: 11px">back</button>
       </div>
     </div>
     <!-- buttons end -->

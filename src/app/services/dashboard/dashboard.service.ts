@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http,Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { environment } from '../../../environments/environment.prod';
 import { map } from "rxjs/operators";
 @Injectable({
@@ -12,7 +12,17 @@ export class DashboardService {
   getTotalRegisteredUser(){
     return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/TotalRegisteredUser')
     .pipe(
-      map((res:Response) => {
+      map((res) => {
+        return res.json();
+      }
+      )
+    )
+  }
+
+  getTotalRegisteredUserToday(){
+    return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/TotalRegisteredUsersToday')
+    .pipe(
+      map((res) => {
         return res.json();
       }
       )
@@ -22,7 +32,7 @@ export class DashboardService {
   getDepositWithdrawToday(){
     return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/TotalTransactionRecent/')
     .pipe(
-      map((res:Response) => {
+      map((res) => {
         return res.json();
       }
       )

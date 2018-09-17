@@ -11,23 +11,25 @@
   <!-- date and time filter -->
 
     <!-- screen name, radio btn, and search -->
-    <div class="w3-row">
+    <form (submit)="searchList($event)" class="w3-row">
+      
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <button class="w3-mobile w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px;">search</button>
+        <input type="submit" class="w3-mobile w3-btn w3-round w3-text-white" style="background-color: #7dd2ec; margin-right: 11px;" value="search" >
       </div>
 
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <input class="w3-input w3-border" style="height: 35px;">
+        <input class="w3-input w3-border" style="height: 35px;" id="value">
       </div>
 
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <select class="w3-select" style="height: 40px; max-width: 100px;" >
-          <option value="" selected>user ID</option>
-          <option value="1">screen name</option>
-          <option value="1">IP</option>
+        <select class="w3-select" style="height: 40px; max-width: 100px;" id="column">
+          <option value="PlayerUserAccountID" selected>user ID</option>
+          <option value="ScreenName">screen name</option>
+          <option value="IP">IP</option>
       </select>
       </div>
-    </div>
+
+    </form>
     <!--  screen name, radio btn, and search end -->
     
   <!-- table -->
@@ -51,8 +53,8 @@
                   {{ip.PlayerUserAccountID}}
                 </div>
               </div> -->
-              <tr *ngFor="let ip of ipList; let i = index;">
-                <td>{{i + 1}}</td>
+              <tr *ngFor="let ip of ipList">
+                <td>{{ip.row_number}}</td>
                 <td>{{ip.HeadOfficeID}}</td>
                 <td>{{ip.DistributorID}}</td>
                 <td>{{ip.ShopID}}</td>
@@ -61,6 +63,15 @@
                 <td>{{ip.IP}}</td>
                 <td>{{ip.RegisteredDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
               </tr>
+
+              <!-- if no results found -->
+              <tr [hidden]="searchResult">
+                <td colspan="8"> NO RESULTS FOUND
+                  <br> 
+                  <button (click)="getIPList(offset)">back</button>
+                </td>
+              </tr>
+
             </tbody>
             
           </table>
@@ -77,11 +88,8 @@
       <!-- pagination -->
       <div class="w3-third">
           <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin: 4px">{{n}}</button>
+
           </div>
       </div>
       <!-- intended to leave it empty -->

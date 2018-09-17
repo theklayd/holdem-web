@@ -3,8 +3,6 @@
   import { NgModule, enableProdMode } from '@angular/core';
   import { AppComponent } from './app.component';
 
-//services
-  import { DepositService } from './services/deposit_withdraw/deposit.service'
 
 //modules
   import { AngularFontAwesomeModule } from 'angular-font-awesome';
@@ -41,7 +39,8 @@
   import { AddUserComponent } from './components/pending/add-user/add-user.component';
 //custom directives  
   import { NumberOnlyDirective } from './directives/number-only.directive';
-
+//services
+  import {CommonService} from '../app/services/common/common.service'
   const routes: Routes = [
     //sales
       {path: 'headOfficeList', component: HeadOfficeListComponent},
@@ -102,7 +101,9 @@ enableProdMode();
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [DepositService],
+  providers: [
+    CommonService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

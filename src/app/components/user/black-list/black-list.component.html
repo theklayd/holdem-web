@@ -1,6 +1,6 @@
 <br>
-<div class="w3-container w3-border w3-card">
-
+<!-- black list card white -->
+<div class="w3-container w3-border w3-card w3-white">
   <!-- table title -->
     <p class="tableTitle">black list</p>
     <hr class="tableTitleHr">
@@ -52,19 +52,20 @@
                   {{dh.UserAccountID}}
                 </div>
               </div> -->
-              <tr>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
+              <tr *ngFor="let b of blackList ">
+                <td>{{b.BlackListID}}</td>
+                <td>{{b.HeadOfficeID}}</td>
+                <td>{{b.DistributorID}}</td>
+                <td>{{b.ShopID}}</td>
+                <td>{{b.UserAccountID}}</td>
+                <td>{{b.ScreenName}}</td>
+                <td>{{b.RegisteredDateTime}}</td>
+                <td>{{b.ReleaseDate}}</td>
+                <td>{{b.Reason}}</td>
+                
                 <td>
                   <div style="margin: 3px">
-                    <button class="w3-block w3-btn w3-round w3-text-red w3-card" style="background-color:whitesmoke;">black list</button>
+                    <a class="w3-text-red">black list</a>
                   </div>
                   <div style="margin: 3px">
                       <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #337bb6;">release</button>
@@ -74,7 +75,13 @@
                     </div>
                 </td>
               </tr>
-              
+              <tr [hidden]="searchResult">
+                  <td colspan="10">NO RESULTS FOUND
+                    <br>
+                    <button (click)="getBlackList(offset)">back</button>
+                  </td>
+                </tr>
+  
             </tbody>
             
           </table>
@@ -91,11 +98,7 @@
       <!-- pagination -->
       <div class="w3-third">
           <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+              <button *ngFor="let b of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin: 4px">{{b}}</button>
           </div>
       </div>
       <!-- intended to leave it empty -->
@@ -106,8 +109,55 @@
     <!-- bottom of table pagination and number of entries end -->
     <br>
 
+    <!-- search row-->
+    <div class="w3-row">
+
+      <div style="margin-left: 10%; margin-right: 10%">
+        <!-- inputs -->
+        <div class="w3-center">
+          <div style="margin-left: 10%; margin-right: 10%">
+            <label for="#ID" style="margin:3px">ID</label>
+            <input type="text" id="ID">
+            <label for="#screenName" style="margin:3px">screen name:</label>
+            <input type="text" id="screenName">
+            <button class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px">user inquire</button>
+          </div>
+        </div>
+        
+      </div>
+      <br>
+      <hr class="tableTitleHr">
+      <br>
+
+      <!-- reason -->
+      <div class="w3-container" style="margin-left:20%; margin-right: 20%">
+        <div class="w3-col" style="width:5%;">
+          <p>&nbsp;</p>
+          <p>reason</p>
+          <p>&nbsp;</p>
+        </div>
+        <div class="w3-col" style="width:95%">
+          <textarea rows="6" cols="145" style="resize: vertical" id="reason">content text</textarea>
+        </div>
+      </div>
+      <hr class="tableTitleHr">
+      <br>
+      <!-- reason end -->
+
+      <!-- buttons start -->
+      <div class="w3-container" style="margin-left:20%; margin-right: 20%">
+        <div class="w3-center">
+          <button class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px">register</button>
+          <button class="w3-button w3-text-white w3-round" style=" background-color: #347ab8; margin:2px">back</button>
+        </div>
+      </div>
+      <br>
+      <!-- buttons end -->
+
+    </div>
+    <!-- search row end -->
 
 </div>
-
+<!-- black list end -->
 
 <br>
