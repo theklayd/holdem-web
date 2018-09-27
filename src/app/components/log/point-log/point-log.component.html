@@ -1,41 +1,40 @@
-
 <br>
 <div class="w3-container w3-border w3-card w3-white">
 
   <!-- table title -->
-    <p class="tableTitle">transfer log</p>
+    <p class="tableTitle">point log</p>
     <hr class="tableTitleHr">
 
     <br>
   <!-- table title end -->
 
-
-  <!-- search option -->
+    <!-- dropdowns -->
     <div class="w3-row">
-
-      <!-- button -->
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;  margin-right: 11px">search</button>
+          <button class="w3-mobile w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px;">search</button>
       </div>
-      <!-- button end -->
 
-      <!-- textbox -->
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <input class="w3-input w3-border" style="height: 35px;">
+         <input type="text" class="w3-input w3-border" >
       </div>
-      <!-- textbox end-->
 
-      <!-- screen name options -->
       <div class="w3-right w3-mobile" style="margin: 5px">
         <select class="w3-select" name="option" style="height: 37px;">
-          <option value="2" selected> sent screen name</option>
-          <option value="2">received screen name</option>
+          <option value="1" selected> ID</option>
+          <option value="2"> 3</option>
+          <option value="3"> 4</option>
+          <option value="3"> 5</option>
+          <option value="3"> 6</option>
+          <option value="3"> 7</option>
+          <option value="3"> 8</option>
+          <option value="3"> 9</option>
+          <option value="3"> 10</option>
+          <option value="3"> 11</option>
+          <option value="3"> 12</option>
         </select>
       </div>
-      <!-- screen name options end -->
-
       <!-- from to date dropdowns -->
-        <!-- to -->
+      <!-- to -->
 
           <!-- time text -->
           <div class="w3-right w3-mobile" style="margin: 5px">
@@ -243,36 +242,33 @@
 
      <!-- from to date dropdowns end --> 
     </div>
-  <!-- search option end -->
-    
+    <!-- dropdowns end -->
+
   <!-- table -->
     <div class="w3-responsive w3-container">
         <table class="w3-table w3-striped w3-centered w3-border">
             <thead>
               <tr class="w3-text-white" style="background-color: #4ca5df;">
                 <th>No.</th>
-                <th>sent screen name</th>
-                <th>received screen name</th>
+                <th>head office</th>
+                <th>distributor</th>
+                <th>store</th>
+                <th>userID</th>
                 <th>amount</th>
-                <th>balance(after transfer)</th>
-                <th>reason</th>
+                <th>balance</th>
                 <th>date</th>
               </tr>
             </thead>
             <tbody>
-              <!-- <div *ngFor="let dh of deposit.DepositHistory">
-                <div>
-                  {{dh.UserAccountID}}
-                </div>
-              </div> -->
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
+                <td>sample</td>
               </tr>
               
             </tbody>
@@ -308,106 +304,6 @@
 
 
 </div>
-
-<br>
-
-<!-- write notice -->
-<div class="w3-container w3-border w3-card w3-white">
-
-  <!-- table title -->
-    <p class="tableTitle">write notice</p>
-    <hr class="tableTitleHr">
-
-    <!-- user screen name -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">rank&nbsp;</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <select class="w3-select" name="option" style="height: 37px;">
-              <option value="" selected>head office</option>
-              <option value="1">distributor</option>
-              <option value="2">store</option>
-              <option value="2">user</option>
-          </select>
-        </div>
-      </div>
-    <!-- user screen name end -->
-      <hr style="margin: 0">
-
-    <!-- title -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">title</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
-        </div>
-      </div>
-    <!-- title end -->
-      <hr style="margin: 0">
-    
-    <!-- contents -->
-    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
-        <div class="w3-col" style="width: 60px">
-          <p class="w3-right">contents&nbsp;</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <input class="w3-input w3-border" style="height: 35px; " disabled>
-        </div>
-      </div>
-    <!-- contents end -->
-      <hr style="margin: 0">
-
-    <!-- date -->
-    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">date</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
-        </div>
-      </div>
-    <!-- date end -->
-      <hr style="margin: 0">
-
-    <!-- answer -->
-    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
-        <div class="w3-col" style="width: 60px;">
-          <p>answer</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-            <textarea rows="4" cols="145" style="resize: vertical">answer text</textarea>
-        </div>
-      </div>
-      <!-- answer end -->
-        <hr style="margin: 0">
-
-    <!-- answer date -->
-    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">answer date</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">awadr666</p>
-        </div>
-      </div>
-    <!-- answer date end -->
-      <hr style="margin: 0">
-
-    <!-- buttons -->
-    <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
-      <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register</button>
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
-      </div>
-    </div>
-    <!-- buttons end -->
- 
-    <br>
-
-</div>
-<!-- write notice end-->
 
 
 <br>

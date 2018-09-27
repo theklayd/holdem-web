@@ -1,5 +1,5 @@
 <br>
-<div class="w3-container w3-border w3-card">
+<div class="w3-container w3-border w3-card w3-white">
 
   <!-- table title -->
     <p class="tableTitle">withdraw list</p>
@@ -227,11 +227,12 @@
                 <th>screen name</th>
                 <th>name</th>
                 <th>contact no.</th>
-                <th>deposit amount</th>
+                <th>existing amount</th>
+                <th>application amount</th>
+                <th>remaining amount</th>
                 <th>status</th>
                 <th class="w3-center">manage</th>
                 <th>application date</th>
-                <th>date of approval</th>
               </tr>
             </thead>
             <tbody>
@@ -240,17 +241,19 @@
                   {{dh.UserAccountID}}
                 </div>
               </div> -->
-              <tr>
-                <td></td>
-                <td></td>
-                <td>Jill</td>
-                <td>Jill</td>
-                <td>Smith</td>
-                <td>50</td>
-                <td>Jill</td>
-                <td>Smith</td>
-                <td>50</td>
-                <td>Jill</td>
+              <tr *ngFor="let w of withdrawList">
+                <td>{{w.row_number}}</td>
+                <td>{{w.HeadOfficeID}}</td>
+                <td>{{w.DistributorID}}</td>
+                <td>{{w.ShopID}}</td>
+                <td>{{w.UserAccountID}}</td>
+                <td>{{w.ScreenName}}</td>
+                <td>{{w.Name}}</td>
+                <td>{{w.ContactNumber}}</td>
+                <td>{{w.ExistingAmount}}</td>
+                <td>{{w.ApplicationAmount}}</td>
+                <td>{{w.RemainingAmount}}</td>
+                <td>{{w.TransactionStatus}}</td>
                 <td>
                   <div class="w3-row">
                       <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">승인</button>
@@ -258,10 +261,31 @@
                       <button class="w3-btn w3-round w3-text-white" style="background-color: #d9544f; margin: 4px;">삭제</button>
                   </div>
                 </td>
-                <td>50</td>
-                <td>Jill</td>
+                <td>{{w.RequestedDateTime}}</td>
               </tr>
               
+              <tr [hidden]="!searchResult">
+                <td colspan="14">NO RESULTS FOUND
+                  <br>
+                  <!-- <input type="button" (click)="back()" value="back"> -->
+                  <input type="button" (click)="back()" value="back">
+                  <br>
+                </td>
+              </tr>
+
+              <tr [hidden]="!searchBack">
+                <td colspan="14">RESULT FOUND
+                  <br>
+                  <input type="button" (click)="back()" value="back">
+                </td>
+              </tr>
+
+              <tr [hidden]="!backLoading">
+                <td colspan="14">
+                  <fa name="spinner" animation="spin" size="lg"></fa>
+                </td>
+              </tr>
+
             </tbody>
             
           </table>
@@ -277,14 +301,10 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
-          </div>
-      </div>
+        <div class="w3-row w3-center" [hidden]="hidePagination">
+            <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+        </div>
+    </div>
       <!-- intended to leave it empty -->
       <div class="w3-third">
         <p></p>

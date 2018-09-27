@@ -64,13 +64,29 @@
                 <td>{{ip.RegisteredDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
               </tr>
 
-              <!-- if no results found -->
-              <tr [hidden]="searchResult">
-                <td colspan="8"> NO RESULTS FOUND
-                  <br> 
-                  <button (click)="getIPList(offset)">back</button>
-                </td>
-              </tr>
+              <tr [hidden]="!searchResult">
+                  <td colspan="8">NO RESULTS FOUND
+                    <br>
+                    <!-- <input type="button" (click)="back()" value="back"> -->
+                    <input type="button" (click)="back()" value="back">
+                    <br>
+                    
+                    
+                  </td>
+                </tr>
+  
+                <tr [hidden]="!searchBack">
+                  <td colspan="8">RESULT FOUND
+                    <br>
+                    <input type="button" (click)="back()" value="back">
+                  </td>
+                </tr>
+  
+                <tr [hidden]="!backLoading">
+                  <td colspan="8">
+                    <fa name="spinner" animation="spin" size="lg"></fa>
+                  </td>
+                </tr>
 
             </tbody>
             
@@ -87,9 +103,8 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin: 4px">{{n}}</button>
-
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
           </div>
       </div>
       <!-- intended to leave it empty -->

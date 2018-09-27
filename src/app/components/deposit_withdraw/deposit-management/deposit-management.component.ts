@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {CommonService} from '../../../services/common/common.service'
-import { Observable, interval } from 'rxjs';
+import { CommonService } from '../../../services/common/common.service'
+import { environment } from '../../../../environments/environment.prod';
+import { interval, Subscription } from 'rxjs';
+import { DepositService } from '../../../services/deposit/deposit.service'
 interface depositModel{
   ID:number,
   HeadOfficeID:string,
@@ -9,10 +11,12 @@ interface depositModel{
   UserAccountID:string,
   ScreenName:string,
   Name:string,
+  PhoneNumber:string,
   Amount:number,
   TransactionStatus:string,
   RequestedDateTime:string,
-  ApprovedDateTime:string
+  ApprovedDateTime:string,
+  UserTransactionID:string
 }
 
 @Component({
@@ -21,75 +25,240 @@ interface depositModel{
   styleUrls: ['./deposit-management.component.css']
 })
 export class DepositManagementComponent implements OnInit {
-  depositList:depositModel[] = []
+  constructor(private commonSrvc:CommonService, private depositSrvc:DepositService) { }
 
- //pagination variables
-
+  //service variables
+  pageIndex:number = 0
+  //table variables
+  depositList:depositModel[]
+  //pagination variables
   pages:number[] = []
   paginationValues:number[] = []
-
-  end:number = 20
   offset:number = 0
+
+  //search variables
+  searchResult:boolean = false
+  searchBack:boolean
+  backLoading:boolean = true
+  hidePagination:boolean = false
+  //answer variables
+  answer:boolean = false
+
+  //on component variables
+  onComponent : boolean
+
+  //every 3 seconds
+  getListSubscription: Subscription
+  update = interval(environment.updateTime)
   
+  //every 1 second
+  checkIfActiveSubscription:Subscription
+  checkIfActive = interval(1000)
 
-  constructor(private commonSrvc:CommonService) { }
+  //lifecycle hooks
+    ngOnInit() {
+      this.onComponent = true
+      this.activateGetListAndPageCount()
+    }
+    ngOnDestroy() {
+      this.onComponent = false
+      console.log('you leave 1on1 support')
+    }
 
-  ngOnInit() {
-    this.getDepositList()
-    this.getPageCount()
+  //lifecycle hooks end
 
-    // this.clydeInterval()
+  //activate/deactivate
+    activateGetListAndPageCount(){
+      this.getListSubscription = this.update.subscribe(
+        () => {
+          if(this.onComponent){
+            if(!this.searchBack && !this.searchResult ){
+              if(this.commonSrvc.userActive){
+                this.getListAndPageCount()
+                //hide back loading UI
+                this.backLoading = false
+                //show pagination again
+                this.hidePagination = false
+              }else{
+                this.deactivateGetListAndPageCount()
+              }
+            }
+          }
+        }
+      )
+    }
+
+    deactivateGetListAndPageCount(){
+      this.getListSubscription.unsubscribe()
+      console.log('deactivated')
+
+      //start listening if user is active again while deactivated
+      this.checkIfActiveSubscription = this.checkIfActive.subscribe(
+        () => {
+          if(this.commonSrvc.userActive){
+            this.activateGetListAndPageCount()
+            //stop listening if user is active again
+            this.checkIfActiveSubscription.unsubscribe()
+          }
+        }
+      )
+    }
+  //activate/deactivate end
+
+  getListAndPageCount(){
+    Promise.all([this.getSupportList(),this.getPageCount()]).then(function() {
+      console.log('get list and page count successful');
+      }, function(){ //if promise or promise2 fail
+      console.log('something went wrong')
+    })
   }
 
-  clydeInterval(){
-    var sub = interval(1000).subscribe(
-      x => this.getPageCount()
-    )
-  }
-  async getListAndPageCount(){
+  getSupportList(){
+    let promise = new Promise((resolve,reject) => {
+      this.commonSrvc.getList(this.pageIndex, this.offset)
+      .subscribe(
+        (result :depositModel[]) => {
+          this.depositList = result
+          //show No results found if 0 result else dont show
+          if(result.length == 0){
+            this.searchResult = true
+          }else{
+            this.searchResult = false
+            this.searchBack = false
+          }
+          resolve()
+        },
+        error => {
+          console.log(error)
+          console.log('get support list error')
+          reject()
+        }
+      )
 
-  }
-  
+    })
 
-  getDepositList(){
-    this.commonSrvc.getList(0,this.offset)
-    .subscribe(
-      (result:depositModel[]) => {
-        this.depositList = result
-      },
-        error => {console.log(error)}
-    )
+    return promise;
   }
 
   getPageCount(){
-    this.commonSrvc.getPageCount()
-    .subscribe(
-      (result) => {
-        var pages = 0
-        var pages = Math.ceil(result[0]['WithdrawCount'] / 20)
-        console.log('success')
-        //set number and value of pages
-        var i:number
-        var x:number = 0
-        for(i = 1; i <= pages ; i++){
-          x += 20
-          this.pages.push(i)
-          this.paginationValues.push(x)
-        }
+    let promise = new Promise ((resolve,reject) => {
+      this.commonSrvc.getPageCount()
+      .subscribe(
+        (result) => {
+          //clear values first
+          this.pages = []
+          this.paginationValues = []
 
-      },
-        error => {console.log(error)}
-    )
+          //p = pages
+          var p = Math.ceil(result[0]['DepositListCount'] / 20)
+
+          //set number and value of pages
+          var i:number
+          var x:number = 0
+
+          for(i = 1; i <= p ; i++){
+            x += 20
+            this.pages.push(i)
+            this.paginationValues.push(x)
+          }
+
+          resolve()
+        },
+          error => {
+            console.log(error)
+            console.log('page count error')
+            reject()
+          }
+      )
+    })
+    return promise;
   }
 
   paginate(i:number){
     this.offset = this.paginationValues[i] - 20
-    // console.log(20 + ',' + (this.offset))
+  }
 
-    this.getDepositList()
+  searchList(event){
+    event.preventDefault();
+    let target = event.target;
+    //hide pagination
+    this.hidePagination = true
 
-    console.log('offset' + this.offset)
+    let timeStart = target.querySelector('#timeStart').value
+    let dayStart = target.querySelector('#dayStart').value
+    let monthStart = target.querySelector('#monthStart').value
+    let yearStart = target.querySelector('#yearStart').value
+
+    //concatenate datetime start
+    let datetimeStart = yearStart + monthStart + dayStart + timeStart  
+    
+    let timeEnd = target.querySelector('#timeEnd').value
+    let dayEnd = target.querySelector('#dayEnd').value
+    let monthEnd = target.querySelector('#monthEnd').value
+    let yearEnd = target.querySelector('#yearEnd').value
+    
+    //concatenate datetime end
+    let datetimeEnd = yearEnd + monthEnd + dayEnd + timeEnd 
+
+    let value = (target.querySelector('#value').value) ? target.querySelector('#value').value : environment.ifSearchVariableEmpty
+
+    console.log('start'+datetimeStart)
+    console.log('end'+datetimeEnd)
+      this.depositSrvc.search(datetimeStart,datetimeEnd,value)
+      .subscribe(
+        (result:depositModel[]) => {
+          this.depositList = result
+          console.log(result)
+          //if there's result
+          if(result.length > 0){
+            //stopping getting list for awhile
+            this.getListSubscription.unsubscribe()
+
+            //show results found UI
+            this.searchBack = true
+
+            //hide no results found UI
+            this.searchResult = false
+
+            console.log('results found')
+          }
+        },
+        error => {
+          console.log('this is the error --> '+ error['status'])
+          // console.log()
+          if(error['status'] == 404){
+            //stopping getting list for awhile
+            this.getListSubscription.unsubscribe()
+
+            //show no results found UI
+            this.searchResult = true
+
+            //hide results found UI
+            this.searchBack = false
+
+            //empty list
+            this.depositList = []
+          }
+        }
+      )
+
+  }
+
+  back(){
+    this.backLoading = true
+    //hide back UIs
+    this.searchBack = false;
+    this.searchResult = false;
+    this.activateGetListAndPageCount()
+
   }
   
-
+  updateDeposit(UserTransactionID:string, type:number){
+    if(UserTransactionID){
+      this.depositSrvc.update(UserTransactionID, type)
+      .subscribe( 
+        result => console.log(result)
+        )
+    }
+  }
 }

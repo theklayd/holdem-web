@@ -67,12 +67,34 @@
                 <td>{{gl.AfterPoints}}</td>
                 <td>
                   <div style="margin: 3px">
-                    <button class="w3-block w3-btn w3-round w3-text-white" (click)="handHistoryToggle = true; getHandHistory(gl.SeasonID)" style="background-color: #d9544f;">details</button>
+                    <button class="w3-block w3-btn w3-round w3-text-white" (click)="getHandHistory(gl.SeasonID)" style="background-color: #d9544f;">details</button>
                   </div>
                 </td>
                 <td></td>
               </tr>
               
+              <tr [hidden]="!searchResult">
+                  <td colspan="10">NO RESULTS FOUND
+                    <br>
+                    <!-- <input type="button" (click)="back()" value="back"> -->
+                    <input type="button" (click)="back()" value="back">
+                    <br>
+                  </td>
+                </tr>
+  
+                <tr [hidden]="!searchBack">
+                  <td colspan="10">RESULT FOUND
+                    <br>
+                    <input type="button" (click)="back()" value="back">
+                  </td>
+                </tr>
+  
+                <tr [hidden]="!backLoading">
+                  <td colspan="10">
+                    <fa name="spinner" animation="spin" size="lg"></fa>
+                  </td>
+                </tr>
+
             </tbody>
             
           </table>
@@ -88,12 +110,8 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
           </div>
       </div>
       <!-- intended to leave it empty -->
@@ -148,7 +166,7 @@
     <!-- buttons -->
     <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
       <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
-        <button class=" w3-btn w3-round w3-text-white" (click)="handHistoryToggle = false"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+        <button class=" w3-btn w3-round w3-text-white" (click)="back()"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
       </div>
     </div>
     <!-- buttons end -->

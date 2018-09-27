@@ -87,12 +87,12 @@
                 <td>{{m.ShopID}}</td>
                 <td>{{m.PlayerUserAccountID}}</td>
                 <td>{{m.ScreenName}}</td>
-                <td>unavailable</td>
+                <td>none</td>
                 <td>{{m.PlayerCurrentPoints}}</td>
+                <td>none</td>
                 <td>{{m.OnlineStatus}}</td>
-                <td>{{m.RegisteredDateTime}}</td>
-                <td>{{m.LoginDateTime}}</td>
-                <td>{{m.row_number}}</td>
+                <td>{{m.LoginDateTime | date : 'short'}}</td>
+                <td>{{m.RegisteredDateTime | date : 'short'}}</td>
                 <td>
                   <div class="w3-row">
                     <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">승인</button>
@@ -100,7 +100,7 @@
                     <button class="w3-btn w3-round w3-text-white" style="background-color: #d9544f; margin: 4px;">삭제</button>
                   </div>
                 </td>
-                <td>sample</td>
+                <td>none</td>
                 <td>
                   <div class="w3-row">
                     <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">승인</button>
@@ -125,9 +125,9 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">{{n}}</button>
-          </div>
+        <div class="w3-row w3-center" [hidden]="hidePagination">
+            <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+        </div>
       </div>
       <!-- intended to leave it empty -->
       <div class="w3-third">

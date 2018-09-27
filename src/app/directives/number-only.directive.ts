@@ -1,10 +1,9 @@
-import {  Directive, ElementRef, HostListener, Input } from '@angular/core';
+import {  Directive, ElementRef, HostListener  } from '@angular/core';
 
 @Directive({
   selector: '[appNumberOnly]'
 })
 export class NumberOnlyDirective {
-
   regexStr = '^[0-9]*$';
   constructor(private el: ElementRef) { }
 

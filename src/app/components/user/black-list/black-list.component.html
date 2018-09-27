@@ -11,22 +11,22 @@
   <!-- date and time filter -->
 
     <!-- screen name, radio btn, and search -->
-    <div class="w3-row">
+    <form class="w3-row" (submit)="searchList($event)">
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <button class="w3-mobile w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px;">search</button>
+        <button type="submit" class="w3-mobile w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px;">search</button>
       </div>
 
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <input class="w3-input w3-border" style="height: 35px;">
+        <input class="w3-input w3-border" style="height: 35px;" id="value">
       </div>
 
       <div class="w3-right w3-mobile" style="margin: 5px">
-        <select class="w3-select" style="height: 40px; max-width: 40px;" >
-          <option value="" selected>ID</option>
-          <option value="1">screen name</option>
+        <select class="w3-select" style="height: 40px; max-width: 40px;" id="column">
+          <option value="UserAccountID" selected>ID</option>
+          <option value="ScreenName">screen name</option>
       </select>
       </div>
-    </div>
+    </form>
     <!--  screen name, radio btn, and search end -->
     
   <!-- table -->
@@ -75,10 +75,28 @@
                     </div>
                 </td>
               </tr>
-              <tr [hidden]="searchResult">
+
+                <tr [hidden]="!searchResult">
                   <td colspan="10">NO RESULTS FOUND
                     <br>
-                    <button (click)="getBlackList(offset)">back</button>
+                    <!-- <input type="button" (click)="back()" value="back"> -->
+                    <input type="button" (click)="back()" value="back">
+                    <br>
+                    
+                    
+                  </td>
+                </tr>
+  
+                <tr [hidden]="!searchBack">
+                  <td colspan="10">RESULT FOUND
+                    <br>
+                    <input type="button" (click)="back()" value="back">
+                  </td>
+                </tr>
+  
+                <tr [hidden]="!backLoading">
+                  <td colspan="10">
+                    <fa  name="spinner" animation="spin" size="lg"></fa>
                   </td>
                 </tr>
   

@@ -32,42 +32,60 @@
   import { GameLogComponent } from './components/log/game-log/game-log.component';
   import { JackpotLogComponent } from './components/log/jackpot-log/jackpot-log.component';
   import { TransferLogComponent } from './components/log/transfer-log/transfer-log.component';
-  import { PotLogComponent } from './components/log/pot-log/pot-log.component';
+  import { PointLogComponent } from './components/log/point-log/point-log.component'
   //dashboard
   import { DashboardComponent } from './components/dashboard/dashboard.component';
   //pending
   import { AddUserComponent } from './components/pending/add-user/add-user.component';
+  //login
+  import { LoginComponent } from './components/login/login.component';
+  //master page
+  import { MasterPageComponent } from './components/master-page/master-page.component';
 //custom directives  
   import { NumberOnlyDirective } from './directives/number-only.directive';
 //services
-  import {CommonService} from '../app/services/common/common.service'
-  const routes: Routes = [
-    //sales
-      {path: 'headOfficeList', component: HeadOfficeListComponent},
-      {path: 'memberList', component: MemberListComponent},
-    //calculate
-      {path: 'calculateManage', component: CalculateManageComponent},
-      {path: 'userProfit', component: UserProfitComponent},
-    //user
-      {path: 'connectingUser', component: ConnectingUserComponent},
-      {path: 'blackList', component: BlackListComponent},
-      {path: 'IPinquire', component: IPinquireComponent},
-    //deposit_withdraw
-      {path: 'depositManagement', component: DepositManagementComponent},
-      {path: 'withdrawManagement', component: WithdrawManagementComponent},
-    //notice
-      {path: 'lobbyNotice', component: LobbyNoticeComponent},
-      {path: 'inGamingTable', component: InGamingTableComponent},
-      {path: '1on1support', component: OneOnOneSupportComponent},
-    //log
-      {path: 'gameLog', component: GameLogComponent},
-      {path: 'jackpotLog', component: JackpotLogComponent},
-      {path: 'transferLog', component: TransferLogComponent},
-      {path: 'potLog', component: PotLogComponent},
-    //pending
-      {path: 'addUser', component: AddUserComponent},
+  import {CommonService} from '../app/services/common/common.service';
+  import {UserAuthGuard} from '../app/services/UserAuth/user-auth.guard';
 
-      {path: '', component: DashboardComponent},
+
+
+  const routes: Routes = [
+    
+      { path: 'admin', 
+        component: MasterPageComponent,
+        canActivate : [UserAuthGuard],
+        children: [
+          //sales
+            {path: 'headOfficeList', component: HeadOfficeListComponent},
+            {path: 'memberList', component: MemberListComponent},
+          //calculate
+            {path: 'calculateManage', component: CalculateManageComponent},
+            {path: 'userProfit', component: UserProfitComponent},
+          //user
+            {path: 'connectingUser', component: ConnectingUserComponent},
+            {path: 'blackList', component: BlackListComponent},
+            {path: 'IPinquire', component: IPinquireComponent},
+          //deposit_withdraw
+            {path: 'depositManagement', component: DepositManagementComponent},
+            {path: 'withdrawManagement', component: WithdrawManagementComponent},
+          //notice
+            {path: 'lobbyNotice', component: LobbyNoticeComponent},
+            {path: 'inGamingTable', component: InGamingTableComponent},
+            {path: '1on1support', component: OneOnOneSupportComponent},
+          //log
+            {path: 'gameLog', component: GameLogComponent},
+            {path: 'jackpotLog', component: JackpotLogComponent},
+            {path: 'transferLog', component: TransferLogComponent},
+            {path: 'pointLog', component: PointLogComponent},
+          //pending
+            {path: 'addUser', component: AddUserComponent},
+            {path: "dashboard",  component: DashboardComponent},
+            {path: "**",  component: DashboardComponent }
+        ]
+      },
+
+      {path: 'login', component: LoginComponent},
+      {path: '', redirectTo: 'admin', pathMatch: 'full'}
   ]
 
 enableProdMode();  
@@ -89,10 +107,12 @@ enableProdMode();
     GameLogComponent,
     JackpotLogComponent,
     TransferLogComponent,
-    PotLogComponent,
     AddUserComponent,
     NumberOnlyDirective,
-    DashboardComponent
+    DashboardComponent,
+    PointLogComponent,
+    LoginComponent,
+    MasterPageComponent
   ],
   imports: [
     NgxPaginationModule,
@@ -102,7 +122,8 @@ enableProdMode();
     RouterModule.forRoot(routes)
   ],
   providers: [
-    CommonService
+    CommonService,
+    UserAuthGuard
   ],
   bootstrap: [AppComponent]
 })

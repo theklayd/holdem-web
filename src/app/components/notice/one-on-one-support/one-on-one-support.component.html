@@ -83,13 +83,31 @@
                 <td>{{s.DateTime}}</td>
               </tr>
               
-              <tr [hidden]="searchResult">
+              <tr [hidden]="!searchResult">
                 <td colspan="11">NO RESULTS FOUND
                   <br>
-                  <button (click)="getListAndPageCount()">back</button>
-                  <!-- <button (click)="getSupportList()">back</button> -->
+                  <!-- <input type="button" (click)="back()" value="back"> -->
+                  <input type="button" (click)="back()" value="back">
+                  <br>
+                  
+                  
                 </td>
               </tr>
+
+              <tr [hidden]="!searchBack">
+                <td colspan="11">RESULT FOUND
+                  <br>
+                  <input type="button" (click)="back()" value="back">
+                </td>
+              </tr>
+
+              <tr [hidden]="!backLoading">
+                <td colspan="11">
+                  <fa  name="spinner" animation="spin" size="lg"></fa>
+                </td>
+              </tr>
+
+
             </tbody>
             
           </table>
@@ -106,8 +124,8 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">{{n}}</button>
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
           </div>
       </div>
       <!-- intended to leave it empty -->
@@ -206,7 +224,7 @@
     <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
       <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
         <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register</button>
-        <button class=" w3-btn w3-round w3-text-white" (click)="answer = false" style="background-color: #7dd2ec; margin-right: 11px">back</button>
+        <button class=" w3-btn w3-round w3-text-white" (click)="answer = false; back()" style="background-color: #7dd2ec; margin-right: 11px">back</button>
       </div>
     </div>
     <!-- buttons end -->

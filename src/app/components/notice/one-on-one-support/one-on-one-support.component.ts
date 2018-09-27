@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import {SupportService} from '../../../services/notice/support/support.service'
 import {CommonService} from '../../../services/common/common.service'
 import { environment } from '../../../../environments/environment.prod';
-import { Observable, Observer, interval, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 interface supportModel{
   row_number:string,
   HeadOfficeID:string,
@@ -11,6 +11,7 @@ interface supportModel{
   PlayerUserAccountID:string,
   ScreenName:string,
   Title:string,
+  Status:string,
   RegisteredDateTime:string,
   DateTime:string,
   SupportTicketID:string
@@ -30,6 +31,7 @@ interface writeNoticeModel{
 
 @Component({
   selector: 'app-one-on-one-support',
+  host: {'window:beforeunload':'console.log("wazzup")'},
   templateUrl: './one-on-one-support.component.html',
   styleUrls: ['./one-on-one-support.component.css']
 })
@@ -48,62 +50,113 @@ export class OneOnOneSupportComponent implements OnInit {
 
   //search variables
   searchResult:boolean = false
+  searchBack:boolean
+  backLoading:boolean = true
+  hidePagination:boolean = false
 
   //answer variables
   answer:boolean = false
 
+  //on component variables
+  onComponent : boolean
+
+
   constructor(private supportSrvc:SupportService, 
-              public commonSrvc:CommonService
-             ) { }
+              private commonSrvc:CommonService
+             ) { 
 
-  subscription: Subscription
+             }
+  //every 3 seconds
+  getListSubscription: Subscription
   update = interval(environment.updateTime)
+  
+  //every 1 second
+  checkIfActiveSubscription:Subscription
+  checkIfActive = interval(1000)
 
+  //lifecycle hooks
+    ngOnInit() {
+      this.onComponent = true
+      this.activateGetListAndPageCount()
+    }
 
-  ngOnInit() {
-    // this.getSupportList()
-    // this.getPageCount()
-    this.subscription = this.update.subscribe(
-      x => { this.getListAndPageCount() }
-    )
-  }
+    ngOnDestroy() {
+      this.onComponent = false
+      console.log('you leave 1on1 support')
+    }
 
-  ngOnDestroy() {
-     this.subscription.unsubscribe()
-  }
+  //lifecycle hooks end
+
+  //activate/deactivate
+    activateGetListAndPageCount(){
+      this.getListSubscription = this.update.subscribe(
+        () => {
+          if(this.onComponent){
+            if(!this.searchBack && !this.searchResult ){
+              if(this.commonSrvc.userActive){
+                this.getListAndPageCount()
+                //hide back loading UI
+                this.backLoading = false
+                //show pagination again
+                this.hidePagination = false
+              }else{
+                this.deactivateGetListAndPageCount()
+              }
+            }
+          }
+        }
+      )
+    }
+
+    deactivateGetListAndPageCount(){
+      this.getListSubscription.unsubscribe()
+      console.log('deactivated')
+
+      //start listening if user is active again while deactivated
+      this.checkIfActiveSubscription = this.checkIfActive.subscribe(
+        () => {
+          if(this.commonSrvc.userActive){
+            this.activateGetListAndPageCount()
+            //stop listening if user is active again
+            this.checkIfActiveSubscription.unsubscribe()
+          }
+        }
+      )
+    }
+  //activate/deactivate end
 
   getListAndPageCount(){
     Promise.all([this.getSupportList(),this.getPageCount()]).then(function() {
-      console.log('get list successful');
+      console.log('get list and page count successful');
       }, function(){ //if promise or promise2 fail
       console.log('something went wrong')
     })
   }
 
+  getSupportList(){
+    let promise = new Promise((resolve,reject) => {
+      this.commonSrvc.getList(this.pageIndex, this.offset)
+      .subscribe(
+        (result :supportModel[]) => {
+          this.supportList = result
+          //show No results found if 0 result else dont show
+          if(result.length == 0){
+            this.searchResult = true
+          }else{
+            this.searchResult = false
+            this.searchBack = false
+          }
+          resolve()
+        },
+        error => {
+          console.log(error)
+          reject()
+        }
+      )
 
-   getSupportList(){
-     let promise = new Promise((resolve,reject) => {
-       this.commonSrvc.getList(this.pageIndex, this.offset)
-       .subscribe(
-         (result :supportModel[]) => {
-           this.supportList = result
-           //show No results found if 0 result else dont show
-           if(result.length == 0){
-             this.searchResult = true
-           }else{
-             this.searchResult = false
-           }
-           resolve()
-         },
-         error => {
-           console.log(error)
-           reject()
-         }
-       )
+    })
 
-     })
-
-     return promise;
+    return promise;
   }
 
   getPageCount(){
@@ -111,12 +164,17 @@ export class OneOnOneSupportComponent implements OnInit {
       this.commonSrvc.getPageCount()
       .subscribe(
         (result) => {
+          //clear values first
+          this.pages = []
+          this.paginationValues = []
+
           //p = pages
-          // this.sample = Math.ceil(result[0]['WithdrawCount'] / 20)
           var p = Math.ceil(result[0]['SupportCount'] / 20)
+
           //set number and value of pages
           var i:number
           var x:number = 0
+
           for(i = 1; i <= p ; i++){
             x += 20
             this.pages.push(i)
@@ -127,7 +185,7 @@ export class OneOnOneSupportComponent implements OnInit {
         },
           error => {
             console.log(error)
-          reject()
+            reject()
           }
       )
     })
@@ -136,15 +194,16 @@ export class OneOnOneSupportComponent implements OnInit {
 
   paginate(i:number){
     this.offset = this.paginationValues[i] - 20
-    this.getSupportList()
   }
 
+  // will activate after the answer button in table is clicked
   getWriteNotice(event){
+
     event.preventDefault();
     let target = event.target;
 
-    let userID = target.querySelector('#userID').value
-    let supportID = target.querySelector('#supportID').value
+    let userID = (target.querySelector('#userID').value) ? target.querySelector('#userID').value : environment.ifSearchVariableEmpty 
+    let supportID = (target.querySelector('#supportID').value) ? target.querySelector('#supportID').value : environment.ifSearchVariableEmpty 
 
     this.supportSrvc.getWriteNotice(userID,supportID)
     .subscribe(
@@ -158,30 +217,65 @@ export class OneOnOneSupportComponent implements OnInit {
      )
   }
 
+
   searchList(event){
+    
+
     event.preventDefault();
     let target = event.target;
-
+    //hide pagination
+    this.hidePagination = true
+                
     let column = target.querySelector('#column').value
-    let value = (target.querySelector('#value').value) ? target.querySelector('#value').value : '((('  
+    let value = (target.querySelector('#value').value) ? target.querySelector('#value').value : environment.ifSearchVariableEmpty
 
       this.commonSrvc.searchList(this.pageIndex,column,value)
       .subscribe(
         (result:supportModel[]) => {
           this.supportList = result
           console.log(result)
-          //show No results found if 0 result else dont show
-          if(result.length == 0){
-            this.searchResult = true
-          }else{
+          //if there's result
+          if(result.length > 0){
+            //stopping getting list for awhile
+            this.getListSubscription.unsubscribe()
+
+            //show results found UI
+            this.searchBack = true
+
+            //hide no results found UI
             this.searchResult = false
+
+            console.log('results found')
           }
         },
-      error => {
-          console.log(error['status'])
+        error => {
+          if(error['statusText'] == 'Not Found'){
+            //stopping getting list for awhile
+            this.getListSubscription.unsubscribe()
+
+            //show no results found UI
+            this.searchResult = true
+
+            //hide results found UI
+            this.searchBack = false
+
+            //empty list
+            this.supportList = []
+          }
         }
       )
 
+  }
+
+  back(){
+    this.backLoading = true
+    //hide back UIs
+    this.searchBack = false;
+    this.searchResult = false;
+    this.activateGetListAndPageCount()
+
+    //empty writeNotice
+    this.writeNotice = {}
   }
 
 }
