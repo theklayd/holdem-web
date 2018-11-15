@@ -242,7 +242,7 @@
                 </div>
               </div> -->
               <tr *ngFor="let w of withdrawList">
-                <td>{{w.row_number}}</td>
+                <td>{{w.ID}}</td>
                 <td>{{w.HeadOfficeID}}</td>
                 <td>{{w.DistributorID}}</td>
                 <td>{{w.ShopID}}</td>
@@ -301,10 +301,26 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-        <div class="w3-row w3-center" [hidden]="hidePagination">
-            <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
-        </div>
-    </div>
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+  
+              <button (click)="first()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-double-left" size="lg"></fa>&nbsp;first
+              </button>
+              <button (click)="previous()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-left"  size="lg"></fa>
+              </button>
+  
+              <button type="button" *ngFor="let n of pages | slice : currentPage : currentPage + 5;" [ngClass]=" {'w3-light-blue' : n == currentPaginationButton}" (click)="paginate(n); " class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+  
+              <button type="button" (click)="next()" class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage && pages.length > 5">
+               <fa name="angle-right"  size="lg"></fa>
+              </button>
+              <button (click)="last()" class="w3-button w3-round w3-text-white w3-animate-right"   style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage  && pages.length > 8" >
+                  last&nbsp;<fa name="angle-double-right" size="lg"></fa>
+              </button >
+  
+          </div>
+      </div>
       <!-- intended to leave it empty -->
       <div class="w3-third">
         <p></p>

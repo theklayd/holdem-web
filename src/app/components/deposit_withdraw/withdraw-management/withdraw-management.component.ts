@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common/common.service'
 import { environment } from '../../../../environments/environment.prod';
 import { interval, Subscription } from 'rxjs';
 interface withdrawModel{
-  row_number:string,
+  ID:number,
   HeadOfficeID:string,
   DistributorID:string,
   ShopID:string,
@@ -34,10 +34,18 @@ export class WithdrawManagementComponent implements OnInit {
   pageIndex:number = 6
   //table variables
   withdrawList:withdrawModel[]
+
   //pagination variables
-  pages:number[] = []
-  paginationValues:number[] = []
-  offset:number = 0
+    currentPage:number = 0
+    //this involved in paginate function
+      currentPaginationButton:number = 1
+    //this involved in getPageCount function
+      lastPage:number 
+
+    pages:number[] = []
+    paginationValues:number[] = []
+    offset:number = 0
+  //pagination variables end
 
   //search variables
   searchResult:boolean = false
@@ -126,6 +134,13 @@ getSupportList(){
         if(result.length == 0){
           this.searchResult = true
         }else{
+          //set artificial index
+            let row_number_new = this.offset
+            for(let i = 0; i <= this.withdrawList.length - 1; i++){
+              row_number_new += 1;
+              this.withdrawList[i].ID = row_number_new
+            }
+          //set artificial index end
           this.searchResult = false
           this.searchBack = false
         }
@@ -144,7 +159,7 @@ getSupportList(){
 
 getPageCount(){
   let promise = new Promise ((resolve,reject) => {
-    this.commonSrvc.getPageCount()
+    this.commonSrvc.getPageCount(this.pageIndex)
     .subscribe(
       (result) => {
         //clear values first
@@ -152,18 +167,18 @@ getPageCount(){
         this.paginationValues = []
 
         //p = pages
-        var p = Math.ceil(result[0]['WithdrawListCount'] / 20)
-
+        var p = Math.ceil(result[0]['ID'] / 20)
+        
         //set number and value of pages
         var i:number
         var x:number = 0
 
         for(i = 1; i <= p ; i++){
-          x += 20
           this.pages.push(i)
           this.paginationValues.push(x)
+          x += 20
         }
-
+        this.lastPage = this.pages[this.pages.length - 1]
         resolve()
       },
         error => {
@@ -176,7 +191,8 @@ getPageCount(){
 }
 
 paginate(i:number){
-  this.offset = this.paginationValues[i] - 20
+  this.offset = this.paginationValues[i - 1]
+  this.currentPaginationButton = i
 }
 
 searchList(event){
@@ -228,13 +244,42 @@ searchList(event){
 
 }
 
-back(){
-  this.backLoading = true
-  //hide back UIs
-  this.searchBack = false;
-  this.searchResult = false;
-  this.activateGetListAndPageCount()
+  back(){
+    this.backLoading = true
+    //hide back UIs
+    this.searchBack = false;
+    this.searchResult = false;
+    this.activateGetListAndPageCount()
 
-}
+  }
+  //pagination functions
+    next(){
+      this.currentPaginationButton += 1
+      if((this.pages.length - 5 )> this.currentPage){
+        this.currentPage += 1
+        this.offset = this.paginationValues[this.currentPaginationButton - 1]
+      }
+    }
+    
+    previous(){
+      this.currentPaginationButton -= 1
+      if(this.currentPage >= 1){
+        this.currentPage -= 1
+        this.offset = this.paginationValues[this.currentPaginationButton - 1]
+      }
+    }
+    
+    first(){
+      this.currentPage = 0
+      this.offset = 0
+      this.currentPaginationButton = 1
+    }
+    
+    last(){
+      this.currentPage = this.pages.length - 5
+      this.currentPaginationButton = this.pages[this.pages.length - 1]
+      this.offset = this.paginationValues[this.paginationValues.length - 1]
+    }
+  //pagination functions end
 
 }

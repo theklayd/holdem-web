@@ -4,19 +4,22 @@ import { CommonService } from '../../../services/common/common.service'
 import { environment } from '../../../../environments/environment.prod';
 import { interval, Subscription } from 'rxjs';
 interface gameLogListModel{
-  HandHistoryID:number,
-  HandDateTime:string,
-  UserAccountID:string,
+  row_number:number,
   SeasonID:string,
-  RoomID:string,
-  MoveHand:string,
-  GameStartedDateTime:string,
-  CreatedRoomDateTime:string,
+  ScreenName:string,
+  DateTime:string,
   GameType:string,
   Rank:string,
   BeforePoints:string,
-  AfterPoints:string,
   WinPoints:string
+  AfterPoints:string
+  // HandDateTime:string,
+  // UserAccountID:string,
+  // RoomID:string,
+  // MoveHand:string,
+  // GameStartedDateTime:string,
+  // CreatedRoomDateTime:string,
+
 }
 
 interface handHistoryModel{
@@ -42,15 +45,22 @@ export class GameLogComponent implements OnInit {
   handHistoryToggle:boolean = false
   
   //pagination variables
-  pages:number[] = []
-  paginationValues:number[] = []
-  offset:number = 0
+    currentPage:number = 0
+    //this involved in paginate function
+      currentPaginationButton:number = 1
+    //this involved in getPageCount function
+      lastPage:number 
 
+    pages:number[] = []
+    paginationValues:number[] = []
+    offset:number = 0
+  //pagination variables end
+  
   //search variables
   searchResult:boolean = false
   searchBack:boolean
   backLoading:boolean = true
-  hidePagination:boolean = false
+  hidePagination:boolean = true
   //answer variables
   answer:boolean = false
 
@@ -131,10 +141,19 @@ export class GameLogComponent implements OnInit {
       .subscribe(
         (result :gameLogListModel[]) => {
           this.gameLogList = result
+          // console.log('this is offset : ' + this.offset)
+
           //show No results found if 0 result else dont show
           if(result.length == 0){
             this.searchResult = true
           }else{
+            //set artificial index
+            let row_number_new = this.offset
+              for(let i = 0; i <= this.gameLogList.length - 1; i++){
+                row_number_new += 1;
+                this.gameLogList[i].row_number = row_number_new
+              }
+            //set artificial index end
             this.searchResult = false
             this.searchBack = false
           }
@@ -153,7 +172,7 @@ export class GameLogComponent implements OnInit {
 
   getPageCount(){
     let promise = new Promise ((resolve,reject) => {
-      this.commonSrvc.getPageCount()
+      this.commonSrvc.getPageCount(this.pageIndex)
       .subscribe(
         (result) => {
           //clear values first
@@ -161,22 +180,23 @@ export class GameLogComponent implements OnInit {
           this.paginationValues = []
 
           //p = pages
-          var p = Math.ceil(result[0]['GameLogListCount'] / 20)
+          var p = Math.ceil(result[0]['ID'] / 20)
 
           //set number and value of pages
           var i:number
           var x:number = 0
 
           for(i = 1; i <= p ; i++){
-            x += 20
             this.pages.push(i)
             this.paginationValues.push(x)
+            x += 20
           }
-
+          this.lastPage = this.pages[this.pages.length - 1]
           resolve()
         },
           error => {
-            console.log(error)
+            console.log('key ' + localStorage.getItem(environment.tokenStorageKey));
+            console.log(error);
             reject()
           }
       )
@@ -185,7 +205,8 @@ export class GameLogComponent implements OnInit {
   }
 
   paginate(i:number){
-    this.offset = this.paginationValues[i] - 20
+    this.offset = this.paginationValues[i - 1]
+    this.currentPaginationButton = i
   }
 
   searchList(event){
@@ -246,8 +267,8 @@ export class GameLogComponent implements OnInit {
     
     //hide hand history UI
     this.handHistoryToggle = false
-
   }
+
   //hand history
   getHandHistory(seasonID:string){
     this.handHistoryToggle = true;
@@ -263,4 +284,34 @@ export class GameLogComponent implements OnInit {
        }
      )
   }
+
+  //pagination functions
+    next(){
+      this.currentPaginationButton += 1
+      if((this.pages.length - 5 )> this.currentPage){
+        this.currentPage += 1
+        this.offset = this.paginationValues[this.currentPaginationButton - 1]
+      }
+    }
+    
+    previous(){
+      this.currentPaginationButton -= 1
+      if(this.currentPage >= 1){
+        this.currentPage -= 1
+        this.offset = this.paginationValues[this.currentPaginationButton - 1]
+      }
+    }
+    
+    first(){
+      this.currentPage = 0
+      this.offset = 0
+      this.currentPaginationButton = 1
+    }
+    
+    last(){
+      this.currentPage = this.pages.length - 5
+      this.currentPaginationButton = this.pages[this.pages.length - 1]
+      this.offset = this.paginationValues[this.paginationValues.length - 1]
+    }
+  //pagination functions end
 }

@@ -1,49 +1,50 @@
 <!-- sidepanel for medium and large screen -->
-<div class="w3-sidebar w3-display-container w3-bar-block w3-card-4 w3-hide-small w3-hide-medium" style=" background-color: #2a3f54; width: 15%" id="mySidebar">
+<div class="w3-sidebar w3-bar-block w3-card-2" style=" background-color: #2a3f54; width: 15%" id="mySidebar">
   <br>
   <div class="w3-row">
-      <a href="#" routerLink="/" class="w3-text-white" style="text-decoration: none">
-        <fa class="w3-text-white" name="paw" size="3x"  style="border-radius: 100%; margin: 15px"></fa>
+      <a href="#" [routerLink]="['/admin']" class="w3-text-white" style="text-decoration: none">
+        <fa class="w3-text-white" name="paw" size="3x"  style="margin: 10px"></fa>
         Operating HEAD OFFICE
       </a>
   </div>
-<br>
+
   <div class="w3-row">
     <div class="w3-quarter">
       <img src="../assets/avatar.png" class="w3-circle w3-border w3-responsive" alt="Alps" style="width:70px; height:70px; margin: 12px">
     </div>
     <div class="w3-threequarter w3-padding-large">
-      <p class="w3-text-white">head office</p>
-      <p class="w3-text-white">holding money :</p>
-      <p class="w3-text-white">589,766,407</p>
+      <p class="w3-text-white" >head office</p>
+      <p class="w3-text-white" >holding money :</p>
+      <p class="w3-text-white" >589,766,407</p>
     </div>
   </div>
 
   <br>
-  <br>
-  <br>
+
   <!-- menu dropdowns -->
-  <div>
+  <div >
     <!-- sales dropdown -->
     <div>
-      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[0]}" (click)="sidepanelMenuToggle(0)">
-        <fa name="home"></fa>
-        Sales &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!sidepanelMenuArray[0]" name="caret-left" class="{{sidepanelCaret}}"></fa>
-        <fa *ngIf="sidepanelMenuArray[0]" name="caret-down" class="{{sidepanelCaret}}"></fa>
+      <!-- <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : sidepanelMenuArray[0]}" (click)="sidepanelMenuToggle(0)"> -->
+      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : currentSidePanel == 0}" (click)="sidepanelMenuToggle(0)">
+        <fa name="home"></fa>&nbsp;
+        <span appTranslate>Sales</span> &nbsp;&nbsp;&nbsp;
+        <!-- <fa *ngIf="!sidepanelMenuArray[0]" name="caret-left" class="{{sidepanelCaret}}"></fa> -->
+        <fa *ngIf="currentSidePanel != 0" name="caret-left" class="{{sidepanelCaret}}"></fa>
+        <fa *ngIf="currentSidePanel == 0" name="caret-down" class="{{sidepanelCaret}}"></fa>
       </button>
-      <div *ngIf="sidepanelMenuArray[0]" class="w3-animate-left">
+      <div *ngIf="currentSidePanel == 0" class="w3-animate-left">
         
         <button  [routerLink]="['/admin/headOfficeList']"  class="{{lsSidepanelSubMenuBtn}}">
           &nbsp;&nbsp;
-          <fa name="circle-o" style="color: gray"></fa> 
-          <strong style="font-size:16px"> head office list</strong>
+          <fa name="circle-o" style="color: gray"></fa>&nbsp;
+          <strong style="font-size:16px" appTranslate>head office list</strong>
         </button>
         
         <button [routerLink]="['/admin/memberList']"  class="{{lsSidepanelSubMenuBtn}}">
           &nbsp;&nbsp;
-          <fa name="circle-o" style="color: gray"></fa> 
-          <strong style="font-size:16px"> member list</strong>
+          <fa name="circle-o" style="color: gray"></fa> &nbsp;
+          <strong style="font-size:16px" appTranslate>member list</strong>
         </button>
         
       </div>
@@ -52,24 +53,24 @@
   
     <!-- calculate dropdown -->
     <div>
-      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[1]}" (click)="sidepanelMenuToggle(1)">
-        <fa name="cc-visa"></fa>
-        Calculate &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!sidepanelMenuArray[1]" name="caret-left" class="{{sidepanelCaret}}"></fa>
-        <fa *ngIf="sidepanelMenuArray[1]" name="caret-down" class="{{sidepanelCaret}}"></fa>
+      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : currentSidePanel == 1}" (click)="sidepanelMenuToggle(1)">
+        <fa name="cc-visa"></fa>&nbsp;
+        <span appTranslate>Calculate</span> &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="currentSidePanel != 1" name="caret-left" class="{{sidepanelCaret}}"></fa>
+        <fa *ngIf="currentSidePanel == 1" name="caret-down" class="{{sidepanelCaret}}"></fa>
       </button>
-        <div *ngIf="sidepanelMenuArray[1]" class="w3-animate-left">
+        <div *ngIf="currentSidePanel == 1" class="w3-animate-left">
   
           <button [routerLink]="['/admin/calculateManage']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> calculate manage</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>calculate manage</strong>
           </button>
   
           <button [routerLink]="['/admin/userProfit']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> user profit</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>user profit</strong>
             </button>
   
         </div>
@@ -78,31 +79,31 @@
     
     <!-- user dropdown -->
     <div>
-      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[2]}" (click)="sidepanelMenuToggle(2)">
-        <fa name="android"></fa>
-        User &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!sidepanelMenuArray[2]" name="caret-left" class="{{sidepanelCaret}}"></fa>
-        <fa *ngIf="sidepanelMenuArray[2]" name="caret-down" class="{{sidepanelCaret}}"></fa>
+      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : currentSidePanel == 2}" (click)="sidepanelMenuToggle(2)">
+        <fa name="android"></fa>&nbsp;
+        <span appTranslate>User</span> &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="currentSidePanel != 2" name="caret-left" class="{{sidepanelCaret}}"></fa>
+        <fa *ngIf="currentSidePanel == 2" name="caret-down" class="{{sidepanelCaret}}"></fa>
       </button>
-      <div *ngIf="sidepanelMenuArray[2]" class="w3-animate-left">
+      <div *ngIf="currentSidePanel == 2" class="w3-animate-left">
         
             <button [routerLink]="['/admin/connectingUser']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> connecting user</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>connecting user</strong>
             </button>
 
             <button [routerLink]="['/admin/blackList']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> black list</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>black list</strong> <fa name="check" class="w3-text-red"></fa> 
             </button>
     
             
             <button [routerLink]="['/admin/IPinquire']"  class="{{lsSidepanelSubMenuBtn}}">
                 &nbsp;&nbsp;
-                <fa name="circle-o" style="color: gray"></fa> 
-                <strong style="font-size:16px"> IP inquire</strong>
+                <fa name="circle-o" style="color: gray"></fa>&nbsp;
+                <strong style="font-size:16px" appTranslate>IP inquire</strong> <fa name="check" class="w3-text-red"></fa>
               </button>
           </div>
     </div>
@@ -110,23 +111,23 @@
   
     <!-- deposit and withdraw dropdown -->
     <div>
-      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[3]}" (click)="sidepanelMenuToggle(3)">
-        <fa name="table"></fa>
-        deposit &amp; Withdraw &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!sidepanelMenuArray[3]" name="caret-left" class="{{sidepanelCaret}}"></fa>
-        <fa *ngIf="sidepanelMenuArray[3]" name="caret-down" class="{{sidepanelCaret}}"></fa>
+      <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : currentSidePanel == 3}" (click)="sidepanelMenuToggle(3)">
+        <fa name="table"></fa>&nbsp;
+        <span appTranslate>Deposit &amp; Withdraw</span> &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="currentSidePanel != 3" name="caret-left" class="{{sidepanelCaret}}"></fa>
+        <fa *ngIf="currentSidePanel == 3" name="caret-down" class="{{sidepanelCaret}}"></fa>
       </button>
-        <div *ngIf="sidepanelMenuArray[3]" class="w3-animate-left">
+        <div *ngIf="currentSidePanel == 3" class="w3-animate-left">
           <button [routerLink]="['/admin/depositManagement']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> deposit management</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>deposit management</strong>
           </button>
   
           <button [routerLink]="['/admin/withdrawManagement']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> withdraw management</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>withdraw management</strong>
             </button>
           
         </div>
@@ -135,78 +136,77 @@
   
     <!-- notice dropdown -->
     <div>
-        <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[4]}" (click)="sidepanelMenuToggle(4)">
-          <fa name="bell-o"></fa>
-          Notice &nbsp;&nbsp;&nbsp;
-          <fa *ngIf="!sidepanelMenuArray[4]" name="caret-left" class="{{sidepanelCaret}}"></fa>
-          <fa *ngIf="sidepanelMenuArray[4]" name="caret-down" class="{{sidepanelCaret}}"></fa>
+        <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : currentSidePanel == 4}" (click)="sidepanelMenuToggle(4)">
+          <fa name="bell"></fa>&nbsp;
+          <span appTranslate>Notice</span>&nbsp;&nbsp;&nbsp;
+          <fa *ngIf="currentSidePanel != 4" name="caret-left" class="{{sidepanelCaret}}"></fa>
+          <fa *ngIf="currentSidePanel == 4" name="caret-down" class="{{sidepanelCaret}}"></fa>
         </button>
-          <div *ngIf="sidepanelMenuArray[4]" class="w3-animate-left">
+          <div *ngIf="currentSidePanel == 4" class="w3-animate-left">
             
             <button [routerLink]="['/admin/lobbyNotice']"  class="{{lsSidepanelSubMenuBtn}}">
                 &nbsp;&nbsp;
-                <fa name="circle-o" style="color: gray"></fa> 
-                <strong style="font-size:16px"> lobby notice</strong>
+                <fa name="circle-o" style="color: gray"></fa>&nbsp; 
+                <strong style="font-size:16px" appTranslate>lobby notice</strong>
             </button>
             
             <button [routerLink]="['/admin/inGamingTable']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> in gaming table</strong>
+              <fa name="circle-o" style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px" appTranslate>in gaming table</strong>
             </button>
 
             <button [routerLink]="['/admin/1on1support']"  class="{{lsSidepanelSubMenuBtn}}">
                 &nbsp;&nbsp;
-                <fa name="circle-o"  style="color: gray"></fa> 
-                <strong style="font-size:16px;"> 1:1 support</strong>
+                <fa name="circle-o"  style="color: gray"></fa>&nbsp;
+                <strong style="font-size:16px;" appTranslate>1:1 support</strong><fa name="check" class="w3-text-red"></fa>
             </button>
-  
-  
-  
+
           </div>
     </div>
     <!-- notice dropdown end -->
   
     <!-- log dropdown -->
     <div>
-        <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[5]}" (click)="sidepanelMenuToggle(5)">
-        <fa name="clone"></fa>
-        Log &nbsp;&nbsp;&nbsp;
-        <fa *ngIf="!sidepanelMenuArray[5]" name="caret-left" class="{{sidepanelCaret}}"></fa>
-        <fa *ngIf="sidepanelMenuArray[5]" name="caret-down" class="{{sidepanelCaret}}"></fa>
+        <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : currentSidePanel == 5}" (click)="sidepanelMenuToggle(5)">
+        <fa name="clone"></fa>&nbsp;
+        <span appTranslate>Log</span> &nbsp;&nbsp;&nbsp;
+        <fa *ngIf="currentSidePanel != 5" name="caret-left" class="{{sidepanelCaret}}"></fa>
+        <fa *ngIf="currentSidePanel == 5" name="caret-down" class="{{sidepanelCaret}}"></fa>
       </button>
-        <div *ngIf="sidepanelMenuArray[5]" class="w3-animate-left">
+        <div *ngIf="currentSidePanel == 5" class="w3-animate-left">
   
           <button [routerLink]="['/admin/gameLog']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o"  style="color: gray"></fa> 
-              <strong style="font-size:16px;"> game log</strong>
+              <fa name="circle-o"  style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px;" appTranslate>game log</strong><fa name="check" class="w3-text-red"></fa>
           </button>
           
           <button [routerLink]="['/admin/jackpotLog']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o"  style="color: gray"></fa> 
-              <strong style="font-size:16px;"> jackpot log</strong>
+              <fa name="circle-o"  style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px;" appTranslate>jackpot log</strong>
           </button>
 
           <button [routerLink]="['/admin/transferLog']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o"  style="color: gray"></fa> 
-              <strong style="font-size:16px;"> transfer log</strong>
+              <fa name="circle-o"  style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px;" appTranslate>transfer log</strong>
           </button>
 
           <button [routerLink]="['/admin/pointLog']"  class="{{lsSidepanelSubMenuBtn}}">
               &nbsp;&nbsp;
-              <fa name="circle-o"  style="color: gray"></fa> 
-              <strong style="font-size:16px;"> point log</strong>
+              <fa name="circle-o"  style="color: gray"></fa>&nbsp;
+              <strong style="font-size:16px;" appTranslate>point log</strong>
           </button>
   
         </div>
     </div>
     <!-- log dropdown end -->
+
     <!-- pending dropdown -->
-    <div>
-        <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-4 w3-rightbar w3-border-green' : sidepanelMenuArray[6]}" (click)="sidepanelMenuToggle(6)">
+    <!-- <div>
+        <button class="{{lsSidepanelMenuBtn}}" [ngClass]="{'w3-card-2 w3-rightbar w3-border-green' : sidepanelMenuArray[6]}" (click)="sidepanelMenuToggle(6)">
         <fa name="question"></fa>
          &nbsp;&nbsp;&nbsp;
         <fa *ngIf="!sidepanelMenuArray[6]" name="caret-left" class="{{sidepanelCaret}}"></fa>
@@ -221,12 +221,42 @@
           </button>
           
         </div>
-    </div>
+    </div> -->
     <!-- pending dropdown end -->
+    <h6 class="w3-center w3-text-white" style="font-size:14px">date</h6>
+    <div class="w3-text-white" style="margin-left:20px;">
+
+      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>deposit application</span>&nbsp;:&nbsp;<strong>705</strong>건</h6>
+      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>total member</span>&nbsp;:&nbsp;<strong>{{totalRegisteredUser}}</strong>명</h6>
+      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>today joined members</span>&nbsp;:&nbsp;<strong>{{totalRegisteredUserToday}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="twitter"></fa>&nbsp;<span>connecting members</span>&nbsp;:&nbsp;<strong>{{totalConnectingMembers.OnlineStatusCount}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>deposit</span>&nbsp;:&nbsp;<strong>{{totalDepositToday}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>withdraw</span>&nbsp;:&nbsp;<strong>{{totalWithdrawToday}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>profit and loss</span>&nbsp;:&nbsp;<strong>{{profitAndLoss}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>members</span>&nbsp;:&nbsp;<strong>705,940,329</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>sales</span>&nbsp;:&nbsp;<strong>705,940,329</strong>원</h6>
+    </div>
+
   </div>
+  <br>
+  <br>
+  <br>
   <!-- menu dropdowns end -->
-  <div class="w3-display-bottommiddle">
-    
+  <div class="w3-bottom" style="width:15%">
+    <div class="w3-row">
+      <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-text-white" style="background-color:#172d44; width: 25%">
+       <fa name="cog"></fa>
+      </button>
+      <button type="button" (click)="toggleFullScreen()" class="w3-button w3-text-white" style="background-color:#172d44; width: 25%">
+       <fa name="expand"></fa>
+      </button>
+      <button type="button" (click)="playNotif()" class="w3-button w3-text-white" style="background-color:#172d44; width: 25%">
+       <fa name="eye-slash"></fa>
+      </button>
+      <button type="button"  class="w3-button w3-text-white" style="background-color:#172d44; width: 25%">
+       <fa name="power-off"></fa>
+      </button>
+    </div>
   </div>
 </div>
 <!-- sidepanel for medium and large screen end -->
@@ -249,11 +279,13 @@
           <fa name="times"></fa>  
         </button>
       </div>
+      <button (click)="printUserToken()" >get token</button>
+      <button (click)="clearToken()" >clear token</button>
  
     <!-- sidepanel toggle end -->
 
 
-    <button class="w3-button w3-bar-item w3-right">
+    <button type="button" (click)="logout()" class="w3-button w3-bar-item w3-right">
       <fa name="sign-out"></fa>
     </button>
 
@@ -262,199 +294,57 @@
   </div>
   <!-- topbar end -->
 
-  <!-- sidepanel for small screens-->
-  <div class="w3-animate-left w3-hide-large w3-hide-medium " style="background-color: #2a3f54;" id="sidepanelSmall">
-    <br>
-    <a class="w3-xlarge w3-text-white">
-      &nbsp;&nbsp;Menu
-    </a>
-    <br>
-    <br>
-
-    <!-- sales -->
-    <div>
-        <button [ngClass]="{'w3-button w3-block w3-text-white w3-hover-shadow' : true, 'w3-card-4' : salesDropdown}" (click)="(this.salesDropdown) ? this.salesDropdown = false : this.salesDropdown = true" style="text-align: left"> 
-          <fa name="home"></fa> Sales
-          <fa *ngIf="!salesDropdown" name="caret-left" class="{{sidepanelCaret}}"></fa>
-          <fa *ngIf="salesDropdown" name="caret-down" class="{{sidepanelCaret}}"></fa>
-        </button>
-          <div *ngIf="salesDropdown" class="w3-animate-left">
-    
-            <button routerLink="/headOfficeList"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> head office list</strong>
-            </button>
-    
-            <button [routerLink]="['/admin/memberList']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> member list</strong>
-            </button>
-    
-          </div>
-    </div>
-    <!-- sales end -->
-
-    <!-- calculate -->
-    <div>
-      <button [ngClass]="{'w3-button w3-block w3-text-white w3-hover-shadow' : true, 'w3-card-4' : calculateDropdown}" style="text-align: left" (click)="(this.calculateDropdown) ? this.calculateDropdown = false : this.calculateDropdown = true"> 
-        <fa name="cc-visa"></fa> Calculate
-        <fa *ngIf="!calculateDropdown" name="caret-left" class="{{sidepanelCaret}}"></fa>
-        <fa *ngIf="calculateDropdown" name="caret-down" class="{{sidepanelCaret}}"></fa> 
-      </button>
-        <div *ngIf="calculateDropdown" class="w3-animate-left">
-  
-          <button [routerLink]="['/admin/calculateManage']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> Calculate manage</strong>
-          </button>
-  
-          <button [routerLink]="['/admin/userProfit']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> User profit</strong>
-          </button>
-  
-        </div>
-    </div>
-    <!-- calculate end -->
-
-    <!-- user -->
-    <div>
-        <button [ngClass]="{'w3-button w3-block w3-text-white w3-hover-shadow' : true, 'w3-card-4' : userDropdown}" (click)="(this.userDropdown) ? this.userDropdown = false : this.userDropdown = true" style="text-align: left"> 
-          <fa name="android"></fa> User
-          <fa *ngIf="!userDropdown" name="caret-left" class="{{sidepanelCaret}}"></fa>
-          <fa *ngIf="userDropdown" name="caret-down" class="{{sidepanelCaret}}"></fa>
-        </button>
-          <div *ngIf="userDropdown" class="w3-animate-left">
-    
-            <button [routerLink]="['/admin/connectingUser']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> connecting user</strong>
-            </button>
-    
-            <button [routerLink]="['/admin/blackList']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> black list</strong>
-            </button>
-    
-            <button [routerLink]="['/admin/IPinquire']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> IP inquire</strong>
-            </button>
-    
-          </div>
-    </div>
-    <!-- user end -->
-
-    <!-- Deposit and withdraw -->
-    <div>
-      <button [ngClass]="{'w3-button w3-block w3-text-white w3-hover-shadow' : true, 'w3-card-4' : dwDropdown}" (click)="(this.dwDropdown) ? this.dwDropdown = false : this.dwDropdown = true" style="text-align: left">
-       <fa name="table"></fa>&nbsp;Deposit &amp; Withdraw
-       <fa *ngIf="!dwDropdown" name="caret-left" class="{{sidepanelCaret}}"></fa>
-       <fa *ngIf="dwDropdown" name="caret-down" class="{{sidepanelCaret}}"></fa>
-      </button>
-        <div *ngIf="dwDropdown" class="w3-animate-left">
-  
-          <button [routerLink]="['/admin/depositManagement']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> deposit management</strong>
-          </button>
-  
-          <button [routerLink]="['/admin/withdrawManagement']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> withdraw management</strong>
-          </button>
-  
-        </div>
-    </div>
-    <!-- Deposit and withdraw end-->
-
-    <!-- Notice -->
-    <div>
-        <button [ngClass]="{'w3-button w3-block w3-text-white w3-hover-shadow' : true, 'w3-card-4' : noticeDropdown}" (click)="(this.noticeDropdown) ? this.noticeDropdown = false : this.noticeDropdown = true" style="text-align: left"> 
-          <fa name="bell-o"></fa> Notice
-          <fa *ngIf="!noticeDropdown" name="caret-left" class="{{sidepanelCaret}}"></fa>
-          <fa *ngIf="noticeDropdown" name="caret-down" class="{{sidepanelCaret}}"></fa>
-        </button>
-          <div *ngIf="noticeDropdown" class="w3-animate-left">
-    
-            <button [routerLink]="['/admin/lobbyNotice']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> lobby notice</strong>
-            </button>
-    
-            <button [routerLink]="['/admin/inGamingTable']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> in gaming table</strong>
-            </button>
-    
-            <button [routerLink]="['/admin/1on1support']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-              &nbsp;&nbsp;
-              <fa name="circle-o" style="color: gray"></fa> 
-              <strong style="font-size:16px"> 1:1 support</strong>
-            </button>
-    
-          </div>
-    </div>
-    <!-- notice end -->
-
-    <!-- log -->
-    <div>
-      <button [ngClass]="{'w3-button w3-block w3-text-white w3-hover-shadow' : true, 'w3-card-4' : logDropdown}" (click)="(this.logDropdown) ? this.logDropdown = false : this.logDropdown = true" style="text-align: left">
-         <fa name="clone"></fa> Log
-         <fa *ngIf="!logDropdown" name="caret-left" class="{{sidepanelCaret}}"></fa>
-         <fa *ngIf="logDropdown" name="caret-down" class="{{sidepanelCaret}}"></fa>
-      </button>
-        <div *ngIf="logDropdown" class="w3-animate-left">
-
-          <button [routerLink]="['/admin/gameLog']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> game log</strong>
-          </button>
-
-          <button [routerLink]="['/admin/jackpotLog']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> jackpot log</strong>
-          </button>
-
-          <button [routerLink]="['/admin/transferLog']"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> transfer log</strong>
-          </button>
-
-          <button routerLink="/potLog"  class="w3-block w3-button w3-small w3-text-white" style="text-align: left">
-            &nbsp;&nbsp;
-            <fa name="circle-o" style="color: gray"></fa> 
-            <strong style="font-size:16px"> pot log</strong>
-          </button>
-
-        </div>
-    </div>
-    <!-- log end -->
-
-    <br>
-  </div>
-  <!-- sidepanel for small screens end-->
-
-
   <div class="w3-container" id="main">
     <router-outlet></router-outlet>
   </div>
 
 </div>
+<!-- settings modal -->
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-2" style="margin-top:70px; height:230px; width: 400px;">
+      
+      <header class="w3-container" style="background-color: #2a3f54;"> 
+        <span onclick="document.getElementById('id01').style.display='none'" 
+        class="w3-button w3-display-topright w3-xxlarge w3-text-white"><fa name="times"></fa></span>
+        <h2 class="w3-text-white"><fa name="cogs"></fa>&nbsp;Settings</h2>
+      </header>
+
+      <div class="w3-container">
+        <br>
+        <form class="w3-row">
+          <div class="w3-half">
+            <label class="w3-right" style="font-size: 20px; margin-top: 3px; margin-right: 15px">LANGUAGE: </label>
+            <br>
+            <br>
+            <br>
+            <br>
+            <label class="w3-right" for="audio" style="font-size: 20px; margin-right: 15px; user-select: none">AUDIO: </label>
+            
+          </div>
+          <div class="w3-half">
+            
+              <input class="w3-radio" type="radio" id="korean" (click)="toKorean()" [checked]="korean">
+              <label for="korean">&nbsp;KOREAN</label>
+            
+              <br>
+            
+              <input class="w3-radio" type="radio" id="english" (click)="toEnglish()" [checked]="english">
+              <label for="english">&nbsp;ENGLISH</label>
+
+              <br>
+              <br>
+              <input class="w3-check" type="checkbox" id="audio" (change)="audioToggle(audioModel)" [(ngModel)]="audioModel" [ngModelOptions]="{standalone: true}" style="margin-top:3px" checked="true">
+              <!-- <input class="w3-check" type="checkbox"  checked> -->
+          </div>
+
+
+        </form>
+
+      
+      </div>
+
+    </div>
+  </div>
 
 <script>
 </script>

@@ -3,21 +3,20 @@
 <div class="w3-display-middle  w3-container" style="width:40%;">
   <div class="w3-card">
       <h1 class="w3-jumbo w3-text-black w3-center">Holdem admin</h1>
-  <h3 class="w3-large w3-center">by condo boys </h3>
+  <h3 class="w3-large w3-center">MPOTECH </h3>
   <hr class="w3-border-red" style="margin:auto;width:40%">
 
           <p  class="w3-center"><strong></strong></p>
 
-          <form class="w3-padding-large w3-container" (submit)="loginUser($event)">
-            <strong class="w3-text-red" *ngIf="invalidUser">Invalid username or password</strong>
+          <form class="w3-padding-large w3-container" (submit)="login($event)">
             <input type="text" class="w3-input w3-border w3-center" placeholder="Username" id="username">
             <input type="password" class="w3-input w3-border w3-center" placeholder="Password" id="password">
             <br>
             <button type="submit" class="w3-btn w3-block w3-white w3-border w3-round-large">
               Log in
-              <fa name="circle-o-notch" animation="spin" *ngIf="showLoading"></fa>
             </button>
-            
+            <button type="button" (click)="printUserToken()">get token</button>
+            <button type="button" (click)="clearToken()">clear token</button>
           </form>
   </div>
 

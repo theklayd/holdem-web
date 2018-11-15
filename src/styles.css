@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
-
+html {
+    background-color:white;
+    /* Or any color / image you want */
+}
 .tableTitle {
     font-weight: bold; 
     font-size: 20px; 

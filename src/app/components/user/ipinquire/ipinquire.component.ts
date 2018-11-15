@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common/common.service'
 import { environment } from '../../../../environments/environment.prod';
 import { interval, Subscription } from 'rxjs';
 interface ipListModel{
-  row_number:string,
+  row_number:number,
   PlayerUserAccountID:string,
   RegisteredDateTime:string,
   ScreenName:string,
@@ -26,10 +26,18 @@ export class IPinquireComponent implements OnInit {
   pageIndex:number = 3
   //table variables
   ipList:ipListModel[]
+
   //pagination variables
-  pages:number[] = []
-  paginationValues:number[] = []
-  offset:number = 0
+    currentPage:number = 0
+
+    //this involved in paginate function
+      currentPaginationButton:number = 1
+    //this involved in getPageCount function
+      lastPage:number 
+
+    pages:number[] = []
+    paginationValues:number[] = []
+    offset:number = 0
 
   //search variables
   searchResult:boolean = false
@@ -118,6 +126,13 @@ export class IPinquireComponent implements OnInit {
           if(result.length == 0){
             this.searchResult = true
           }else{
+            //set artificial index
+              let row_number_new = this.offset
+              for(let i = 0; i <= this.ipList.length - 1; i++){
+                row_number_new += 1;
+                this.ipList[i].row_number = row_number_new
+              }
+            //set artificial index end
             this.searchResult = false
             this.searchBack = false
           }
@@ -136,7 +151,7 @@ export class IPinquireComponent implements OnInit {
 
   getPageCount(){
     let promise = new Promise ((resolve,reject) => {
-      this.commonSrvc.getPageCount()
+      this.commonSrvc.getPageCount(this.pageIndex)
       .subscribe(
         (result) => {
           //clear values first
@@ -144,17 +159,18 @@ export class IPinquireComponent implements OnInit {
           this.paginationValues = []
 
           //p = pages
-          var p = Math.ceil(result[0]['SupportCount'] / 20)
+          var p = Math.ceil(result[0]['ID'] / 20)
 
           //set number and value of pages
           var i:number
           var x:number = 0
 
           for(i = 1; i <= p ; i++){
-            x += 20
             this.pages.push(i)
             this.paginationValues.push(x)
+            x += 20
           }
+          this.lastPage = this.pages[this.pages.length - 1]
 
           resolve()
         },
@@ -168,7 +184,9 @@ export class IPinquireComponent implements OnInit {
   }
 
   paginate(i:number){
-    this.offset = this.paginationValues[i] - 20
+    this.offset = this.paginationValues[i - 1]
+    console.log(this.offset)
+    this.currentPaginationButton = i
   }
 
   searchList(event){
@@ -228,5 +246,35 @@ export class IPinquireComponent implements OnInit {
     this.activateGetListAndPageCount()
 
   }
+
+  //pagination functions
+    next(){
+      this.currentPaginationButton += 1
+      if((this.pages.length - 5 )> this.currentPage){
+        this.currentPage += 1
+        this.offset = this.paginationValues[this.currentPaginationButton - 1]
+      }
+    }
+    
+    previous(){
+      this.currentPaginationButton -= 1
+      if(this.currentPage >= 1){
+        this.currentPage -= 1
+        this.offset = this.paginationValues[this.currentPaginationButton - 1]
+      }
+    }
+    
+    first(){
+      this.currentPage = 0
+      this.offset = 0
+      this.currentPaginationButton = 1
+    }
+    
+    last(){
+      this.currentPage = this.pages.length - 5
+      this.currentPaginationButton = this.pages[this.pages.length - 1]
+      this.offset = this.paginationValues[this.paginationValues.length - 1]
+    }
+  //pagination functions end
 
 }

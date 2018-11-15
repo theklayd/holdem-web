@@ -1,18 +1,17 @@
 <br>
-<div class="w3-container w3-border w3-card w3-white w3-animate-right" [hidden]="handHistoryToggle">
+<div class="w3-container w3-border w3-card w3-white w3-animate-right" [hidden]="handHistoryToggle" style="height: 100%;">
 
   <!-- table title -->
     <p class="tableTitle">game log</p>
     <hr class="tableTitleHr">
 
-    <br>
   <!-- table title end -->
 
   <!-- date and time filter -->
 
     <!-- screen name, radio btn, and search -->
     <div class="w3-row">
-      
+    
       <div class="w3-right w3-mobile" style="margin: 5px" style="margin: 5px">
         <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;  margin-right: 11px">search</button>
       </div>
@@ -33,9 +32,9 @@
   <!-- date and time filter -->
     
   <!-- table -->
-    <div class="w3-responsive w3-container">
-        <table class="w3-table w3-striped w3-centered w3-border">
-            <thead>
+    <div class="w3-responsive w3-container" style="height:700px">
+        <table class="w3-table w3-striped w3-centered w3-border" >
+            <thead style="table-layout: fixed;">
               <tr class="w3-text-white" style="background-color: #4ca5df;">
                 <th>No.</th>
                 <th>screen name</th>
@@ -45,7 +44,7 @@
                 <th>before amount</th>
                 <th>won amount</th>
                 <th>after amount</th>
-                <th class="w3-center">hand history</th>
+                <th class="w3-center" style="width:22px">hand history</th>
                 <th>status</th>
               </tr>
             </thead>
@@ -56,9 +55,9 @@
                 </div>
               </div> -->
               <tr *ngFor="let gl of gameLogList">
-                <td>{{gl.HandHistoryID}}</td>
-                <td>{{gl.UserAccountID}}</td>
-                <td>{{gl.GameStartedDateTime}}</td>
+                <td>{{gl.row_number}}</td>
+                <td>{{gl.ScreenName}}</td>
+                <td>{{gl.DateTime}}</td>
                 <td>{{gl.GameType}}</td>
                 <td>{{gl.Rank}}</td>
                 <td>{{gl.BeforePoints}}</td>
@@ -67,7 +66,7 @@
                 <td>{{gl.AfterPoints}}</td>
                 <td>
                   <div style="margin: 3px">
-                    <button class="w3-block w3-btn w3-round w3-text-white" (click)="getHandHistory(gl.SeasonID)" style="background-color: #d9544f;">details</button>
+                    <button class="w3-block w3-btn w3-round w3-text-white" (click)="getHandHistory(gl.SeasonID)" style="background-color: #d9544f; margin:0">details</button>
                   </div>
                 </td>
                 <td></td>
@@ -92,6 +91,7 @@
                 <tr [hidden]="!backLoading">
                   <td colspan="10">
                     <fa name="spinner" animation="spin" size="lg"></fa>
+                    
                   </td>
                 </tr>
 
@@ -106,12 +106,28 @@
     <div class="w3-row-padding">
       <!-- number of entries -->
       <div class="w3-third">
-          <i>Showing 1 to 20 of 20 entries</i>
+        <i>Showing 1 to 20 of 20 entries</i>
       </div>
       <!-- pagination -->
       <div class="w3-third">
           <div class="w3-row w3-center" [hidden]="hidePagination">
-              <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+  
+              <button (click)="first()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-double-left" size="lg"></fa>&nbsp;first
+              </button>
+              <button (click)="previous()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-left"  size="lg"></fa>
+              </button>
+  
+              <button type="button" *ngFor="let n of pages | slice : currentPage : currentPage + 5;" [ngClass]=" {'w3-light-blue' : n == currentPaginationButton}" (click)="paginate(n); " class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+  
+              <button type="button" (click)="next()" class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage && pages.length > 5">
+               <fa name="angle-right"  size="lg"></fa>
+              </button>
+              <button (click)="last()" class="w3-button w3-round w3-text-white w3-animate-right"   style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage  && pages.length > 8" >
+                  last&nbsp;<fa name="angle-double-right" size="lg"></fa>
+              </button >
+  
           </div>
       </div>
       <!-- intended to leave it empty -->

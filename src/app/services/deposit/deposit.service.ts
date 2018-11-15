@@ -15,9 +15,16 @@ export class DepositService {
 
   constructor(private http:Http) { }
 
-  update(UserTransactionID:string, type:number){
+  approve(UserTransactionID:string, UserAccountID:string){
+    return this.http.get(environment.apiUrl + '/Api/v1/DepositHistory/Approved/UserTransactionID/'+UserTransactionID+'/UserAccountID/'+UserAccountID)
+    .pipe(
+      map( res => res.json() )
+    )
+  }
+
+  archived(UserTransactionID:string){
     try{
-      return this.http.get(environment.apiUrl + '/Api/v1/DepositHistory/'+this.updateType[type]+'/UserTransactionID/' + UserTransactionID)
+      return this.http.get(environment.apiUrl + '/Api/v1/DepositHistory/Archived/UserTransactionID/' + UserTransactionID)
       .pipe(
         map( res => res.json() ),
         catchError((error) => { console.error('error loading lists',error) 

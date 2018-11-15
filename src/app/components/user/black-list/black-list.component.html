@@ -59,19 +59,19 @@
                 <td>{{b.ShopID}}</td>
                 <td>{{b.UserAccountID}}</td>
                 <td>{{b.ScreenName}}</td>
-                <td>{{b.RegisteredDateTime}}</td>
-                <td>{{b.ReleaseDate}}</td>
+                <td>{{b.RegisteredDateTime | date : "short"}}</td>
+                <td>{{b.ReleaseDate | date : "short"}}</td>
                 <td>{{b.Reason}}</td>
                 
                 <td>
                   <div style="margin: 3px">
-                    <a class="w3-text-red">black list</a>
+                    <a class="w3-text-red">{{b.Status}}</a>
                   </div>
-                  <div style="margin: 3px">
-                      <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #337bb6;">release</button>
+                  <div *ngIf="b.Status == 'Blocked' " style="margin: 3px">
+                      <button type="button" class="w3-block w3-btn w3-round w3-text-white"  (click)="releaseUser(b.BlackListID, b.UserAccountID)" style="background-color: #337bb6;">release</button>
                   </div>
-                  <div style="margin: 3px">
-                      <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #26ba9a;">register</button>
+                  <div *ngIf="b.Status == 'Released' " style="margin: 3px">
+                      <button type="button" class="w3-block w3-btn w3-round w3-text-white" (click)="ID = b.UserAccountID; screenName = b.ScreenName " style="background-color: #26ba9a;">register</button>
                     </div>
                 </td>
               </tr>
@@ -115,9 +115,25 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button *ngFor="let b of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin: 4px">{{b}}</button>
-          </div>
+        <div class="w3-row w3-center" [hidden]="hidePagination">
+  
+          <button (click)="first()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+            <fa name="angle-double-left" size="lg"></fa>&nbsp;first
+          </button>
+          <button (click)="previous()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+            <fa name="angle-left"  size="lg"></fa>
+          </button>
+
+          <button type="button" *ngFor="let n of pages | slice : currentPage : currentPage + 5;" [ngClass]=" {'w3-light-blue' : n == currentPaginationButton}" (click)="paginate(n); " class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+
+          <button type="button" (click)="next()" class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage && pages.length > 5">
+           <fa name="angle-right"  size="lg"></fa>
+          </button>
+          <button (click)="last()" class="w3-button w3-round w3-text-white w3-animate-right"   style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage  && pages.length > 8" >
+              last&nbsp;<fa name="angle-double-right" size="lg"></fa>
+          </button >
+
+        </div>
       </div>
       <!-- intended to leave it empty -->
       <div class="w3-third">
@@ -135,10 +151,12 @@
         <div class="w3-center">
           <div style="margin-left: 10%; margin-right: 10%">
             <label for="#ID" style="margin:3px">ID</label>
-            <input type="text" id="ID">
-            <label for="#screenName" style="margin:3px">screen name:</label>
-            <input type="text" id="screenName">
-            <button class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px">user inquire</button>
+            <input type="text" id="ID" [(ngModel)]="ID" >
+            <label style="margin:3px">screen name:</label>
+            <input type="text" [(ngModel)]="screenName" >
+            <button type="button" (click)="userInquire(ID, screenName)" class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px">
+              user inquire
+            </button>
           </div>
         </div>
         
@@ -147,30 +165,36 @@
       <hr class="tableTitleHr">
       <br>
 
-      <!-- reason -->
-      <div class="w3-container" style="margin-left:20%; margin-right: 20%">
-        <div class="w3-col" style="width:5%;">
-          <p>&nbsp;</p>
-          <p>reason</p>
-          <p>&nbsp;</p>
+      
+      <!-- <form (submit)="blacklistUser($event)" name="blackListForm"> -->
+    
+        <!-- <input type="hidden" value="{{ID}}" id="blacklistID"> -->
+        <!-- reason -->
+        <div class="w3-container" style="margin-left:20%; margin-right: 20%">
+          <div class="w3-col" style="width:5%;">
+            <p>&nbsp;</p>
+            <p>reason</p>
+            <p>&nbsp;</p>
+          </div>
+          <div class="w3-col" style="width:95%">
+            <textarea rows="6" cols="145" style="resize: vertical" [(ngModel)]="reason" ></textarea>
+          </div>
         </div>
-        <div class="w3-col" style="width:95%">
-          <textarea rows="6" cols="145" style="resize: vertical" id="reason">content text</textarea>
+        <hr class="tableTitleHr">
+        <br>
+        <!-- reason end -->
+  
+        <!-- buttons start -->
+        <div class="w3-container" style="margin-left:20%; margin-right: 20%">
+          <div class="w3-center">
+            <input type="button" (click)="blacklistUser(ID, reason)"  class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px" value="register">
+            <!-- <button class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px">register</button> -->
+            <button type="button" class="w3-button w3-text-white w3-round" (click)=" screenName = ''; ID = ''; " style=" background-color: #347ab8; margin:2px">back</button>
+          </div>
         </div>
-      </div>
-      <hr class="tableTitleHr">
-      <br>
-      <!-- reason end -->
-
-      <!-- buttons start -->
-      <div class="w3-container" style="margin-left:20%; margin-right: 20%">
-        <div class="w3-center">
-          <button class="w3-button w3-text-white w3-round" style=" background-color: #4ca5df; margin:2px">register</button>
-          <button class="w3-button w3-text-white w3-round" style=" background-color: #347ab8; margin:2px">back</button>
-        </div>
-      </div>
-      <br>
-      <!-- buttons end -->
+        <br>
+        <!-- buttons end -->
+     
 
     </div>
     <!-- search row end -->

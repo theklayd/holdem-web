@@ -1,15 +1,47 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { map } from "rxjs/operators";
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserAuthService {
 
-  constructor() { }
+  constructor(private http:Http) { }
 
-  private authenticated:boolean = true
+  private authenticated:boolean = false
   
   get isAuthenticated(){
+   
+    // if(localStorage.getItem(environment.tokenStorageKey)){
+    //   this.router.navigate(['/admin'])
+    // }
     return this.authenticated
+  }
+
+  setLoggedIn(value:boolean){
+    this.authenticated = value
+  }
+
+  storeToken(token:string){
+    localStorage.setItem(environment.tokenStorageKey, token)
+    this.authenticated = true
+  }
+
+
+  login(UserName, Password){
+    //post these details to API return token if correct credentials
+    console.log('sent')
+    return this.http.post(environment.apiUrl+'/Api/v1/Admin/Login/',{
+      UserName,
+      Password
+    })      
+    .pipe(
+      map(res => {
+        console.log(res)
+        return res.json()
+      })
+    )
   }
 }

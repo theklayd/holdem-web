@@ -1,14 +1,23 @@
-import { Injectable, HostListener } from '@angular/core';
-import { Http } from '@angular/http';
-import { map, catchError } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Http, Headers } from '@angular/http';
+import { map } from "rxjs/operators";
 import { environment } from '../../../environments/environment.prod';
-import { of } from 'rxjs';
+// import { environment } from '../../../environments/environment'
+import { Router } from '@angular/router';
+import { UserAuthService } from '../../services/UserAuth/user-auth.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-  constructor(private http:Http) { }
+
+  constructor(private http:Http, private router:Router, private userAuthSrvc:UserAuthService) { }
+  httpOptions = {
+    headers: new Headers({
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${localStorage.getItem(environment.tokenStorageKey)}`
+    })
+  }
 
   //user active/inactive variables
   private userIsActive:boolean = true
@@ -16,7 +25,7 @@ export class CommonService {
   //http request variables
   page:string[] = [
     'DepositList',//0
-    'BlackList',//1
+    'BlackList',//1 ok
     'GameLogList',//2
     'IPList',//3
     'OneOnOne',//4
@@ -24,17 +33,27 @@ export class CommonService {
     'WithdrawHistoryList'//6
   ]
 
-  setUserActive(value:boolean){
-    this.userIsActive = value
-  }
 
-  get userActive(){
-    return this.userIsActive
+  logout(){
+    localStorage.clear()
+    this.userAuthSrvc.setLoggedIn(false)
+    this.router.navigate(['/login'])
   }
+  
+  //for http request every time, if user is not active userIsActive = false
+    setUserActive(value:boolean){
+      this.userIsActive = value
+    }
+
+    get userActive(){
+      return this.userIsActive
+    }
+
 
   getList(pageIndex:number, offset:number){
+
     try{
-      return this.http.get(environment.apiUrl + '/Api/v1/'+this.page[pageIndex]+'/Limit/'+environment.resultLimit+'/Offset/'+offset+'/')
+      return this.http.get(environment.apiUrl + '/Api/v1/'+this.page[pageIndex]+'/Limit/'+environment.resultLimit+'/Offset/'+offset+'/', this.httpOptions)
       .pipe(
         map( res => res.json() )
       )
@@ -43,19 +62,22 @@ export class CommonService {
     }
   }
 
-  getPageCount(){
-    return this.http.get(environment.apiUrl + '/Api/v1/Pagination')
+  getPageCount(pageIndex:number){
+    console.log('page count request...')
+
+    return this.http.get(environment.apiUrl + '/Api/v1/Pagination/'+pageIndex, this.httpOptions)
     .pipe(
       map(res => res.json())
     )
   }
 
   searchList(pageIndex:number,column:string, value:string){
-    return this.http.get(environment.apiUrl + '/Api/v1/'+this.page[pageIndex]+'/Search/Column/'+column+'/Value/'+value)
+    return this.http.get(environment.apiUrl + '/Api/v1/'+this.page[pageIndex]+'/Search/Column/'+column+'/Value/'+value, this.httpOptions)
     .pipe(
       map(res => res.json())
     )
   }
+
 
 
 }

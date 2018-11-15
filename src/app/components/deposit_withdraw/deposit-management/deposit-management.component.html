@@ -90,7 +90,6 @@
                   <option value="29 " >29</option>
                   <option value="30 " >30</option>
                   <option value="31 " >31</option>
-
               </select>
             </div>
           <!-- day end -->
@@ -329,8 +328,8 @@
                     {{dh.UserAccountID}}
                   </div>
                 </div> -->
-                <tr *ngFor="let d of depositList">
-                  
+                <tr *ngFor="let d of depositList; let i = index">
+                  <!-- <td>{{i}}</td> -->
                   <td>{{d.ID}}</td>
                   <td>{{d.HeadOfficeID}}</td>
                   <td>{{d.DistributorID}}</td>
@@ -343,19 +342,22 @@
                   <td>{{d.TransactionStatus}}</td>
                   
                   <td>
-                    <div style="margin: 3px">
-                      <button class="w3-block w3-btn w3-round w3-text-white" (click)="updateDeposit(d.UserTransactionID, 0)" style="background-color: #efad4d;">approval</button>
-                    </div>
-                    <div style="margin: 3px">
-                      <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">cancel</button>
-                    </div>
-                    <div style="margin: 3px">
-                      <button class="w3-block w3-btn w3-round w3-text-white" (click)="updateDeposit(d.UserTransactionID, 1)" style="background-color: #d9544f;">delete</button>
+                    <fa *ngIf="i + 1 == currentManageButton && !hideManageButton" name="spinner" animation="spin" size="lg"></fa>
+                    <div >
+                      <div style="margin: 3px">
+                        <button [disabled]="!hideManageButton" *ngIf="d.TransactionStatus == 'pending' " class="w3-block w3-btn w3-round w3-text-white" (click)="approveDeposit(d.UserTransactionID, d.UserAccountID); currentManageButton = i + 1" style="background-color: #efad4d;">approval</button>
+                      </div>
+                      <div style="margin: 3px">
+                        <button [disabled]="!hideManageButton" class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">cancel</button>
+                      </div>
+                      <div style="margin: 3px">
+                        <button [disabled]="!hideManageButton" class="w3-block w3-btn w3-round w3-text-white" (click)="updateDeposit(d.UserTransactionID); currentManageButton = i + 1" style="background-color: #d9544f;">delete</button>
+                      </div>
                     </div>
                   </td>
 
-                  <td>{{d.RequestedDateTime}}</td>
-                  <td>{{d.ApprovedDateTime}}</td>
+                  <td>{{d.RequestedDateTime | date : "short"}}</td>
+                  <td>{{d.ApprovedDateTime | date : "short"}}</td>
 
                 </tr>
 
@@ -394,11 +396,27 @@
         <div class="w3-third">
             <i>Showing 1 to 20 of 20 entries</i>
         </div>
-        <!-- pagination -->
-        <div class="w3-third">
-            <div class="w3-row w3-center" [hidden]="hidePagination">
-                <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
-            </div>
+      <!-- pagination -->
+      <div class="w3-third">
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+  
+              <button (click)="first()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-double-left" size="lg"></fa>&nbsp;first
+              </button>
+              <button (click)="previous()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-left"  size="lg"></fa>
+              </button>
+  
+              <button type="button" *ngFor="let n of pages | slice : currentPage : currentPage + 5;" [ngClass]=" {'w3-light-blue' : n == currentPaginationButton}" (click)="paginate(n); " class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+  
+              <button type="button" (click)="next()" class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage && pages.length > 5">
+               <fa name="angle-right"  size="lg"></fa>
+              </button>
+              <button (click)="last()" class="w3-button w3-round w3-text-white w3-animate-right"   style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage  && pages.length > 8" >
+                  last&nbsp;<fa name="angle-double-right" size="lg"></fa>
+              </button >
+  
+          </div>
         </div>
         <!-- intended to leave it empty -->
         <div class="w3-third">

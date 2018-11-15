@@ -54,7 +54,7 @@
     
   <!-- table -->
     <div class="w3-responsive w3-container">
-        <table class="w3-table w3-striped w3-centered w3-border">
+        <table class="w3-table w3-striped w3-centered w3-border w3-hoverable">
             <thead>
               <tr class="w3-text-white" style="background-color: #4ca5df;">
                 <th>No.</th>
@@ -69,9 +69,9 @@
                 <th>status</th>
                 <th>date of recent connection</th>
                 <th>registration date</th>
-                <th>black list</th>
+                <th style="width:18%">black list</th>
                 <th>contact no.</th>
-                <th>management</th>
+                <th style="width:18%">management</th>
               </tr>
             </thead>
             <tbody>
@@ -94,11 +94,11 @@
                 <td>{{m.LoginDateTime | date : 'short'}}</td>
                 <td>{{m.RegisteredDateTime | date : 'short'}}</td>
                 <td>
-                  <div class="w3-row">
-                    <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">승인</button>
-                    <button class="w3-btn w3-round w3-text-white" style="background-color: #25b999; margin: 4px;">취소</button>
-                    <button class="w3-btn w3-round w3-text-white" style="background-color: #d9544f; margin: 4px;">삭제</button>
-                  </div>
+                    <div class="w3-row">
+                        <button class="w3-btn w3-round w3-text-white" style="background-color: #efad4d; margin: 4px;">승인</button>
+                        <button class="w3-btn w3-round w3-text-white" style="background-color: #25b999; margin: 4px;">취소</button>
+                        <button class="w3-btn w3-round w3-text-white" style="background-color: #d9544f; margin: 4px;">삭제</button>
+                    </div>
                 </td>
                 <td>none</td>
                 <td>
@@ -125,7 +125,7 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-        <div class="w3-row w3-center" [hidden]="hidePagination">
+        <div class="w3-row w3-center">
             <button *ngFor="let n of pages" class="w3-button w3-round w3-text-white" style="background-color: #4ca5df; margin:2px">{{n}}</button>
         </div>
       </div>

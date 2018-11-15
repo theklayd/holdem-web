@@ -3,12 +3,13 @@
   import { NgModule, enableProdMode } from '@angular/core';
   import { AppComponent } from './app.component';
 
-
+  
 //modules
+  import { FormsModule } from '@angular/forms';
   import { AngularFontAwesomeModule } from 'angular-font-awesome';
   import {RouterModule, Routes, Router} from '@angular/router'
   import { HttpModule } from '@angular/http';
-  import {NgxPaginationModule} from 'ngx-pagination';
+  import { ChartsModule } from 'ng2-charts';
 
 //components
   //sales
@@ -42,7 +43,8 @@
   //master page
   import { MasterPageComponent } from './components/master-page/master-page.component';
 //custom directives  
-  import { NumberOnlyDirective } from './directives/number-only.directive';
+  import { TranslateDirective } from './directives/translate.directive';
+
 //services
   import {CommonService} from '../app/services/common/common.service';
   import {UserAuthGuard} from '../app/services/UserAuth/user-auth.guard';
@@ -108,19 +110,21 @@ enableProdMode();
     JackpotLogComponent,
     TransferLogComponent,
     AddUserComponent,
-    NumberOnlyDirective,
     DashboardComponent,
     PointLogComponent,
     LoginComponent,
-    MasterPageComponent
+    MasterPageComponent,
+    TranslateDirective
   ],
   imports: [
-    NgxPaginationModule,
+    FormsModule,
+    ChartsModule,
     BrowserModule,
     AngularFontAwesomeModule,
     HttpModule,
     RouterModule.forRoot(routes)
   ],
+  // exports:[RouterModule],
   providers: [
     CommonService,
     UserAuthGuard

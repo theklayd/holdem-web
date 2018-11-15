@@ -61,11 +61,11 @@ getIPList(offset:number){
 }
 
 getPageCount(){
-  this.commonSrvc.getPageCount()
+  this.commonSrvc.getPageCount(this.pageIndex)
   .subscribe(
     (result) => {
       //p = pages
-      var p = Math.ceil(result[0]['MemberListCount'] / 20)
+      var p = Math.ceil(result[0]['ID'] / 20)
 
       //set number and value of pages
       var i:number
