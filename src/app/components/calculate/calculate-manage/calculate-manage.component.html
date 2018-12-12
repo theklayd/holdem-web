@@ -1,6 +1,6 @@
 <br>
 <div class="w3-container w3-border w3-card w3-white">
-
+  <app-head-office *ngIf="sample"></app-head-office>
   <!-- table title -->
     <p class="tableTitle">calculate management</p>
     <hr class="tableTitleHr">
@@ -8,223 +8,268 @@
     <br>
   <!-- table title end -->
 
-    <!-- dropdowns -->
+  <!-- search form -->
+  <form (submit)="searchList($event)">
+    <!-- from to date dropdowns -->  
     <div class="w3-row">
-      <div class="w3-right w3-mobile" style="margin: 5px">
-          <button class="w3-mobile w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px;">search</button>
-      </div>
-      <!-- from to date dropdowns -->
-        <!-- to -->
-
-          <!-- time text -->
+      <!-- button -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+          <input type="submit" class="w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;  margin-right: 11px" value="search">
+        </div>
+      <!-- button end -->
+      <!-- to -->
+        <!-- time text -->
+        <div class="w3-right w3-mobile" style="margin-right:20px">
+            <p>시</p>
+        </div>
+        <!-- time text end -->
+      
+        <!-- time start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>시</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="timeEnd">
+                <option value="01:00:00" selected>1</option>
+                <option value="02:00:00" >2</option>
+                <option value="03:00:00" >3</option>
+                <option value="04:00:00" >4</option>
+                <option value="05:00:00" >5</option>
+                <option value="06:00:00" >6</option>
+                <option value="07:00:00" >7</option>
+                <option value="08:00:00" >8</option>
+                <option value="09:00:00" >9</option>
+                <option value="10:00:00" >10</option>
+                <option value="11:00:00" >11</option>
+                <option value="12:00:00" >12</option>
+                <option value="13:00:00" >13</option>
+                <option value="14:00:00" >14</option>
+                <option value="15:00:00" >15</option>
+                <option value="16:00:00" >16</option>
+                <option value="17:00:00" >17</option>
+                <option value="18:00:00" >18</option>
+                <option value="19:00:00" >19</option>
+                <option value="20:00:00" >20</option>
+                <option value="21:00:00" >21</option>
+                <option value="22:00:00" >22</option>
+                <option value="23:00:00" >23</option>
+                <option value="00:00:00" >24</option>
+            </select>
           </div>
-          <!-- time text end -->
-          <!-- time start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>1</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- time end -->
+        <!-- time end -->
 
-          <!-- day text -->
+        <!-- day text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>일</p>
+        </div>
+        <!-- day text end -->
+
+        <!-- day start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>일</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="dayEnd">
+                <option value="01 " selected>1</option>
+                <option value="02 " >2</option>
+                <option value="03 " >3</option>
+                <option value="04 " >4</option>
+                <option value="05 " >5</option>
+                <option value="06 " >6</option>
+                <option value="07 " >7</option>
+                <option value="08 " >8</option>
+                <option value="09 " >9</option>
+                <option value="10 " >10</option>
+                <option value="11 " >11</option>
+                <option value="12 " >12</option>
+                <option value="13 " >13</option>
+                <option value="14 " >14</option>
+                <option value="15 " >15</option>
+                <option value="16 " >16</option>
+                <option value="17 " >17</option>
+                <option value="18 " >18</option>
+                <option value="19 " >19</option>
+                <option value="20 " >20</option>
+                <option value="21 " >21</option>
+                <option value="22 " >22</option>
+                <option value="23 " >23</option>
+                <option value="24 " >24</option>
+                <option value="25 " >25</option>
+                <option value="26 " >26</option>
+                <option value="27 " >27</option>
+                <option value="28 " >28</option>
+                <option value="29 " >29</option>
+                <option value="30 " >30</option>
+                <option value="31 " >31</option>
+            </select>
           </div>
-          <!-- day text end -->
+        <!-- day end -->
 
-          <!-- day start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>1</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- day end -->
+        <!-- month text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>월</p>
+        </div>
+        <!-- month text end -->
 
-          <!-- month text -->
+        <!-- month start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>월</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="monthEnd">
+                <option value="01-" selected>1</option>
+                <option value="02-">2</option>
+                <option value="03-">3</option>
+                <option value="04-">4</option>
+                <option value="05-">5</option>
+                <option value="06-">6</option>
+                <option value="07-">7</option>
+                <option value="08-">8</option>
+                <option value="09-">9</option>
+                <option value="10-">10</option>
+                <option value="11-">11</option>
+                <option value="12-">12</option>
+
+            </select>
           </div>
-          <!-- month text end -->
+        <!-- month end -->
 
-          <!-- month start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>1</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- month end -->
+        <!-- year text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>년</p>
+        </div>
+        <!-- year text end -->
 
-          <!-- year text -->
+        <!-- year start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>년</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="yearEnd">
+                <option value="2018-" selected>2018</option>
+            </select>
           </div>
-          <!-- year text end -->
+        <!-- year end -->
 
-          <!-- year start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>2018</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- year end -->
+      <!-- to end -->
+      
+      <!-- from -->
 
-        <!-- to end -->
-        
-        <!-- from -->
-
-          <!-- time text -->
+        <!-- time text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>시~</p>
+        </div>
+        <!-- time text end -->
+        <!-- time start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>시~</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="timeStart">
+                <option value="01:00:00" selected>1</option>
+                <option value="02:00:00" >2</option>
+                <option value="03:00:00" >3</option>
+                <option value="04:00:00" >4</option>
+                <option value="05:00:00" >5</option>
+                <option value="06:00:00" >6</option>
+                <option value="07:00:00" >7</option>
+                <option value="08:00:00" >8</option>
+                <option value="09:00:00" >9</option>
+                <option value="10:00:00" >10</option>
+                <option value="11:00:00" >11</option>
+                <option value="12:00:00" >12</option>
+                <option value="13:00:00" >13</option>
+                <option value="14:00:00" >14</option>
+                <option value="15:00:00" >15</option>
+                <option value="16:00:00" >16</option>
+                <option value="17:00:00" >17</option>
+                <option value="18:00:00" >18</option>
+                <option value="19:00:00" >19</option>
+                <option value="20:00:00" >20</option>
+                <option value="21:00:00" >21</option>
+                <option value="22:00:00" >22</option>
+                <option value="23:00:00" >23</option>
+                <option value="23:59:59" >24</option>
+            </select>
           </div>
-          <!-- time text end -->
-          <!-- time start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>1</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- time end -->
+        <!-- time end -->
 
-          <!-- day text -->
+        <!-- day text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>일</p>
+        </div>
+        <!-- day text end -->
+
+        <!-- day start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>일</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="dayStart">
+                <option value="01 " selected>1</option>
+                <option value="02 " >2</option>
+                <option value="03 " >3</option>
+                <option value="04 " >4</option>
+                <option value="05 " >5</option>
+                <option value="06 " >6</option>
+                <option value="07 " >7</option>
+                <option value="08 " >8</option>
+                <option value="09 " >9</option>
+                <option value="10 " >10</option>
+                <option value="11 " >11</option>
+                <option value="12 " >12</option>
+                <option value="13 " >13</option>
+                <option value="14 " >14</option>
+                <option value="15 " >15</option>
+                <option value="16 " >16</option>
+                <option value="17 " >17</option>
+                <option value="18 " >18</option>
+                <option value="19 " >19</option>
+                <option value="20 " >20</option>
+                <option value="21 " >21</option>
+                <option value="22 " >22</option>
+                <option value="23 " >23</option>
+                <option value="24 " >24</option>
+                <option value="25 " >25</option>
+                <option value="26 " >26</option>
+                <option value="27 " >27</option>
+                <option value="28 " >28</option>
+                <option value="29 " >29</option>
+                <option value="30 " >30</option>
+                <option value="31 " >31</option>
+
+            </select>
           </div>
-          <!-- day text end -->
+        <!-- day end -->
 
-          <!-- day start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>1</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- day end -->
+        <!-- month text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>월</p>
+        </div>
+        <!-- month text end -->
 
-          <!-- month text -->
+        <!-- month start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>월</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="monthStart">
+                <option value="01-" selected>1</option>
+                <option value="02-">2</option>
+                <option value="03-">3</option>
+                <option value="04-">4</option>
+                <option value="05-">5</option>
+                <option value="06-">6</option>
+                <option value="07-">7</option>
+                <option value="08-">8</option>
+                <option value="09-">9</option>
+                <option value="10-">10</option>
+                <option value="11-">11</option>
+                <option value="12-">12</option>
+
+            </select>
           </div>
-          <!-- month text end -->
+        <!-- month end -->
 
-          <!-- month start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>1</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- month end -->
+        <!-- year text -->
+        <div class="w3-right w3-mobile" style="margin: 5px">
+            <p>년</p>
+        </div>
+        <!-- year text end -->
 
-          <!-- year text -->
+        <!-- year start -->
           <div class="w3-right w3-mobile" style="margin: 5px">
-              <p>년</p>
+            <select class="w3-select" name="option" style="height: 37px;" id="yearStart">
+                <option value="2018-" selected>2018</option>
+            </select>
           </div>
-          <!-- year text end -->
-
-          <!-- year start -->
-            <div class="w3-right w3-mobile" style="margin: 5px">
-              <select class="w3-select" name="option" style="height: 37px;">
-                  <option value="" selected>2018</option>
-                  <option value="1"> 2</option>
-                  <option value="2"> 3</option>
-                  <option value="3"> 4</option>
-                  <option value="3"> 5</option>
-                  <option value="3"> 6</option>
-                  <option value="3"> 7</option>
-                  <option value="3"> 8</option>
-                  <option value="3"> 9</option>
-                  <option value="3"> 10</option>
-                  <option value="3"> 11</option>
-                  <option value="3"> 12</option>
-              </select>
-            </div>
-          <!-- year end -->
-
-        <!-- from end -->
-
-     <!-- from to date dropdowns end --> 
+        <!-- year end -->
+      <!-- from end -->
     </div>
-    <!-- dropdowns end -->
+    <!-- from to date dropdowns end --> 
+  </form>
+  <!-- search form end -->
 
-  <!-- table -->
+  <!-- table head offices -->
     <div class="w3-responsive w3-container">
         <table class="w3-table w3-striped w3-centered w3-border">
             <thead>
@@ -251,25 +296,24 @@
                   {{dh.UserAccountID}}
                 </div>
               </div> -->
-              <tr>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
+              <tr *ngFor="let lr of lowRank;">
+                <td>{{lr.row_number}}</td>
+                <td>{{lr.HOID}}</td>
+                <td><strong class="w3-text-blue">{{lr.Commission}}%</strong></td>
+                <td>{{lr.deposit | number}}</td>
+                <td>{{lr.depositTransfer | number}}</td>
+                <td>{{lr.withdraw | number}}</td>
+                <td>{{lr.withdrawTransfer | number}}</td>
+                <td>{{lr.bettingAmount | number}}</td>
+                <td>{{lr.rake | number}}</td>
+                <td>{{lr.userHoldingMoney | number}}</td>
+                <td>{{lr.ohoProfit | number}}&nbsp;(<strong class="w3-text-blue">{{lr.ohoPercent}}%</strong>)</td>
+                <td>{{lr.hoMoney | number}}</td>
+                <td>{{lr.distributorsMoney | number}}</td>
                 <td>
                   <div style="margin: 3px">
                     <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">low rank</button>
                   </div>
-
                 </td>
               </tr>
               
@@ -279,7 +323,97 @@
           <br>
 
     </div>
-  <!-- table end -->
+  <!-- table head offices end -->
+  <!-- table distributors-->
+  <div class="w3-responsive w3-container">
+      <table class="w3-table w3-striped w3-centered w3-border">
+          <thead>
+            <tr class="w3-text-white" style="background-color: #4ca5df;">
+              <th>No.</th>
+              <th>Distributor ID</th>
+              <th>commission</th>
+              <th>deposit</th>
+              <th>deposit(transfer)</th>
+              <th>withdraw</th>
+              <th>withdraw(transfer)</th>
+              <th>betting amount</th>
+              <th>rake</th>
+              <th>user holding money</th>
+              <th>jack pot amount</th>
+              <th>head office profit</th>
+              <th>low rank profit</th>
+              <th>low rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of lowRank2;">
+              <td>{{d.row_number}}</td>
+              <td>{{d.dID}}</td>
+              <td>{{d.Commission | number}}%</td>
+              <td>{{d.deposit | number}}</td>
+              <td>{{d.depositTransfer | number}}</td>
+              <td>{{d.withdraw | number}}</td>
+              <td>{{d.withdrawTransfer | number}}</td>
+              <td>{{d.bettingAmount | number}}</td>
+              <td>{{d.rake | number}}</td>
+              <td>{{d.userHoldingMoney | number}}</td>
+              <td></td>
+              <td>{{d.hoProfit | number}}</td>
+              <td>{{d.storesProfit | number}}</td>
+              <td>
+                <div style="margin: 3px">
+                  <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #efad4d;">low rank</button>
+                </div>
+              </td>
+            </tr>
+            
+          </tbody>
+          
+        </table>
+        <br>
+
+  </div>
+  <!-- table distributors end -->
+  <!-- table shops -->
+  <div class="w3-responsive w3-container">
+      <table class="w3-table w3-striped w3-centered w3-border">
+          <thead>
+            <tr class="w3-text-white" style="background-color: #4ca5df;">
+              <th>No.</th>
+              <th>store ID</th>
+              <th>deposit</th>
+              <th>deposit(transfer)</th>
+              <th>withdraw</th>
+              <th>withdraw(transfer)</th>
+              <th>betting amount</th>
+              <th>rake</th>
+              <th>user holding money</th>
+              <th>jackpot amount</th>
+              <th>store profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of lowRank3">
+              <td>{{s.row_number}}</td>
+              <td>{{s.sID}}</td>
+              <td>{{s.deposit | number}}</td>
+              <td>{{s.depositTransfer | number}}</td>
+              <td>{{s.withdraw | number}}</td>
+              <td>{{s.withdrawTransfer | number}}</td>
+              <td>{{s.bettingAmount | number}}</td>
+              <td>{{s.rake | number}}</td>
+              <td>{{s.userHoldingMoney | number}}</td>
+              <td></td>
+              <td>{{s.dProfit | number}}</td>
+            </tr>
+            
+          </tbody>
+          
+        </table>
+        <br>
+
+  </div>
+  <!-- table shops end -->
     <!-- bottom of table pagination and number of entries -->
     <div class="w3-row-padding">
       <!-- number of entries -->
@@ -289,7 +423,7 @@
       <!-- pagination -->
       <div class="w3-third">
           <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
+              <button class="w3-button w3-round w3-text-white" (click)="getPrivileges()" style="background-color: #4ca5df">1</button>
               <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
               <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
               <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>

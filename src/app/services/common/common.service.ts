@@ -20,17 +20,18 @@ export class CommonService {
   }
 
   //user active/inactive variables
-  private userIsActive:boolean = true
+    private userIsActive:boolean = true
 
   //http request variables
   page:string[] = [
     'DepositList',//0
-    'BlackList',//1 ok
+    'BlackList',//1
     'GameLogList',//2
     'IPList',//3
     'OneOnOne',//4
     'MembersList',//5
-    'WithdrawHistoryList'//6
+    'WithdrawHistoryList',//6
+    'UserProfit'//7
   ]
 
 
@@ -78,6 +79,11 @@ export class CommonService {
     )
   }
 
-
+  checkIfUserNameExist(username:string){
+    return this.http.get(environment.apiUrl + '/Api/v1/UserNameCheck/'+username)
+    .pipe(
+      map( res => res.json() )
+    )
+  }
 
 }

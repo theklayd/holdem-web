@@ -3,6 +3,7 @@ import { CommonService } from '../../../services/common/common.service'
 import { environment } from '../../../../environments/environment.prod';
 import { interval, Subscription } from 'rxjs';
 import { DepositService } from '../../../services/deposit/deposit.service'
+
 interface depositModel{
   ID:number,
   HeadOfficeID:string,
@@ -26,6 +27,8 @@ interface depositModel{
 })
 export class DepositManagementComponent implements OnInit {
   constructor(private commonSrvc:CommonService, private depositSrvc:DepositService) { }
+  // websocket variables
+  private ws = new WebSocket('ws://localhost:8080/?UserAccountID=cdf61833-66e1-4a92-a46c-0782ed77c203')
 
   //service variables
   pageIndex:number = 0
@@ -75,6 +78,21 @@ export class DepositManagementComponent implements OnInit {
     }
 
   //lifecycle hooks end
+
+  AcceptDepositWebSocket(receiver,amount,depositID){
+    if("WebSocket" in window){
+      var MessageReceiver = "622875a1-fd51-48a4-a700-c384ba5a382d";
+      var Amount ="";//for pop up message in game only
+      var DepositUUID ="c8dafb54-6ecb-4189-b725-19f783acf88f";
+      var DepositNotice = "Deposit Approved Amount "+Amount;
+      var message = "{\"Type\":\"NotifyPlayerDeposit\",\"MessageReceiver\" :\"" + MessageReceiver +
+          "\",\"DepositNotice\":\"" + DepositNotice + "\",\"DepositUUID\":\"" + DepositUUID + "\"}";
+      this.ws.send(message)
+    }else{
+      
+    }
+  }
+
 
   //activate/deactivate
     activateGetListAndPageCount(){
@@ -291,6 +309,7 @@ export class DepositManagementComponent implements OnInit {
           console.log(result)
 
           if(result.toString() == 'true'){
+            // this.AcceptDepositWebSocket()
             alert('approved successfully')
           }
 

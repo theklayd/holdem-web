@@ -1,8 +1,15 @@
+<div *ngIf="!enableAllUI" class="w3-overlay" style="display: flex; cursor: wait; align-items: center; justify-content: center; ">
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</div>
+
 <br>
+
 <div class="w3-container w3-border w3-card w3-white">
 
   <!-- table title -->
-    <p class="tableTitle">head office list</p>
+    <p class="tableTitle" *ngIf="pageIndex == 2">head office list</p>
+    <p class="tableTitle" *ngIf="pageIndex == 1">distributor list</p>
+    <p class="tableTitle" *ngIf="pageIndex == 0">shop list</p>
     <hr class="tableTitleHr">
 
     <br>
@@ -12,7 +19,9 @@
 
     <!-- screen name, radio btn, and search -->
     <div class="w3-row">
-      
+      <div class="w3-left">
+        <button *ngIf="maxUpstep != pageIndex" class="w3-btn w3-round w3-text-gray w3-animate-right" (click)="uprank()"  style="background-color: #7dd2ec;  margin-left: 15px"><fa name="arrow-left" size="lg"></fa></button>
+      </div>
       <div class="w3-right w3-mobile" style="margin: 5px" style="margin: 5px">
         <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec;  margin-right: 11px">search</button>
       </div>
@@ -38,9 +47,14 @@
             <thead>
               <tr class="w3-text-white" style="background-color: #4ca5df;">
                 <th>No.</th>
-                <th>HO ID</th>
-                <th>HO PW</th>
-                <th>name of HO</th>
+                <th>
+                  <span *ngIf="pageIndex == 2">HO</span> 
+                  <span *ngIf="pageIndex == 1">Distributor</span> 
+                  <span *ngIf="pageIndex == 0">store</span> 
+                  ID
+                </th>
+                <th>PW</th>
+                <th>name</th>
                 <th>registration date</th>
                 <th>contact no.</th>
                 <th>Commission</th>
@@ -48,38 +62,36 @@
                 <th>total holding money</th>
                 <th>members money</th>
                 <th>total money</th>
-                <th>distributor</th>
-                <th>store</th>
+                <th *ngIf="pageIndex == 2">distributor</th>
+                <th *ngIf="pageIndex > 0">store</th>
                 <th>members</th>
-                <th>distributor list</th>
+                <th *ngIf="pageIndex > 0">
+                    <span *ngIf="pageIndex == 2">distributor</span> 
+                    <span *ngIf="pageIndex == 1">store</span>&nbsp;list</th>
                 <th>status</th>
               </tr>
             </thead>
             <tbody>
-              <!-- <div *ngFor="let dh of deposit.DepositHistory">
-                <div>
-                  {{dh.UserAccountID}}
-                </div>
-              </div> -->
-              <tr>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
 
-                <td>
+              <tr *ngFor="let office of officeList">
+                <td>{{office.row_number}}</td>
+                <td>{{office.OfficeID}}</td>
+                <td>{{office.Password}}</td>
+                <td>{{office.Name}}</td>
+                <td>{{office.RegisteredDateTime | date : "shortDate"}}</td>
+                <td>{{office.PhoneNumber}}</td>
+                <td>{{office.Commission | number}}%</td>
+                <td>{{office.holdingMoney | number}}</td>
+                <td>{{office.TotalHoldingMoney | number}}</td>
+                <td>{{office.MembersMoney | number}}</td>
+                <td>{{office.TotalMoney | number}}</td>
+                <td *ngIf="pageIndex == 2">{{office.distributorsCount | number}}</td>
+                <td *ngIf="pageIndex > 0">{{office.shopsCount | number}}</td>
+                <td>{{office.playersCount | number}}</td>
+
+                <td *ngIf="pageIndex > 0">
                   <div style="margin: 3px">
-                    <button class="w3-block w3-btn w3-round w3-text-white" style="background-color: #d9544f;">details</button>
+                    <button type="button" (click)="lowrank(office.UserAccountID, office.Commission)" class="w3-block w3-btn w3-round w3-text-white" style="background-color: #d9544f;">details</button>
                   </div>
                 </td>
 
@@ -92,7 +104,13 @@
                 </td>
 
               </tr>
-              
+
+              <tr [hidden]="!backLoading">
+                <td colspan="18">
+                  <fa name="spinner" animation="spin" size="lg"></fa>
+                </td>
+              </tr>
+
             </tbody>
             
           </table>
@@ -108,12 +126,24 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+  
+              <button (click)="first()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-double-left" size="lg"></fa>&nbsp;first
+              </button>
+              <button (click)="previous()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+                <fa name="angle-left"  size="lg"></fa>
+              </button>
+  
+              <button type="button" *ngFor="let n of pages | slice : currentPage : currentPage + 5;" [ngClass]=" {'w3-light-blue' : n == currentPaginationButton}" (click)="paginate(n); " class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+  
+              <button type="button" (click)="next()" class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage && pages.length > 5">
+               <fa name="angle-right"  size="lg"></fa>
+              </button>
+              <button (click)="last()" class="w3-button w3-round w3-text-white w3-animate-right"   style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage  && pages.length > 8" >
+                  last&nbsp;<fa name="angle-double-right" size="lg"></fa>
+              </button >
+  
           </div>
       </div>
       <!-- intended to leave it empty for spacing -->
@@ -125,7 +155,9 @@
 
     <br>
     <!-- add head office button -->
-    <button class="w3-button w3-round w3-block w3-text-white" style="background-color: #4ca5df">add head office</button>
+    <button *ngIf="pageIndex == 2" class="w3-button w3-round w3-block w3-text-white" style="background-color: #4ca5df">add head office</button>
+    <button *ngIf="pageIndex == 1" class="w3-button w3-round w3-block w3-text-white" style="background-color: #4ca5df">add distributor</button>
+    <button *ngIf="pageIndex == 0" class="w3-button w3-round w3-block w3-text-white" style="background-color: #4ca5df">add shop</button>
     <br>
 
 
@@ -133,213 +165,145 @@
 
 <br>
 
-<!-- edit head office -->
-<div class="w3-container w3-border w3-card w3-white">
+  <div class="w3-whole w3-container">
+    <div class="w3-half">
+      <!-- add head office -->
+      <form class="w3-container w3-border w3-card w3-white " style="width:99%">
+        <!-- table title -->
+          <p class="tableTitle">
+            <span >
+              add 
+              <span *ngIf="pageIndex == 2">head office </span>
+              <span *ngIf="pageIndex == 1">distributor </span>
+              <span *ngIf="pageIndex == 0">shop</span>
+            </span>
 
-  <!-- table title -->
-    <p class="tableTitle">add head office</p>
-    <hr class="tableTitleHr">
+            <span class="w3-right"><a href=""><fa name="times"></fa></a></span>
+          </p>
 
-    <!-- name of HO -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">name of HO</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">sample name</p>
-        </div>
-      </div>
-    <!-- name of HO end -->
-      <hr style="margin: 0">
 
-    <!-- ID -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">ID</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">sample ID</p>
-        </div>
-      </div>
-    <!-- ID end -->
-      <hr style="margin: 0">
-    
-    <!-- password -->
-    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
-        <div class="w3-col" style="width: 60px">
-          <p class="w3-right">password&nbsp;</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <input type="password" class="w3-input w3-border" style="height: 35px; ">
-        </div>
-    </div>
-    <!-- password end -->
-      <hr style="margin: 0">
-
-    <!-- confirm password -->
-    <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
-        <div class="w3-col" style="width: 60px">
-          <p class="w3-right">confirm password&nbsp;</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <input type="password" class="w3-input w3-border" style="height: 35px; ">
-        </div>
-    </div>
-    <!-- confirm password end -->
-      <hr style="margin: 0">
-
-    <!-- commission -->
-    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">commission</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">3%</p>
-        </div>
-      </div>
-    <!-- commission end -->
-      <hr style="margin: 0">
-
-    <!-- money -->
-    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">money</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">0</p>
-        </div>
-      </div>
-    <!-- money end -->
-      <hr style="margin: 0">
+          <hr class="tableTitleHr">
+          <br>
+          <!-- HO ID -->
       
-    <!-- registration date -->
-    <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-        <div class="w3-col" style="width: 10%">
-          <p class="w3-right">registration date</p>
-        </div>
-        <div class="w3-rest" style="margin-top: 10px">
-          <p class="w3-center">2018-06-06 3:26:00</p>
-        </div>
-      </div>
-    <!-- registration date end -->
-      <hr style="margin: 0">
-
-    <!-- buttons -->
-    <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
-      <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">confirm</button>
-        <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
-      </div>
-    </div>
-    <!-- buttons end -->
- 
-    <br>
-
-</div>
-<!-- edit head office end-->
-<br>
-<!-- edit head office -->
-<div class="w3-container w3-border w3-card">
-
-    <!-- table title -->
-      <p class="tableTitle">edit head office</p>
-      <hr class="tableTitleHr">
-  
-      <!-- name of HO -->
-        <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-          <div class="w3-col" style="width: 10%">
-            <p class="w3-right">name of HO</p>
+          <label for="officeID">
+            <span *ngIf="pageIndex == 2">head office </span>
+            <span *ngIf="pageIndex == 1">distributor </span>
+            <span *ngIf="pageIndex == 0">shop</span>
+            ID</label>
+          <div class="w3-bar">
+            <input type="text" [(ngModel)]="addOfficeUserName" [ngModelOptions]="{standalone: true}" id="officeID" class="w3-input w3-bar-item w3-border" style="width: 65%">
+            <button type="button" (click)="officeIDCheck()" class="w3-btn w3-round w3-text-white w3-bar-item"  style="background-color: #4ca5df; width: 35%; height: 100%; height: 40px">inquire</button>
           </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <p class="w3-center">sample name</p>
-          </div>
-        </div>
-      <!-- name of HO end -->
-        <hr style="margin: 0">
-  
-      <!-- ID -->
-        <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-          <div class="w3-col" style="width: 10%">
-            <p class="w3-right">ID</p>
-          </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <p class="w3-center">sample ID</p>
-          </div>
-        </div>
-      <!-- ID end -->
-        <hr style="margin: 0">
       
-      <!-- password -->
-      <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
-          <div class="w3-col" style="width: 60px">
-            <p class="w3-right">password&nbsp;</p>
+          <hr>
+      
+          <label for="officeName">Name</label>
+          <input type="text" [(ngModel)]="addOfficeName" [ngModelOptions]="{standalone: true}" id="officeName" class="w3-input w3-border">
+          
+          <hr>
+          
+          <label for="contactno">Contact No.</label>
+          <input type="text" [(ngModel)]="addOfficePhoneNumber" [ngModelOptions]="{standalone: true}" id="contactno" class="w3-input w3-border">
+      
+          <hr>
+      
+          <label for="password">Password</label>
+          <input type="password" [(ngModel)]="addOfficePassword" [ngModelOptions]="{standalone: true}" id="password" class="w3-input w3-border">
+      
+          <label for="confirmPassword">Confrim Password</label>
+          <input type="password" id="confirmPassword" class="w3-input w3-border">
+      
+          <hr>
+      
+          <!-- commission -->
+          <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
+              <div class="w3-col" style="width: 10%">
+                <p class="w3-right">commission <strong class="w3-center">{{addOfficeCommisionValue}}%</strong></p>
+              </div>
+              <div class="w3-rest" style="margin-top: 10px; margin-bottom: 10px">
+                <br>
+                <mat-slider [(ngModel)]="addOfficeCommisionValue" [ngModelOptions]="{standalone: true}" style="width:98%; padding-right: 10px;" min="0" [max]="currentCommission" step="0.1" value="currentCommission" thumbLabel="true"></mat-slider>
+              </div>
+            </div>
+          <!-- commission end -->
+            <hr>
+      
+          <!-- buttons -->
+          <div class="w3-row inputMargin" >
+            <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
+              <button type="button" *ngIf="pageIndex == 2" (click)="addHeadOffice()" class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register head office</button>
+              <button type="button" *ngIf="pageIndex == 1" (click)="addDistributor()" class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register distributor</button>
+              <button type="button" *ngIf="pageIndex == 0" (click)="addShop()" class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register shop</button>
+              <!-- <button type="button " class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button> -->
+            </div>
           </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <input type="password" class="w3-input w3-border" style="height: 35px; ">
-          </div>
-      </div>
-      <!-- password end -->
-        <hr style="margin: 0">
-  
-      <!-- confirm password -->
-      <div class="w3-row"  style="margin-left: 15%; margin-right: 15%">
-          <div class="w3-col" style="width: 60px">
-            <p class="w3-right">confirm password&nbsp;</p>
-          </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <input type="password" class="w3-input w3-border" style="height: 35px; ">
-          </div>
-      </div>
-      <!-- confirm password end -->
-        <hr style="margin: 0">
-  
-      <!-- commission -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-          <div class="w3-col" style="width: 10%">
-            <p class="w3-right">commission</p>
-          </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <p class="w3-center">3%</p>
-          </div>
-        </div>
-      <!-- commission end -->
-        <hr style="margin: 0">
-  
-      <!-- money -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-          <div class="w3-col" style="width: 10%">
-            <p class="w3-right">money</p>
-          </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <p class="w3-center">0</p>
-          </div>
-        </div>
-      <!-- money end -->
-        <hr style="margin: 0">
+          <!-- buttons end -->
+       
+          <br>
+      
+        </form>
+      <!-- add head office end-->
+
+    </div>  
+    <div class="w3-half">
+      <!-- edit head office -->
+      <div class="w3-container w3-border w3-card w3-white">
+      
+          <!-- table title -->
+            <p class="tableTitle">edit head office</p>
+            <hr class="tableTitleHr">
         
-      <!-- registration date -->
-      <div class="w3-row" style="margin-left: 11%; margin-right: 15%">
-          <div class="w3-col" style="width: 10%">
-            <p class="w3-right">registration date</p>
-          </div>
-          <div class="w3-rest" style="margin-top: 10px">
-            <p class="w3-center">2018-06-06 3:26:00</p>
-          </div>
+            <!-- HO ID -->
+        
+            <label for="officeID">HO ID</label>
+            <div class="w3-bar">
+              <input type="text" class="w3-input w3-bar-item w3-border" style="width: 65%">
+              <button class="w3-btn w3-round w3-text-white w3-bar-item"  style="background-color: #4ca5df; width: 35%; height: 100%">inquire</button>
+            </div>
+        
+            <hr>
+        
+            <label for="officeName">Name</label>
+            <input type="text" class="w3-input w3-border">
+            
+            <hr>
+            
+            <label for="contactno">Contact No.</label>
+            <input type="text" class="w3-input w3-border">
+        
+            <hr>
+        
+            <label for="password">Password</label>
+            <input type="password" class="w3-input w3-border">
+        
+            <label for="confirmPassword">Confrim Password</label>
+            <input type="password" class="w3-input w3-border">
+        
+            <hr>
+        
+        
+            <!-- buttons -->
+            <div class="w3-row inputMargin" >
+              <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
+                <button class="w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">register</button>
+                <button class="w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
+              </div>
+            </div>
+            <!-- buttons end -->
+         
+            <br>
+        
         </div>
-      <!-- registration date end -->
-        <hr style="margin: 0">
-  
-      <!-- buttons -->
-      <div class="w3-row" style="margin-left: 15%; margin-right: 15%">
-        <div class="w3-center" style="margin-top: 10px; margin-bottom: 10px">
-          <button class=" w3-btn w3-round w3-text-white"  style="background-color: #4ca5df; margin-right: 11px">confirm</button>
-          <button class=" w3-btn w3-round w3-text-white"  style="background-color: #7dd2ec; margin-right: 11px">back</button>
-        </div>
-      </div>
-      <!-- buttons end -->
-   
-      <br>
-  
+        <!-- edit head office end-->
+    </div>  
+    
+    <br>
+    <br>
   </div>
-  <!-- edit head office end-->
-<br>
+
+  <br>
+  <br>
+
+
+

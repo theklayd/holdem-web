@@ -3,14 +3,15 @@
   import { NgModule, enableProdMode } from '@angular/core';
   import { AppComponent } from './app.component';
 
-  
 //modules
   import { FormsModule } from '@angular/forms';
   import { AngularFontAwesomeModule } from 'angular-font-awesome';
   import {RouterModule, Routes, Router} from '@angular/router'
   import { HttpModule } from '@angular/http';
   import { ChartsModule } from 'ng2-charts';
-
+  import { MatSliderModule } from '@angular/material/slider';
+  import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+  import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //components
   //sales
   import { HeadOfficeListComponent } from './components/sales/head-office-list/head-office-list.component';
@@ -48,6 +49,8 @@
 //services
   import {CommonService} from '../app/services/common/common.service';
   import {UserAuthGuard} from '../app/services/UserAuth/user-auth.guard';
+  import { HeadOfficeComponent } from './components/calculate/calculate-manage/head-office/head-office.component';
+
 
 
 
@@ -114,7 +117,8 @@ enableProdMode();
     PointLogComponent,
     LoginComponent,
     MasterPageComponent,
-    TranslateDirective
+    TranslateDirective,
+    HeadOfficeComponent
   ],
   imports: [
     FormsModule,
@@ -122,7 +126,10 @@ enableProdMode();
     BrowserModule,
     AngularFontAwesomeModule,
     HttpModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatProgressSpinnerModule
   ],
   // exports:[RouterModule],
   providers: [

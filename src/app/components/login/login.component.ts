@@ -3,6 +3,7 @@ import { UserAuthService } from '../../services/UserAuth/user-auth.service'
 import { Router } from '@angular/router';
 import { CommonService } from './../../services/common/common.service';
 import { environment } from '../../../environments/environment.prod';
+import {UserCredentialsService} from '../../services/user-credentials.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +11,7 @@ import { environment } from '../../../environments/environment.prod';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userAuthSrvc: UserAuthService, private router:Router, private commonSrvc:CommonService) { }
+  constructor(private userAuthSrvc: UserAuthService, private router:Router, private userCredentialSrvc:UserCredentialsService) { }
 
   ngOnInit() {
     if(environment.koreanStartUp){
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     }else{
       localStorage.setItem('language','english')
     }
-    console.log(localStorage.getItem(environment.tokenStorageKey))
+    console.log('this should be empty/null : ' + localStorage.getItem(environment.tokenStorageKey))
   }
 
   login(event){
@@ -31,9 +32,10 @@ export class LoginComponent implements OnInit {
     this.userAuthSrvc.login(username, password)
     .subscribe( 
       res => {
+        console.log('login return : ' + JSON.stringify(res))
+
         this.userAuthSrvc.storeToken(res['token'])
         this.router.navigate(['/admin'])
-
       },
       error => {
       console.log('error' + error)

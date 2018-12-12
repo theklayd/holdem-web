@@ -9,7 +9,7 @@
   <!-- table title end -->
 
   <!-- search form -->
-  <form (submit)="searchUserProfit($event)">
+  <form (submit)="searchList($event)">
     <!-- from to date dropdowns -->  
     <div class="w3-row">
       <!-- to -->
@@ -330,24 +330,46 @@
                   {{dh.UserAccountID}}
                 </div>
               </div> -->
-              <tr *ngFor="let up of UserProfit; let i = index">
-                <td>{{i + 1}}</td>
-                <td>sample</td>
-                <td>sample</td>
-                <td>sample</td>
+              <tr *ngFor="let up of UserProfitList; let i = index">
+                <td>{{up.row_number | number}}</td>
+                <td>{{up.HeadOfficeID}}</td>
+                <td>{{up.DistributorID}}</td>
+                <td>{{up.shopID}}</td>
                 <td>{{up.useracct}}</td>
-                <td>sample</td>
-                <td>{{up.deposit}}</td>
-                <td>{{up.depositTransfer}}</td>
-                <td>{{up.withdraw}}</td>
-                <td>{{up.withdrawTransfer}}</td>
-                <td>{{up.deposit - up.withdraw}}</td>
-                <td>{{up.BettingAmount}}</td>
-                <td>{{up.rake}}</td>
-                <td>{{up.money}}</td>
-                <td class="w3-text-red">{{(up.deposit - up.withdraw) - up.rake}}</td>
+                <td>{{up.ScreenName }}</td>
+                <td>{{up.deposit | number}}</td>
+                <td>{{up.depositTransfer | number}}</td>
+                <td>{{up.withdraw | number}}</td>
+                <td>{{up.withdrawTransfer | number}}</td>
+                <td>{{up.profit | number}}</td>
+                <td>{{up.BettingAmount | number}}</td>
+                <td>{{up.TotalRake | number}}</td>
+                <td>{{up.money | number}}</td>
+                <td class="w3-text-red">{{up.profitMinusRake | number}}</td>
               </tr>
-              
+              <tr [hidden]="!searchResult">
+                <td colspan="15">NO RESULTS FOUND
+                  <br>
+                  <!-- <input type="button" (click)="back()" value="back"> -->
+                  <input type="button" (click)="back()" value="back">
+                  <br>
+                  
+                  
+                </td>
+              </tr>
+
+              <tr [hidden]="!searchBack">
+                <td colspan="15">RESULT FOUND
+                  <br>
+                  <input type="button" (click)="back()" value="back">
+                </td>
+              </tr>
+
+              <tr [hidden]="!backLoading">
+                <td colspan="15">
+                  <fa name="spinner" animation="spin" size="lg"></fa>
+                </td>
+              </tr>
             </tbody>
             
           </table>
@@ -363,13 +385,25 @@
       </div>
       <!-- pagination -->
       <div class="w3-third">
-          <div class="w3-row w3-center">
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">1</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">2</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">3</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">4</button>
-              <button class="w3-button w3-round w3-text-white" style="background-color: #4ca5df">5</button>
-          </div>
+          <div class="w3-row w3-center" [hidden]="hidePagination">
+    
+            <button (click)="first()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+              <fa name="angle-double-left" size="lg"></fa>&nbsp;first
+            </button>
+            <button (click)="previous()" class="w3-button w3-round w3-text-white w3-animate-left" style="background-color: #4ca5df; margin:2px" *ngIf="currentPage > 0">
+              <fa name="angle-left"  size="lg"></fa>
+            </button>
+
+            <button type="button" *ngFor="let n of pages | slice : currentPage : currentPage + 5;" [ngClass]=" {'w3-light-blue' : n == currentPaginationButton}" (click)="paginate(n); " class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px">{{n}}</button>
+
+            <button type="button" (click)="next()" class="w3-button w3-round w3-text-white w3-animate-right" style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage && pages.length > 5">
+            <fa name="angle-right"  size="lg"></fa>
+            </button>
+            <button (click)="last()" class="w3-button w3-round w3-text-white w3-animate-right"   style="background-color: #4ca5df; margin:2px" *ngIf="currentPaginationButton != lastPage  && pages.length > 8" >
+                last&nbsp;<fa name="angle-double-right" size="lg"></fa>
+            </button >
+
+        </div>
       </div>
       <!-- intended to leave it empty -->
       <div class="w3-third">

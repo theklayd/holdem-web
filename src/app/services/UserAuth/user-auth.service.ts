@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { map } from "rxjs/operators";
 import { environment } from '../../../environments/environment.prod';
 
@@ -12,8 +12,14 @@ export class UserAuthService {
 
   private authenticated:boolean = false
   
+  httpOptions = {
+    headers: new Headers({
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${this.getToken}`
+    })
+  }
+
   get isAuthenticated(){
-   
     // if(localStorage.getItem(environment.tokenStorageKey)){
     //   this.router.navigate(['/admin'])
     // }
@@ -33,15 +39,21 @@ export class UserAuthService {
   login(UserName, Password){
     //post these details to API return token if correct credentials
     console.log('sent')
-    return this.http.post(environment.apiUrl+'/Api/v1/Admin/Login/',{
+    return this.http.post(environment.apiUrl+'/Api/v1/Admin/Login',{
       UserName,
       Password
     })      
     .pipe(
       map(res => {
-        console.log(res)
         return res.json()
       })
     )
   }
+
+
+  get getToken(){
+    return localStorage.getItem(environment.tokenStorageKey);
+  }
+
+
 }

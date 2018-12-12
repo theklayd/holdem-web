@@ -2,8 +2,10 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonService} from '../../services/common/common.service';
 import { interval, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
-import { SettingsService } from '../../services/settings/settings.service'
-import { DashboardService } from '../../services/dashboard/dashboard.service'
+import { SettingsService } from '../../services/settings/settings.service';
+import { DashboardService } from '../../services/dashboard/dashboard.service';
+import { UserCredentialsService } from '../../services/user-credentials.service';
+import { UserModel } from '../../interfaces/UserModel';
 
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -31,7 +33,14 @@ interface depositRankingDailyModel{
 
 export class MasterPageComponent implements OnInit {
   route: string;
-  constructor(private commonSrvc:CommonService, private settingsSrvc:SettingsService, private dashboardSrvc:DashboardService, location: Location, router: Router){
+  user:UserModel
+  constructor(private commonSrvc:CommonService, 
+              private settingsSrvc:SettingsService, 
+              private dashboardSrvc:DashboardService, 
+              location: Location, 
+              router: Router, 
+              private userCredentialsSrvc:UserCredentialsService){
+
     router.events.subscribe((val) => {
       if(location.path() != ''){
         this.route = location.path();
@@ -39,6 +48,7 @@ export class MasterPageComponent implements OnInit {
         this.route = 'Home'
       }
     });
+
   }
   //http requests variables
       //every 3 seconds
@@ -157,23 +167,20 @@ export class MasterPageComponent implements OnInit {
 
   ngOnInit() {
     
-
     this.audioToggle(true)
     this.sidebarIsOn()
-
+    
     this.activateSidePanelStats()
     if(localStorage.getItem('language') == 'korean'){
-      console.log('korean')
       this.korean = true
-      // this.english = false
     }else if(localStorage.getItem('language') == 'english'){
-      console.log('english')
-      // this.korean = false
       this.english = true
     }else{
       this.korean = true
-      // this.english = false
     }
+    
+    this.decryptToken()
+
   }
 
   OnDestroy(){
@@ -240,6 +247,7 @@ export class MasterPageComponent implements OnInit {
 
   logout(){
     this.commonSrvc.logout()
+    this.userCredentialsSrvc.emitUserCredentials(null)
   }
 
   toggleFullScreen() {
@@ -267,7 +275,6 @@ export class MasterPageComponent implements OnInit {
   audioToggle(value) {
    this.settingsSrvc.toggleMute(value)
    this.audioModel = value
-   console.log(value)
   }
 
   toKorean(){
@@ -283,7 +290,7 @@ export class MasterPageComponent implements OnInit {
   //sidepanel stats
     activateSidePanelStats(){
      
-        console.log('on screen')
+        // console.log('on screen')
         this.httpRequestSubscription = this.httpUpdate.subscribe(
           () =>{
             if(this.userIsOnScreen){
@@ -341,7 +348,9 @@ export class MasterPageComponent implements OnInit {
       this.dashboardSrvc.getWithdrawRankingDaily()
       .subscribe( 
         (res:withdrawRankingDailyModel[]) => {
-          //sort values
+
+          if(res.length > 0){
+            //sort values
             res.sort((a,b)=> { return b.ExitingAmount - a.ExitingAmount})
           //total withdraw variable
             let totalwithdraw = 0 
@@ -361,6 +370,7 @@ export class MasterPageComponent implements OnInit {
   
           // console.log(res)
           this.withdrawRankingLoading = false
+          }
         },
         error => {
         console.log('error' + error)
@@ -373,24 +383,26 @@ export class MasterPageComponent implements OnInit {
       this.dashboardSrvc.getDepositRankingDaily()
       .subscribe( 
         (res:depositRankingDailyModel[]) => {
-          //sort values
-            res.sort((a,b)=> { return b.Amount - a.Amount})
-          //total withdraw variable
-            let totalDeposit = 0 
-          //getting the percentage variables
-            let max = res[0].Amount
-            let min = 0
-  
-          for(let i = 0; i <= res.length - 1; i++){
-            res[i].Percentage = ((res[i].Amount - min) / (max - min) ) * 100;
-            totalDeposit += Number(res[i].Amount);
+          if(res.length > 0){
+            //sort values
+              res.sort((a,b)=> { return b.Amount - a.Amount})
+            //total withdraw variable
+              let totalDeposit = 0 
+            //getting the percentage variables
+              let max = res[0].Amount
+              let min = 0
+    
+            for(let i = 0; i <= res.length - 1; i++){
+              res[i].Percentage = ((res[i].Amount - min) / (max - min) ) * 100;
+              totalDeposit += Number(res[i].Amount);
+            }
+            //assign result to depositRankingDaily
+              this.dashboardSrvc.emitDepositToday(res)
+              this.depositRankingDaily = res
+              this.totalDepositToday = totalDeposit
+    
+            this.depositRankingLoading = false
           }
-          //assign result to depositRankingDaily
-            this.dashboardSrvc.emitDepositToday(res)
-            this.depositRankingDaily = res
-            this.totalDepositToday = totalDeposit
-  
-          this.depositRankingLoading = false
         },
         error => {
         console.log(error['status'])
@@ -405,5 +417,16 @@ export class MasterPageComponent implements OnInit {
   }
   clearToken(){
     localStorage.clear();
+  }
+
+  decryptToken(){
+    this.userCredentialsSrvc.getPrivileges( localStorage.getItem(environment.tokenStorageKey))
+      .subscribe(
+        (res:UserModel) => { 
+          this.user = res;
+          console.log('user credentials' + JSON.stringify(res))
+          this.userCredentialsSrvc.emitUserCredentials(res);
+        }
+      )
   }
 }

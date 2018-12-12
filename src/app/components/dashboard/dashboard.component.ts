@@ -11,8 +11,9 @@ interface bettingRankingDaily{
 }
 
 interface bettingRankingMonthly{
-  TotalMonthlyBettingByHeadOffice:string,
-  HeadOfficeUserAccountID:string
+  TotalMonthlyBettingByHeadOffice:number,
+  HeadOfficeUserAccountID:string,
+  Percentage:number
 }
 
 interface depositRankingDailyModel{
@@ -125,18 +126,20 @@ export class DashboardComponent implements OnInit {
     this.dashboardSrvc.getBettingRankingDaily()
     .subscribe( 
       (res:bettingRankingDaily[]) => {
-        //sort result
-          res.sort((a,b)=>  { return b.TotalDailyBettingByHeadOffice - a.TotalDailyBettingByHeadOffice} )
-        //getting the percentage variables
-          let max = res[0].TotalDailyBettingByHeadOffice
-          let min = 0
-
-          for(let i = 0; i <= res.length - 1; i++){
-            res[i].Percentage = ((res[i].TotalDailyBettingByHeadOffice - min) / (max - min) ) * 100;
-          }
-
-        this.bettingRankingHODaily = res
-        this.dailyLoading = false
+        if(res.length > 0){
+          //sort result
+            res.sort((a,b)=>  { return b.TotalDailyBettingByHeadOffice - a.TotalDailyBettingByHeadOffice} )
+          //getting the percentage variables
+            let max = res[0].TotalDailyBettingByHeadOffice
+            let min = 0
+  
+            for(let i = 0; i <= res.length - 1; i++){
+              res[i].Percentage = ((res[i].TotalDailyBettingByHeadOffice - min) / (max - min) ) * 100;
+            }
+  
+          this.bettingRankingHODaily = res
+          this.dailyLoading = false
+        }
       },
       error => {
 
@@ -160,8 +163,20 @@ export class DashboardComponent implements OnInit {
     this.dashboardSrvc.getBettingRankingMonthly()
     .subscribe( 
       (res:bettingRankingMonthly[]) => {
-        this.bettingRankingHOMonthly = res
-        this.monthlyLoading = false
+        if(res.length > 0){
+          //sort result
+          res.sort((a,b)=>  { return b.TotalMonthlyBettingByHeadOffice - a.TotalMonthlyBettingByHeadOffice} )
+          //getting the percentage variables
+            let max = res[0].TotalMonthlyBettingByHeadOffice
+            let min = 0
+  
+            for(let i = 0; i <= res.length - 1; i++){
+              res[i].Percentage = ((res[i].TotalMonthlyBettingByHeadOffice - min) / (max - min) ) * 100;
+            }
+  
+          this.bettingRankingHOMonthly = res
+          this.monthlyLoading = false
+        }
       },
       error => {
       // console.log('error' + error)

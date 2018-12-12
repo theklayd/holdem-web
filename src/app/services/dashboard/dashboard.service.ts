@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers  } from '@angular/http';
 import { environment } from '../../../environments/environment.prod';
 import { map } from "rxjs/operators";
-import { interval, Subscription } from 'rxjs';
 import * as Rx from 'rxjs/Rx';
 
 interface withdrawRankingDailyModel{
@@ -21,10 +20,6 @@ interface depositRankingDailyModel{
 export class DashboardService {
 
   constructor(private http:Http) { }
-
-  //every 3 seconds
-    getListSubscription: Subscription
-    update = interval(environment.updateTime)
   //observables
     withdrawToday = new Rx.Subject<withdrawRankingDailyModel[]>();
     depositToday = new Rx.Subject<depositRankingDailyModel[]>();
@@ -69,9 +64,7 @@ export class DashboardService {
 
     return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/TotalRegisteredUser', this.httpOptions)
     .pipe(
-      map((res) => {
-        return res.json();
-      }
+      map(res => res.arrayBuffer().byteLength > 0 ? res.json() : {}
       )
     )
   }
@@ -79,9 +72,7 @@ export class DashboardService {
   getTotalRegisteredUserToday(){
     return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/TotalRegisteredUsersToday', this.httpOptions)
     .pipe(
-      map((res) => {
-        return res.json();
-      }
+      map(res => res.arrayBuffer().byteLength > 0 ? res.json() : {}
       )
     )
   }
@@ -89,9 +80,7 @@ export class DashboardService {
   getDepositWithdrawToday(){
     return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/TotalTransactionRecent/', this.httpOptions)
     .pipe(
-      map((res) => {
-        return res.json();
-      }
+      map(res => res.arrayBuffer().byteLength > 0 ? res.json() : {}
       )
     )
   }
@@ -99,9 +88,7 @@ export class DashboardService {
   getConnectingMembers(){
     return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/OnlineStatuses/', this.httpOptions)
     .pipe(
-      map((res) => {
-        return res.json();
-      }
+      map(res => res.arrayBuffer().byteLength > 0 ? res.json() : {}
       )
     )
   }
@@ -110,9 +97,7 @@ export class DashboardService {
     getBettingRankingDaily(){
       return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/HeadOffice/Betting/Daily', this.httpOptions)
       .pipe(
-        map((res) => {
-          return res.json();
-        }
+        map(res => res.arrayBuffer().byteLength > 0 ? res.json() : {} 
         )
       )
     }
@@ -120,9 +105,7 @@ export class DashboardService {
     getBettingRankingMonthly(){
       return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/HeadOffice/Betting/Monthly', this.httpOptions)
       .pipe(
-        map((res) => {
-          return res.json();
-        }
+        map(res => res.arrayBuffer().byteLength > 0 ? res.json() : {} 
         )
       )
     }
@@ -130,9 +113,10 @@ export class DashboardService {
     getDepositRankingDaily(){
       return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/HeadOffice/Deposit/Daily/', this.httpOptions)
       .pipe(
-        map((res) => {
-          return res.json();
-        }
+        map(res => 
+          {
+            return res.arrayBuffer().byteLength > 0 ? res.json() : {}
+          }
         )
       )
     }
@@ -140,12 +124,11 @@ export class DashboardService {
     getWithdrawRankingDaily(){
       return this.http.get(environment.apiUrl + '/Api/v1/Dashboard/HeadOffice/Withdraw/Daily/', this.httpOptions)
       .pipe(
-        map((res) => {
-          return res.json();
-        }
+        map( res => res.arrayBuffer().byteLength > 0 ? res.json() : {}
         )
       )
     }
-
   //charts end
+
+  
 }

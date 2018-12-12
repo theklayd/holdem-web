@@ -20,7 +20,7 @@
           </div>
   
           <div class="w3-quarter">
-              <p>{{totalRegisteredUser}}</p>
+              <p>{{totalRegisteredUser | number}}</p>
           </div>
 
         </div>
@@ -44,7 +44,7 @@
     
             <div class="w3-quarter">
               <div class="w3-cell w3-cell-middle">
-                <p>{{totalRegisteredUserToday}}</p>
+                <p>{{totalRegisteredUserToday | number}}</p>
               </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
     
             <div class="w3-quarter">
               <div class="w3-cell w3-cell-middle">
-                <p>{{totalConnectingMembers}}</p>
+                <p>{{totalConnectingMembers | number}}</p>
               </div>
             </div>
         </div>
@@ -92,7 +92,7 @@
   
           <div class="w3-quarter">
             <div class="w3-cell w3-cell-middle">
-              <p>{{totalDepositToday}}</p>
+              <p>{{totalDepositToday | number}}</p>
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@
   
           <div class="w3-quarter">
             <div class="w3-cell w3-cell-middle">
-              <p>{{totalWithdrawToday}}</p>
+              <p>{{totalWithdrawToday | number}}</p>
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@
             <!-- money -->
             <div class="w3-col" style="width: 15%;">
               <div class="w3-center">
-                  {{daily.TotalDailyBettingByHeadOffice}}
+                  {{daily.TotalDailyBettingByHeadOffice | number}}
                 </div>
             </div>
             <!-- money end -->
@@ -235,7 +235,7 @@
             <!-- money -->
             <div class="w3-col" style="width: 15%;">
               <div class="w3-center">
-                  {{daily.TotalDailyBettingByHeadOffice}}
+                  {{daily.TotalDailyBettingByHeadOffice | number}}
                 </div>
             </div>
             <!-- money end -->
@@ -291,7 +291,7 @@
             <!-- money -->
             <div class="w3-col" style="width: 15%;">
               <div class="w3-center">
-                  {{monthly.TotalMonthlyBettingByHeadOffice}}
+                  {{monthly.TotalMonthlyBettingByHeadOffice | number}}
                 </div>
             </div>
             <!-- money end -->
@@ -299,7 +299,7 @@
             <!-- bar -->
             <div class="w3-col" style="width: 70%;">
                 <div class="w3-border">
-                  <div class="holdemGreen" style="height:24px;width:20%"></div>
+                  <div class="holdemGreen"  style="height:24px;" [ngStyle]="{'width': monthly.Percentage + '%'}"></div>
                 </div>
             
             </div>
@@ -352,7 +352,7 @@
               <!-- money -->
               <div class="w3-col" style="width: 15%;">
                 <div class="w3-center">
-                    {{deposit.Amount}}
+                    {{deposit.Amount | number}}
                   </div>
               </div>
               <!-- money end -->
@@ -406,7 +406,7 @@
               <!-- money -->
               <div class="w3-col" style="width: 15%;">
                 <div class="w3-center">
-                    {{withdraw.ExitingAmount}}
+                    {{withdraw.ExitingAmount | number}}
                     
                   </div>
               </div>

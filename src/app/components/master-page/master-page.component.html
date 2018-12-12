@@ -227,12 +227,12 @@
     <div class="w3-text-white" style="margin-left:20px;">
 
       <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>deposit application</span>&nbsp;:&nbsp;<strong>705</strong>건</h6>
-      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>total member</span>&nbsp;:&nbsp;<strong>{{totalRegisteredUser}}</strong>명</h6>
-      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>today joined members</span>&nbsp;:&nbsp;<strong>{{totalRegisteredUserToday}}</strong>원</h6>
-      <h6 style="font-size:14px"><fa name="twitter"></fa>&nbsp;<span>connecting members</span>&nbsp;:&nbsp;<strong>{{totalConnectingMembers.OnlineStatusCount}}</strong>원</h6>
-      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>deposit</span>&nbsp;:&nbsp;<strong>{{totalDepositToday}}</strong>원</h6>
-      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>withdraw</span>&nbsp;:&nbsp;<strong>{{totalWithdrawToday}}</strong>원</h6>
-      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>profit and loss</span>&nbsp;:&nbsp;<strong>{{profitAndLoss}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>total member</span>&nbsp;:&nbsp;<strong>{{totalRegisteredUser | number}}</strong>명</h6>
+      <h6 style="font-size:14px"><fa name="male"></fa>&nbsp;<span>today joined members</span>&nbsp;:&nbsp;<strong>{{totalRegisteredUserToday | number}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="twitter"></fa>&nbsp;<span>connecting members</span>&nbsp;:&nbsp;<strong>{{totalConnectingMembers.OnlineStatusCount | number}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>deposit</span>&nbsp;:&nbsp;<strong>{{totalDepositToday | number}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>withdraw</span>&nbsp;:&nbsp;<strong>{{totalWithdrawToday | number}}</strong>원</h6>
+      <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>profit and loss</span>&nbsp;:&nbsp;<strong>{{profitAndLoss | number}}</strong>원</h6>
       <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>members</span>&nbsp;:&nbsp;<strong>705,940,329</strong>원</h6>
       <h6 style="font-size:14px"><fa name="won"></fa>&nbsp;<span>sales</span>&nbsp;:&nbsp;<strong>705,940,329</strong>원</h6>
     </div>
@@ -289,7 +289,7 @@
       <fa name="sign-out"></fa>
     </button>
 
-    <a class=" w3-bar-item w3-right">Clyde A. Santos</a>
+    <a class=" w3-bar-item w3-right">{{user?.UserName}}</a>
 
   </div>
   <!-- topbar end -->
